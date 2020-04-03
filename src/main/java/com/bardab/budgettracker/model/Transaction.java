@@ -1,9 +1,6 @@
 package com.bardab.budgettracker.model;
-
-import org.hibernate.annotations.CollectionType;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 
@@ -23,8 +20,8 @@ public class Transaction {
     @Column (name="TYPE", nullable = true)
     private String type;
 
-    @Column (name="transaction_time", nullable = true)
-    private Date transactionTime;
+    @Column (name="transaction_date", nullable = true)
+    private LocalDate transactionDate;
 
     @Column (name="VALUE", nullable = true)
     private Double value;
@@ -49,12 +46,12 @@ public class Transaction {
         this.type = type;
     }
 
-    public Date getTransactionTime() {
-        return transactionTime;
+    public LocalDate getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setTransactionTime(Date transactionTime) {
-        this.transactionTime = transactionTime;
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate=transactionDate;
     }
 
     public Double getValue() {
@@ -62,7 +59,9 @@ public class Transaction {
     }
 
     public void setValue(Double value) {
+        if(value>=0){
         this.value = value;
+        }
     }
 
     public String getDescription() {
@@ -74,13 +73,35 @@ public class Transaction {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj != null && obj instanceof Transaction) {
+            Transaction other = (Transaction) obj;
+            return this.toStringWithoutID().equals(other.toStringWithoutID());
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
-                ", transactionTime=" + transactionTime +
+                ", transactionDate=" + transactionDate +
                 ", value=" + value +
                 ", description='" + description + '\'' +
                 '}';
     }
+    public String toStringWithoutID(){
+        return "Transaction{" +
+                " type='" + type + '\'' +
+                ", transactionDate=" + transactionDate +
+                ", value=" + value +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+
 }

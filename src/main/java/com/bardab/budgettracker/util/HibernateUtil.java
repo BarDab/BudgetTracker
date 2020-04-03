@@ -1,26 +1,35 @@
 package com.bardab.budgettracker.util;
-
 import com.bardab.budgettracker.model.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-
 import java.util.Properties;
 
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
+    private static HibernateUtil hibernateUtil = null;
 
-    public static SessionFactory getSessionFactory(){
-        DataBaseCreator.createMySQLDataBase("root","admin");
+    private HibernateUtil() {
+    }
+
+    public static HibernateUtil getInstance(){
+        if(hibernateUtil==null)
+        {
+        hibernateUtil = new HibernateUtil();
+        }
+        return hibernateUtil;
+    }
+    public  SessionFactory getSessionFactory(){
+        DataBaseCreator.createMySQLDataBase("root","admin","localhost",3306);
 
         if(sessionFactory == null){
         try{
             Configuration configuration = new Configuration();
             Properties properties = new Properties();
             properties.put(Environment.DRIVER,"com.mysql.cj.jdbc.Driver");
-            properties.put(Environment.URL,"jdbc:mysql://localhost:3306/transactions_db?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+            properties.put(Environment.URL,"jdbc:mysql://localhost:3306/transactions_db?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Warsaw");
             properties.put(Environment.USER,"root");
             properties.put(Environment.PASS,"admin");
             properties.put(Environment.DIALECT,"org.hibernate.dialect.MySQL5Dialect");

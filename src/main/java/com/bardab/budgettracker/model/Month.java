@@ -1,6 +1,6 @@
 package com.bardab.budgettracker.model;
 
-import java.util.List;
+import com.bardab.budgettracker.dao.TransactionDao;
 
 public class Month {
 

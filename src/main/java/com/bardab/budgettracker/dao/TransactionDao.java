@@ -1,22 +1,23 @@
 package com.bardab.budgettracker.dao;
-
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionDao {
 
-    private static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private  SessionFactory sessionFactory;
     private static Session session;
     public final static Logger logger = Logger.getLogger(TransactionDao.class);
 
-    public static void addTransaction(Transaction transaction){
+
+    public TransactionDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    public void addTransaction(Transaction transaction){
         try{
             session = sessionFactory.openSession();
             session.beginTransaction();
@@ -38,7 +39,7 @@ public class TransactionDao {
         }
     }
 
-    public static List<Transaction> displayTransactions(){
+    public List<Transaction> displayAllTransactions(){
         List<Transaction> transactions = new ArrayList<>();
         try {
             session = sessionFactory.openSession();
@@ -60,27 +61,16 @@ public class TransactionDao {
         return transactions;
     }
 
-    public static void updateTransaction(long id, Transaction transactionUpdate){
+
+
+
+    public  void updateTransaction(long id, Transaction transactionUpdate){
 
         try {
             session = sessionFactory.openSession();
             session.beginTransaction();
-            if(transactionUpdate!=null){
-            Transaction transaction = (Transaction) session.get(Transaction.class,id);
-            if(transactionUpdate.getType()!=null){
-                transaction.setType(transactionUpdate.getType());
-            }
-            if(transactionUpdate.getDescription()!=null){
-                transaction.setDescription(transactionUpdate.getDescription());
-            }
-            if(transactionUpdate.getValue()!=null)
-            {
-                transaction.setValue(transactionUpdate.getValue());
-            }
-            if(transactionUpdate.getTransactionTime()!=null){
-                transaction.setTransactionTime(transaction.getTransactionTime());
-            }
-            }
+            transactionUpdate.setId(id);
+            session.merge(transactionUpdate);
             session.getTransaction().commit();
 
         }
@@ -97,7 +87,7 @@ public class TransactionDao {
             }
         }
     }
-    public static void deleteTransaction(long id){
+    public  void deleteTransaction(long id){
         try {
             session = sessionFactory.openSession();
             session.beginTransaction();
@@ -120,7 +110,7 @@ public class TransactionDao {
 
     }
 
-    public static Transaction findByID(long id){
+    public  Transaction findByID(long id){
     Transaction transaction=null;
     try{
         session=sessionFactory.openSession();
@@ -143,7 +133,7 @@ public class TransactionDao {
     return transaction;
     }
 
-    public static void deleteAllTransactions(){
+    public  void deleteAllTransactions(){
        try{
            session=sessionFactory.openSession();
            session.beginTransaction();
