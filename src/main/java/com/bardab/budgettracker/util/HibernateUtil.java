@@ -1,4 +1,6 @@
 package com.bardab.budgettracker.util;
+import com.bardab.budgettracker.model.BudgetForecast;
+import com.bardab.budgettracker.model.FixedCosts;
 import com.bardab.budgettracker.model.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -29,7 +31,7 @@ public class HibernateUtil {
             Configuration configuration = new Configuration();
             Properties properties = new Properties();
             properties.put(Environment.DRIVER,"com.mysql.cj.jdbc.Driver");
-            properties.put(Environment.URL,"jdbc:mysql://localhost:3306/transactions_db?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Warsaw");
+            properties.put(Environment.URL,"jdbc:mysql://localhost:3306/transactions_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Warsaw");
             properties.put(Environment.USER,"root");
             properties.put(Environment.PASS,"admin");
             properties.put(Environment.DIALECT,"org.hibernate.dialect.MySQL5Dialect");
@@ -40,6 +42,8 @@ public class HibernateUtil {
 
             configuration.setProperties(properties);
             configuration.addAnnotatedClass(Transaction.class);
+            configuration.addAnnotatedClass(BudgetForecast.class);
+            configuration.addAnnotatedClass(FixedCosts.class);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
