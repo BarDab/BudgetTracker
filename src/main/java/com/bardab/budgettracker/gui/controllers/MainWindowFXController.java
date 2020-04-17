@@ -1,6 +1,8 @@
-package com.bardab.budgettracker.gui;
+package com.bardab.budgettracker.gui.controllers;
 
 import com.bardab.budgettracker.dao.TransactionDao;
+import com.bardab.budgettracker.gui.DoubleFormatter;
+import com.bardab.budgettracker.gui.controllers.BudgetForecastFXController;
 import com.bardab.budgettracker.model.Transaction;
 import com.bardab.budgettracker.model.TransactionType;
 import com.bardab.budgettracker.util.HibernateUtil;
@@ -11,14 +13,22 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 
-public class FXController {
-    private TransactionDao transactionDao;
-    public FXController() {
+public class MainWindowFXController  {
+    private TransactionDao transactionDao =null;
+    public MainWindowFXController() {
         transactionDao = new TransactionDao(HibernateUtil.getInstance().getSessionFactory());
+
     }
+
+    @FXML
+    private VBox budgetForecast;
+    @FXML
+    private BudgetForecastFXController budgetForecastController;
+
 
     @FXML
     TableView transactionTable;
@@ -38,14 +48,17 @@ public class FXController {
     @FXML
     ProgressBar progressBar;
 
+
+
     public void init(){
+
         listAllTransactions();
         comboBoxTypes.setItems(typeList);
         descriptionField.clear();
         datePicker.setValue(LocalDate.now());
         valueField.setTextFormatter(new DoubleFormatter().doubleFormatter());
+        budgetForecastController.init();
     }
-
     public void listAllTransactions(){
         Task<ObservableList<Transaction>> task = new GetAllTransactionsTask();
         transactionTable.itemsProperty().bind(task.valueProperty());

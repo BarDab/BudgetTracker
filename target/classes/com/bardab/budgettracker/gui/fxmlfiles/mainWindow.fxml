@@ -15,7 +15,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bardab.budgettracker.gui.FXController"
+            fx:controller="com.bardab.budgettracker.gui.controllers.MainWindowFXController"
             >
     <right>
         <TabPane prefWidth="Infinity" prefHeight="Infinity">
@@ -45,57 +45,11 @@
                         </HBox>
                     </VBox>
                 </Tab>
-                <Tab text="Settings" closable="false">
-                    <VBox prefWidth="Infinity" prefHeight="Infinity">
-                        <HBox>
-                            <children>
-                                <TextField text="textfield1"></TextField>
-                                <TextField text="textfield2"></TextField>
-                                <TextField text="textfield3"></TextField>
-                            </children>
-                        </HBox>
-                        <HBox>
-                            <children>
-                                <TextField text="textfield1"></TextField>
-                                <TextField text="textfield2"></TextField>
-                                <TextField text="textfield3"></TextField>
-                            </children>
-                        </HBox>
-                        <HBox>
-                            <children>
-                                <TextField text="textfield1"></TextField>
-                                <TextField text="textfield2"></TextField>
-                                <TextField text="textfield3"></TextField>
-                            </children>
-                        </HBox>
-                    </VBox>
-                </Tab>
-                <Tab text="Savings"  closable="false">
-                    <VBox prefWidth="Infinity" prefHeight="Infinity">
-                        <HBox>
-                            <children>
-                                <Label text="Budget" ></Label>
-                                <TextField text="textfield1"></TextField>
-                                <Button text="Approve"></Button>
-                            </children>
-                        </HBox>
-                        <HBox>
-                            <children>
-                                <TextField text="textfield1"></TextField>
-                                <TextField text="textfield2"></TextField>
-                                <TextField text="textfield3"></TextField>
-                            </children>
-                        </HBox>
-                        <HBox>
-                            <children>
-                                <TextField text="textfield1"></TextField>
-                                <TextField text="textfield2"></TextField>
-                                <TextField text="textfield3"></TextField>
-                            </children>
-                        </HBox>
-                    </VBox>
-                </Tab>
+                <Tab text="Budget Forecast" closable="false"  >
+                    <fx:include fx:id="budgetForecast"  source="budgetForecast.fxml" >
 
+                    </fx:include>
+                </Tab>
             </tabs>
         </TabPane>
     </right>
