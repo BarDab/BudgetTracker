@@ -25,9 +25,8 @@ public class MainWindowFXController  {
     }
 
     @FXML
-    private VBox budgetForecast;
-    @FXML
     private BudgetForecastFXController budgetForecastController;
+
 
 
     @FXML
@@ -50,15 +49,20 @@ public class MainWindowFXController  {
 
 
 
-    public void init(){
+    public void init()  {
+
 
         listAllTransactions();
         comboBoxTypes.setItems(typeList);
         descriptionField.clear();
         datePicker.setValue(LocalDate.now());
         valueField.setTextFormatter(new DoubleFormatter().doubleFormatter());
+
         budgetForecastController.init();
+
     }
+
+
     public void listAllTransactions(){
         Task<ObservableList<Transaction>> task = new GetAllTransactionsTask();
         transactionTable.itemsProperty().bind(task.valueProperty());

@@ -9,43 +9,38 @@
 <?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
+      fx:id="budgetForecast"
       fx:controller="com.bardab.budgettracker.gui.controllers.BudgetForecastFXController"
       prefWidth="Infinity" prefHeight="Infinity">
-    <HBox spacing="10">
-            <padding><Insets top="25" right="25" bottom="5" left="25"/></padding>
-            <ComboBox fx:id="year" promptText="Year"  visible="true"><maxWidth></maxWidth></ComboBox>
-            <ComboBox fx:id="month" promptText="Month"  visible="true"><maxWidth></maxWidth></ComboBox>
-            <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false" />
+    <HBox spacing="10" >
+            <padding><Insets top="25" right="5" bottom="5" left="25"/></padding>
+            <ComboBox fx:id="year" promptText="Year"  visible="true" prefWidth="80"><maxWidth></maxWidth></ComboBox>
+            <ComboBox fx:id="month" promptText="Month"  visible="true" prefWidth="80"><maxWidth></maxWidth></ComboBox>
+            <Label text="Income" prefWidth="40" ></Label>
+            <TextField fx:id="incomeTextField" prefWidth="40" ></TextField>
+            <Label text="Savings" prefWidth="60" ></Label>
+            <TextField fx:id="savingGoalTextField" promptText="0.0" prefWidth="40" ></TextField>
+
 
     </HBox>
     <HBox spacing="10">
-            <padding><Insets top="5" right="25" bottom="5" left="25"/></padding>
-            <Label text="Income" prefWidth="100" alignment="TOP_LEFT"></Label>
-            <TextField fx:id="incomeTextField"  alignment="TOP_CENTER"></TextField>
-        </HBox>
-    <HBox spacing="10">
-            <padding><Insets top="5" right="25" bottom="5" left="25"/></padding>
+            <padding><Insets top="5" right="5" bottom="5" left="25"/></padding>
             <Label text="Fixed Spending" prefWidth="100" ></Label>
             <ComboBox fx:id="fixedSpendingComboBox" promptText="Category"  visible="true">
                 <maxWidth></maxWidth>
             </ComboBox>
-            <TextField fx:id="fixedSpendingTextField" promptText="0.0"></TextField>
+            <TextField fx:id="fixedSpendingTextField" promptText="0.0" prefWidth="50"></TextField>
             <Button fx:id="fixedSpendingButton" text="Change" onAction="#updateFixedCost"></Button>
     </HBox>
     <HBox spacing="10">
-            <padding><Insets top="5" right="25" bottom="5" left="25"/></padding>
-            <Label text="Additional spending" prefWidth="100" ></Label>
-            <TextField fx:id="additionalSpendingTextField" text="0.0"></TextField>
+            <padding><Insets top="5" right="5" bottom="5" left="25"/></padding>
+            <Label text="Additional spending" prefWidth="120" ></Label>
+            <TextField fx:id="additionalSpendingTextField" text="0.0" prefWidth="50"></TextField>
+            <Button fx:id="approveButton" text="Approve" onAction="#approveBudget" style="-fx-font-weight: bold"></Button>
     </HBox>
     <HBox spacing="10">
-            <padding><Insets top="5" right="25" bottom="5" left="25"/></padding>
-            <Label text="Saving goal" prefWidth="100"></Label>
-            <TextField fx:id="savingGoalTextField" promptText="0.0"></TextField>
-    </HBox>
-    <HBox spacing="10">
-            <padding><Insets top="5" right="25" bottom="5" left="25"/></padding>
-            <Label text="Save this budget" prefWidth="100" ></Label>
-            <Button fx:id="approveButton" text="Approve" onAction="#approveBudget"></Button>
+        <padding><Insets top="5" right="5" bottom="5" left="25"/></padding>
+        <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false" style="-fx-text-fill: #ff0000" />
     </HBox>
 </VBox>
 

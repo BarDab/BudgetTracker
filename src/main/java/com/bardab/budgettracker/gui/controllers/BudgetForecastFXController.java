@@ -10,7 +10,10 @@ import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +21,9 @@ import java.util.List;
 public class BudgetForecastFXController {
 
     @FXML
-    private ComboBox year;
+    private ComboBox<String> year;
     @FXML
-    private ComboBox month;
+    private ComboBox<String> month;
     @FXML
     private TextField incomeTextField = new TextField();
     @FXML
@@ -44,6 +47,12 @@ public class BudgetForecastFXController {
     @FXML
     private Label dateWarningLabel;
 
+    ObservableList<Node> listOfNodes;
+
+
+    @FXML
+    VBox budgetForecast;
+
 
 
     private BudgetForecastDao budgetForecastDao;
@@ -53,7 +62,14 @@ public class BudgetForecastFXController {
     public BudgetForecastFXController() {
     }
 
+    public void layoutReset(){
+
+        this.month.setValue(this.month.promptTextProperty().getValue());
+
+    }
+
     public void init(){
+
         this.budgetForecastDao = new BudgetForecastDao(HibernateUtil.getInstance().getSessionFactory());
         this.fixedCostsDao = new FixedCostsDao(HibernateUtil.getInstance().getSessionFactory());
         this.fixedCosts = this.fixedCostsDao.getLastFixedCostsRecord();
@@ -96,6 +112,7 @@ public class BudgetForecastFXController {
         }
         catch (NullPointerException e){
             e.printStackTrace();
+            layoutReset();
             this.dateWarningLabel.setVisible(true);
             return;
         }
