@@ -3,13 +3,16 @@ package com.bardab.budgettracker.model;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "FixedCosts",uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
+@Table (name = "FixedCosts")
 public class FixedCosts {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="ID", nullable = false,unique = true,length = 11)
+    @Column(name="ID")
     private Long id;
+
+    @OneToOne
+    @MapsId
+    private BudgetForecast budgetForecast;
 
     @Column (name = "monthCode")
     private String monthCode;
@@ -134,6 +137,14 @@ public class FixedCosts {
         return transport;
     }
 
+    public BudgetForecast getBudgetForecast() {
+        return budgetForecast;
+    }
+
+    public void setBudgetForecast(BudgetForecast budgetForecast) {
+        this.budgetForecast = budgetForecast;
+    }
+
     public void setTransport(Double transport) {
         if(transport>0.0){
             this.transport = transport;
@@ -141,11 +152,32 @@ public class FixedCosts {
         else this.transport = 0.0;
     }
 
+    public Double getSum(){
+        return this.electricity+
+        this.gas+
+        this.rent+
+        this.otherUtilities+
+        this.healthCare +
+        this.entertainment+
+        this.hobby+
+        this.transport;
+    }
+
+    public void setDefaultValues(){
+        this.electricity =0.0;
+        this.gas =0.0;
+        this.rent =0.0;
+        this.otherUtilities =0.0;
+        this.healthCare =0.0;
+        this.entertainment =0.0;
+        this.hobby =0.0;
+        this.transport =0.0;
+    }
+
     @Override
     public String toString() {
         return "FixedCosts{" +
-                "id=" + id +
-                ", monthCode='" + monthCode + '\'' +
+
                 ", electricity=" + electricity +
                 ", gas=" + gas +
                 ", rent=" + rent +

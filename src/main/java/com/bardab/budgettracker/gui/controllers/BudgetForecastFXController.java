@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class BudgetForecastFXController {
 
     private BudgetForecastDao budgetForecastDao;
     private FixedCostsDao fixedCostsDao;
+    private FixedCosts fixedCosts;
 
     public BudgetForecastFXController() {
     }
@@ -56,10 +58,12 @@ public class BudgetForecastFXController {
     public void init(){
         this.budgetForecastDao = new BudgetForecastDao(HibernateUtil.getInstance().getSessionFactory());
         this.fixedCostsDao = new FixedCostsDao(HibernateUtil.getInstance().getSessionFactory());
+        this.fixedCosts = this.fixedCostsDao.getLastFixedCostsRecord();
+
+
         typesList = FXCollections.observableArrayList(typesListWithValues());
         this.fixedSpendingComboBox.setItems(typesList);
 
-//        this.fixedCostsDao.getFixedCostsTypes();
 
         this.incomeTextField.setTextFormatter(new DoubleFormatter().doubleFormatter());
         this.fixedSpendingTextField.setTextFormatter(new DoubleFormatter().doubleFormatter());
@@ -73,22 +77,32 @@ public class BudgetForecastFXController {
 
     public void approveBudget(){
         BudgetForecast budgetForecast = new BudgetForecast();
+
+
+        fixedCosts.setMonthCode(getMonthCode());
+
+
+        fixedCosts.setBudgetForecast(budgetForecast);
+        budgetForecast.setFixedCosts(fixedCosts);
+
         budgetForecast.setMonthCode(getMonthCode());
         budgetForecast.setIncome(Double.parseDouble(incomeTextField.getText()));
-        budgetForecast.setFixedSpending(Double.parseDouble(fixedSpendingTextField.getText()));
         budgetForecast.setAdditionalSpending(Double.parseDouble(additionalSpendingTextField.getText()));
         budgetForecast.setSavingGoal(Double.parseDouble(savingGoalTextField.getText()));
         budgetForecast.setIncomeLeftForDailySpending();
         budgetForecast.setDailyAverageIncome();
 
+
+        this.fixedCostsDao.addTransaction(fixedCosts);
         this.budgetForecastDao.addTransaction(budgetForecast);
     }
 
-    public FixedCosts setFixedCost(){
-        FixedCosts fixedCosts = this.fixedCostsDao.getLastRecord();
-
+    public void updateFixedCost(){
         Double.parseDouble(fixedSpendingTextField.getText());
-        switch (this.fixedSpendingComboBox.getSelectionModel().getSelectedItem().toString().split(" ")[0]){
+
+        String selectedItem = this.fixedSpendingComboBox.getSelectionModel().getSelectedItem().toString().split(" ")[0];
+        int index = this.fixedSpendingComboBox.getSelectionModel().getSelectedIndex();
+        switch (selectedItem){
             case "electricity": fixedCosts.setElectricity(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
             case "entertainment": fixedCosts.setEntertainment(Double.parseDouble(fixedSpendingTextField.getText()));
@@ -101,14 +115,23 @@ public class BudgetForecastFXController {
             break;
             case "otherUtilities": fixedCosts.setOtherUtilities(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
+            case "rent": fixedCosts.setRent(Double.parseDouble(fixedSpendingTextField.getText()));
+            break;
+            case "transport": fixedCosts.setTransport(Double.parseDouble(fixedSpendingTextField.getText()));
+            break;
         }
-        this.fixedCostsDao.addTransaction(fixedCosts);
-        return fixedCosts;
+
+        typesList = FXCollections.observableArrayList(typesListWithValues());
+        this.fixedSpendingComboBox.setItems(typesList);
+        this.fixedSpendingComboBox.getSelectionModel().select(index);
+
+
     }
 
-    public List<String> typesListWithValues(){
-        List<String> typesListWithValues = new ArrayList<>();
-        this.fixedCostsDao.getFixedCostsTypesWithValues().entrySet().forEach(e->typesListWithValues.add(e.getKey()+" "+e.getValue()));
+    public ArrayList<String> typesListWithValues(){
+        ArrayList<String> typesListWithValues = new ArrayList<>();
+        this.fixedCostsDao.getFixedCostsTypesWithValues(fixedCosts).entrySet().forEach(e->typesListWithValues.add(e.getKey()+" "+e.getValue()));
+        this.fixedCostsDao.getFixedCostsTypesWithValues(fixedCosts).entrySet().forEach(e-> System.out.println(e));
         return typesListWithValues;
     }
 

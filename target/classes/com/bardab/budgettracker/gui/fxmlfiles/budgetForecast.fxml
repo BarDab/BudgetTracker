@@ -29,7 +29,7 @@
                 <maxWidth></maxWidth>
             </ComboBox>
             <TextField fx:id="fixedSpendingTextField" promptText="0.0"></TextField>
-            <Button fx:id="fixedSpendingButton" text="Change" onAction="#setFixedCost"></Button>
+            <Button fx:id="fixedSpendingButton" text="Change" onAction="#updateFixedCost"></Button>
     </HBox>
     <HBox spacing="10">
             <padding><Insets top="5" right="25" bottom="5" left="25"/></padding>
