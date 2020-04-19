@@ -10,10 +10,7 @@ import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.SelectionModel;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +41,8 @@ public class BudgetForecastFXController {
     ObservableList<String> monthList = FXCollections.observableArrayList(MonthCode.monthNames());
     @FXML
     ObservableList<String> typesList ;
-
+    @FXML
+    private Label dateWarningLabel;
 
 
 
@@ -76,25 +74,31 @@ public class BudgetForecastFXController {
     }
 
     public void approveBudget(){
-        BudgetForecast budgetForecast = new BudgetForecast();
 
 
-        fixedCosts.setMonthCode(getMonthCode());
+        try{
+            fixedCosts.setMonthCode(getMonthCode());
+            BudgetForecast budgetForecast = new BudgetForecast();
 
+            fixedCosts.setBudgetForecast(budgetForecast);
+            budgetForecast.setFixedCosts(fixedCosts);
 
-        fixedCosts.setBudgetForecast(budgetForecast);
-        budgetForecast.setFixedCosts(fixedCosts);
+            budgetForecast.setMonthCode(getMonthCode());
+            budgetForecast.setIncome(Double.parseDouble(incomeTextField.getText()));
+            budgetForecast.setAdditionalSpending(Double.parseDouble(additionalSpendingTextField.getText()));
+            budgetForecast.setSavingGoal(Double.parseDouble(savingGoalTextField.getText()));
+            budgetForecast.setIncomeLeftForDailySpending();
+            budgetForecast.setDailyAverageIncome();
 
-        budgetForecast.setMonthCode(getMonthCode());
-        budgetForecast.setIncome(Double.parseDouble(incomeTextField.getText()));
-        budgetForecast.setAdditionalSpending(Double.parseDouble(additionalSpendingTextField.getText()));
-        budgetForecast.setSavingGoal(Double.parseDouble(savingGoalTextField.getText()));
-        budgetForecast.setIncomeLeftForDailySpending();
-        budgetForecast.setDailyAverageIncome();
-
-
-        this.fixedCostsDao.addTransaction(fixedCosts);
-        this.budgetForecastDao.addTransaction(budgetForecast);
+            this.dateWarningLabel.setVisible(false);
+            this.fixedCostsDao.addTransaction(fixedCosts);
+            this.budgetForecastDao.addTransaction(budgetForecast);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            this.dateWarningLabel.setVisible(true);
+            return;
+        }
     }
 
     public void updateFixedCost(){

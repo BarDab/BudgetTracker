@@ -15,6 +15,7 @@
             <padding><Insets top="25" right="25" bottom="5" left="25"/></padding>
             <ComboBox fx:id="year" promptText="Year"  visible="true"><maxWidth></maxWidth></ComboBox>
             <ComboBox fx:id="month" promptText="Month"  visible="true"><maxWidth></maxWidth></ComboBox>
+            <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false" />
 
     </HBox>
     <HBox spacing="10">

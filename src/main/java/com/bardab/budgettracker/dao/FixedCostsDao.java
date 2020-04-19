@@ -5,10 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class FixedCostsDao extends AbstractDAO<FixedCosts> {
     private SessionFactory sessionFactory;
