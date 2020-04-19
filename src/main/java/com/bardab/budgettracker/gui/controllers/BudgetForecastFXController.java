@@ -61,7 +61,7 @@ public class BudgetForecastFXController {
         this.fixedCosts = this.fixedCostsDao.getLastFixedCostsRecord();
 
 
-        typesList = FXCollections.observableArrayList(typesListWithValues());
+        typesList = FXCollections.observableArrayList(fixedCosts.getFixedCostsTypesWithValuesList());
         this.fixedSpendingComboBox.setItems(typesList);
 
 
@@ -121,19 +121,13 @@ public class BudgetForecastFXController {
             break;
         }
 
-        typesList = FXCollections.observableArrayList(typesListWithValues());
+        typesList = FXCollections.observableArrayList(fixedCosts.getFixedCostsTypesWithValuesList());
         this.fixedSpendingComboBox.setItems(typesList);
         this.fixedSpendingComboBox.getSelectionModel().select(index);
 
 
     }
 
-    public ArrayList<String> typesListWithValues(){
-        ArrayList<String> typesListWithValues = new ArrayList<>();
-        this.fixedCostsDao.getFixedCostsTypesWithValues(fixedCosts).entrySet().forEach(e->typesListWithValues.add(e.getKey()+" "+e.getValue()));
-        this.fixedCostsDao.getFixedCostsTypesWithValues(fixedCosts).entrySet().forEach(e-> System.out.println(e));
-        return typesListWithValues;
-    }
 
     public String getMonthCode(){
         return MonthCode.createMonthCode(this.month.getValue().toString(),this.year.getValue().toString());

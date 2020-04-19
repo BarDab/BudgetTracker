@@ -1,6 +1,10 @@
 package com.bardab.budgettracker.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @Table (name = "FixedCosts")
@@ -188,18 +192,42 @@ public class FixedCosts {
                 ", transport=" + transport +
                 '}';
     }
+    public LinkedHashMap<String,Double> getFixedCostsTypesWithValues(){
+        LinkedHashMap<String,Double> typesWithLastValue = new LinkedHashMap<>();
+        String typesWithValues = toString();
 
-//    @Override
-//    public String toString() {
-//        return "FixedCosts{" +
-//                "  Electricity=" + electricity  +
-//                ", Gas=" + gas +
-//                ", Rent=" + rent +
-//                ", OtherUtilities=" + otherUtilities +
-//                ", HealthCare=" + healthCare +
-//                ", Entertainment=" + entertainment +
-//                ", Hobby=" + hobby +
-//                ", Transport=" + transport +
-//                '}';
-//    }
+
+        Pattern valuePattern = Pattern.compile("(\\d+)((\\.\\d{1,2}))|null");
+        Matcher valueMatcher = valuePattern.matcher(typesWithValues);
+
+        Pattern namesPattern = Pattern.compile("(?<=((\\,)(\\s)))(\\w+)(?=((\\=)((\\d)|n)))");
+        Matcher nameMatcher = namesPattern.matcher(typesWithValues);
+
+        nameMatcher.reset();
+        valueMatcher.reset();
+
+        while(nameMatcher.find()){
+            String name = null;
+            name = typesWithValues.substring(nameMatcher.start(),nameMatcher.end());
+
+            Double value = null;
+
+            valueMatcher.find();
+            if(typesWithValues.substring(valueMatcher.start(),valueMatcher.end()).equals("null")){
+                value =0.0;
+            }
+            else value = Double.valueOf(typesWithValues.substring(valueMatcher.start(),valueMatcher.end()));
+
+            System.out.println(name+" " +value);
+            typesWithLastValue.put(name,value);
+        }
+        return typesWithLastValue;
+    }
+    public ArrayList<String> getFixedCostsTypesWithValuesList(){
+        ArrayList<String> typesListWithValues = new ArrayList<>();
+        getFixedCostsTypesWithValues().entrySet().forEach(e->typesListWithValues.add(e.getKey()+" "+e.getValue()));
+        return typesListWithValues;
+    }
+
+
 }
