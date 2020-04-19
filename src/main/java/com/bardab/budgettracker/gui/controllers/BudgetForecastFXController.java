@@ -10,10 +10,10 @@ import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.SelectionModel;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.List;
 public class BudgetForecastFXController {
 
     @FXML
-    private ComboBox year;
+    private ComboBox<String> year;
     @FXML
-    private ComboBox month;
+    private ComboBox<String> month;
     @FXML
     private TextField incomeTextField = new TextField();
     @FXML
@@ -44,7 +44,14 @@ public class BudgetForecastFXController {
     ObservableList<String> monthList = FXCollections.observableArrayList(MonthCode.monthNames());
     @FXML
     ObservableList<String> typesList ;
+    @FXML
+    private Label dateWarningLabel;
 
+    ObservableList<Node> listOfNodes;
+
+
+    @FXML
+    VBox budgetForecast;
 
 
 
@@ -55,13 +62,20 @@ public class BudgetForecastFXController {
     public BudgetForecastFXController() {
     }
 
+    public void layoutReset(){
+
+        this.month.setValue(this.month.promptTextProperty().getValue());
+
+    }
+
     public void init(){
+
         this.budgetForecastDao = new BudgetForecastDao(HibernateUtil.getInstance().getSessionFactory());
         this.fixedCostsDao = new FixedCostsDao(HibernateUtil.getInstance().getSessionFactory());
         this.fixedCosts = this.fixedCostsDao.getLastFixedCostsRecord();
 
 
-        typesList = FXCollections.observableArrayList(typesListWithValues());
+        typesList = FXCollections.observableArrayList(fixedCosts.getFixedCostsTypesWithValuesList());
         this.fixedSpendingComboBox.setItems(typesList);
 
 
@@ -76,25 +90,32 @@ public class BudgetForecastFXController {
     }
 
     public void approveBudget(){
-        BudgetForecast budgetForecast = new BudgetForecast();
 
 
-        fixedCosts.setMonthCode(getMonthCode());
+        try{
+            fixedCosts.setMonthCode(getMonthCode());
+            BudgetForecast budgetForecast = new BudgetForecast();
 
+            fixedCosts.setBudgetForecast(budgetForecast);
+            budgetForecast.setFixedCosts(fixedCosts);
 
-        fixedCosts.setBudgetForecast(budgetForecast);
-        budgetForecast.setFixedCosts(fixedCosts);
+            budgetForecast.setMonthCode(getMonthCode());
+            budgetForecast.setIncome(Double.parseDouble(incomeTextField.getText()));
+            budgetForecast.setAdditionalSpending(Double.parseDouble(additionalSpendingTextField.getText()));
+            budgetForecast.setSavingGoal(Double.parseDouble(savingGoalTextField.getText()));
+            budgetForecast.setIncomeLeftForDailySpending();
+            budgetForecast.setDailyAverageIncome();
 
-        budgetForecast.setMonthCode(getMonthCode());
-        budgetForecast.setIncome(Double.parseDouble(incomeTextField.getText()));
-        budgetForecast.setAdditionalSpending(Double.parseDouble(additionalSpendingTextField.getText()));
-        budgetForecast.setSavingGoal(Double.parseDouble(savingGoalTextField.getText()));
-        budgetForecast.setIncomeLeftForDailySpending();
-        budgetForecast.setDailyAverageIncome();
-
-
-        this.fixedCostsDao.addTransaction(fixedCosts);
-        this.budgetForecastDao.addTransaction(budgetForecast);
+            this.dateWarningLabel.setVisible(false);
+            this.fixedCostsDao.addTransaction(fixedCosts);
+            this.budgetForecastDao.addTransaction(budgetForecast);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            layoutReset();
+            this.dateWarningLabel.setVisible(true);
+            return;
+        }
     }
 
     public void updateFixedCost(){
@@ -121,19 +142,13 @@ public class BudgetForecastFXController {
             break;
         }
 
-        typesList = FXCollections.observableArrayList(typesListWithValues());
+        typesList = FXCollections.observableArrayList(fixedCosts.getFixedCostsTypesWithValuesList());
         this.fixedSpendingComboBox.setItems(typesList);
         this.fixedSpendingComboBox.getSelectionModel().select(index);
 
 
     }
 
-    public ArrayList<String> typesListWithValues(){
-        ArrayList<String> typesListWithValues = new ArrayList<>();
-        this.fixedCostsDao.getFixedCostsTypesWithValues(fixedCosts).entrySet().forEach(e->typesListWithValues.add(e.getKey()+" "+e.getValue()));
-        this.fixedCostsDao.getFixedCostsTypesWithValues(fixedCosts).entrySet().forEach(e-> System.out.println(e));
-        return typesListWithValues;
-    }
 
     public String getMonthCode(){
         return MonthCode.createMonthCode(this.month.getValue().toString(),this.year.getValue().toString());
