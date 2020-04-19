@@ -1,6 +1,7 @@
 package com.bardab.budgettracker.dao;
 
 import com.bardab.budgettracker.model.BudgetForecast;
+import com.bardab.budgettracker.model.FixedCosts;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +28,7 @@ class BudgetForecastDaoTest {
         budgetForecastDao = new BudgetForecastDao(sessionFactory);
         budgetForecast = new BudgetForecast();
         budgetForecast.setIncome(2000.0);
-        budgetForecast.setFixedSpending(1000.0);
+        budgetForecast.setFixedCosts(new FixedCosts());
         budgetForecast.setSavingGoal(250.0);
         budgetForecast.setMonthCode("2020_5");
     }
@@ -46,7 +47,7 @@ class BudgetForecastDaoTest {
         assertEquals(budgetForecast.getId(),testBudgetForecast.getId());
         assertEquals(budgetForecast.getIncome(),testBudgetForecast.getIncome());
         assertEquals(budgetForecast.getMonthCode(),testBudgetForecast.getMonthCode());
-        assertEquals(budgetForecast.getFixedSpending(),testBudgetForecast.getFixedSpending());
+        assertEquals(budgetForecast.getFixedCosts(),testBudgetForecast.getFixedCosts());
         assertEquals(budgetForecast.getMonthCode(),testBudgetForecast.getMonthCode());
         assertEquals(budgetForecast.getSavingGoal(),testBudgetForecast.getSavingGoal());
     }

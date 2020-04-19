@@ -1,17 +1,11 @@
 package com.bardab.budgettracker.dao;
 
 import com.bardab.budgettracker.model.FixedCosts;
-import com.bardab.budgettracker.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.metamodel.spi.MetamodelImplementor;
-import org.hibernate.persister.entity.AbstractEntityPersister;
 
 import javax.persistence.Query;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,13 +46,13 @@ public class FixedCostsDao extends AbstractDAO<FixedCosts> {
         return budgetForecast;
     }
 
-    public FixedCosts getLastRecord(){
+    public FixedCosts getLastFixedCostsRecord(){
         FixedCosts fixedCosts =null;
         Session session=null;
         try{
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            Query query = session.createQuery("from FixedCosts order by ID desc");
+            Query query = session.createQuery("from FixedCosts order by budgetForecast_ID desc");
             query.setMaxResults(1);
             fixedCosts = (FixedCosts) query.getSingleResult();
             session.getTransaction().commit();
@@ -75,12 +69,15 @@ public class FixedCostsDao extends AbstractDAO<FixedCosts> {
                 session.close();
             }
         }
+
+        fixedCosts.setId(null);
         return fixedCosts;
     }
 
-    public LinkedHashMap<String,Double> getFixedCostsTypesWithValues(){
+    public LinkedHashMap<String,Double> getFixedCostsTypesWithValues(FixedCosts fixedCosts){
             LinkedHashMap<String,Double> typesWithLastValue = new LinkedHashMap<>();
-            String dataFromLastRecord =getLastRecord().toString();
+            String dataFromLastRecord = fixedCosts.toString();
+
 
             Pattern valuePattern = Pattern.compile("(\\d+)((\\.\\d{1,2}))|null");
             Matcher valueMatcher = valuePattern.matcher(dataFromLastRecord);
@@ -103,6 +100,7 @@ public class FixedCostsDao extends AbstractDAO<FixedCosts> {
                 }
                 else value = Double.valueOf(dataFromLastRecord.substring(valueMatcher.start(),valueMatcher.end()));
 
+                System.out.println(name+" " +value);
                 typesWithLastValue.put(name,value);
             }
             return typesWithLastValue;

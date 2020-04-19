@@ -102,9 +102,6 @@ public class MainWindowFXController  {
 
     }
 
-
-
-
     class GetAllTransactionsTask extends Task {
         @Override
         public ObservableList<Transaction> call() {

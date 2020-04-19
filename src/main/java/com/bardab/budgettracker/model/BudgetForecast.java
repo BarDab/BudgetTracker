@@ -1,4 +1,6 @@
 package com.bardab.budgettracker.model;
+import com.bardab.budgettracker.dao.FixedCostsDao;
+
 import javax.persistence.*;
 import java.time.YearMonth;
 
@@ -14,10 +16,11 @@ public class BudgetForecast {
     @Column(name="ID", nullable = false,unique = true,length = 11)
     private Long id;
 
+    @OneToOne (mappedBy = "budgetForecast", cascade = CascadeType.ALL)
+    private FixedCosts fixedCosts;
+
     @Column(name="income")
     private Double income;
-    @Column(name="fixed_spending")
-    private Double fixedSpending;
     @Column(name="additional_spending")
     private Double additionalSpending;
     @Column(name="saving_goal")
@@ -28,6 +31,16 @@ public class BudgetForecast {
     private Double dailyAverageIncome;
     @Column(name="left_for_daily_spending")
     private Double incomeLeftForDailySpending;
+    @Column (name = "total_fixed_spending")
+    private Double totalFixedSpending;
+
+    public Double getTotalFixedSpending() {
+        return totalFixedSpending;
+    }
+
+    public void setTotalFixedSpending() {
+        this.totalFixedSpending = fixedCosts.getSum();
+    }
 
     public Long getId() {
         return id;
@@ -46,7 +59,7 @@ public class BudgetForecast {
     }
 
     public void setIncomeLeftForDailySpending() {
-        this.incomeLeftForDailySpending = (income - fixedSpending - additionalSpending - savingGoal)/getNumberOfDaysInMonth();
+        this.incomeLeftForDailySpending = (income - fixedCosts.getSum() - additionalSpending - savingGoal)/getNumberOfDaysInMonth();
     }
 
     // this method doesn't differentiate moths from leap year
@@ -67,15 +80,16 @@ public class BudgetForecast {
         else this.income = 0.0;
     }
 
-    public Double getFixedSpending() {
-        return fixedSpending;
+
+    public FixedCosts getFixedCosts() {
+        return fixedCosts;
     }
 
-    public void setFixedSpending(Double fixedSpending) {
-        if(fixedSpending>=0){
-            this.fixedSpending = fixedSpending;
+    public void setFixedCosts(FixedCosts fixedCosts) {
+        if(monthCode!=null){
+        fixedCosts.setMonthCode(getMonthCode());
         }
-        else this.fixedSpending = 0.0;
+        this.fixedCosts = fixedCosts;
     }
 
     public Double getAdditionalSpending() {
@@ -113,6 +127,9 @@ public class BudgetForecast {
     public void setMonthCode(String yearMonth) {
         if(validateMonthCode(yearMonth)){
             this.monthCode = yearMonth;
+            if(fixedCosts!=null){
+                fixedCosts.setMonthCode(yearMonth);
+            }
         }
     }
 }
