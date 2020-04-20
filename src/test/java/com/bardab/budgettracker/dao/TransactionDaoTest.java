@@ -1,11 +1,8 @@
 package com.bardab.budgettracker.dao;
 
 import com.bardab.budgettracker.model.Transaction;
-import com.fasterxml.classmate.AnnotationConfiguration;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +40,7 @@ class TransactionDaoTest {
         transaction = new Transaction();
         transaction.setValue(value);
         transaction.setDescription(description);
-        transaction.setTransactionDate(localDate);
+        transaction.setTransactionDateAndMonthCode(localDate);
         transaction.setType(type);
     }
     @AfterEach
@@ -75,7 +72,7 @@ class TransactionDaoTest {
         updatedTransaction.setDescription("updated transaction's description");
         updatedTransaction.setType("updated transaction's type");
         updatedTransaction.setValue(9.99);
-        updatedTransaction.setTransactionDate(LocalDate.of(1999,12,31));
+        updatedTransaction.setTransactionDateAndMonthCode(LocalDate.of(1999,12,31));
 
         transactionDao.addTransaction(transaction);
         transactionDao.updateTransaction(id,updatedTransaction);
@@ -94,13 +91,13 @@ class TransactionDaoTest {
         Transaction transaction = new Transaction();
         transaction.setValue(i+0.1);
         transaction.setDescription("Description number "+i);
-        transaction.setTransactionDate(localDate);
+        transaction.setTransactionDateAndMonthCode(localDate);
         transaction.setType("Type number "+i);
         transactionDao.addTransaction(transaction);
         transactions.add(transaction);
         }
-        assertEquals(10,transactionDao.displayAllTransactions().size());
-        assertEquals(transactions,transactionDao.displayAllTransactions());
+        assertEquals(10,transactionDao.displayAllTransactions("Transaction").size());
+        assertEquals(transactions,transactionDao.displayAllTransactions("Transaction"));
     }
     @Test
     void deleteAllTest(){
@@ -108,11 +105,11 @@ class TransactionDaoTest {
             Transaction transaction = new Transaction();
             transaction.setValue(i+0.1);
             transaction.setDescription("Description number "+i);
-            transaction.setTransactionDate(localDate);
+            transaction.setTransactionDateAndMonthCode(localDate);
             transaction.setType("Type number "+i);
             transactionDao.addTransaction(transaction);
         }
-        transactionDao.deleteAllTransactions();
-        assertEquals(0,transactionDao.displayAllTransactions().size());
+        transactionDao.deleteAllTransactions("Transaction");
+        assertEquals(0,transactionDao.displayAllTransactions("Transaction").size());
     }
 }

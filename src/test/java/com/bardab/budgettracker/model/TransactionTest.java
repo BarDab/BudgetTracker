@@ -18,6 +18,25 @@ class TransactionTest {
     }
 
     @Test
+    void setMonthCode(){
+        LocalDate localDate = LocalDate.of(2030,6,10);
+        String month = MonthCode.createMonthCodeFromLocalDate(localDate);
+        transaction.setTransactionDateAndMonthCode(localDate);
+        assertEquals(month,transaction.getMonthCode());
+    }
+
+
+    @Test
+    void equals(){
+        Transaction comparedTransaction = new Transaction();
+        assertTrue(this.transaction.equals(transaction));
+        assertTrue(comparedTransaction.equals(transaction));
+        comparedTransaction.setValue(10.0);
+        assertFalse(comparedTransaction.equals(transaction));
+        assertFalse(transaction.equals(null));
+    }
+
+    @Test
     void getAndSetId() {
         transaction.setId(0000);
         assertEquals(00000,transaction.getId());
@@ -31,7 +50,7 @@ class TransactionTest {
 
     @Test
     void getAndSetTransactionDate() {
-        transaction.setTransactionDate(LocalDate.now());
+        transaction.setTransactionDateAndMonthCode(LocalDate.now());
         assertEquals(LocalDate.now(),transaction.getTransactionDate());
     }
 
@@ -59,7 +78,7 @@ class TransactionTest {
         transaction = new Transaction();
         transaction.setValue(0.00);
         transaction.setDescription("");
-        transaction.setTransactionDate(LocalDate.now());
+        transaction.setTransactionDateAndMonthCode(LocalDate.now());
         transaction.setType("");
         transaction.setId(0);
 

@@ -6,7 +6,7 @@ import org.jboss.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionDao {
+public class TransactionDao extends AbstractDAO<Transaction> {
 
     private  SessionFactory sessionFactory;
     private static Session session;
@@ -17,97 +17,9 @@ public class TransactionDao {
         this.sessionFactory = sessionFactory;
     }
 
-    public void addTransaction(Transaction transaction){
-        try{
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.save(transaction);
-            session.getTransaction().commit();
-
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
-                logger.info("\n ..........Transaction is being rolled back...........\n");
-                 session.getTransaction().rollback();
-            }
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if(session!=null){
-                session.close();
-            }
-        }
-    }
-
-    public List<Transaction> displayAllTransactions(){
-        List<Transaction> transactions = new ArrayList<>();
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            transactions.addAll(session.createQuery("FROM Transaction").list());
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
-                logger.info("\n ..........Transaction is being rolled back...........\n");
-                session.getTransaction().rollback();
-            }
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return transactions;
-    }
-
-
-
-
-    public  void updateTransaction(long id, Transaction transactionUpdate){
-
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            transactionUpdate.setId(id);
-            session.merge(transactionUpdate);
-            session.getTransaction().commit();
-
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
-                logger.info("\n ..........Transaction is being rolled back...........\n");
-                session.getTransaction().rollback();
-            }
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
-    public  void deleteTransaction(long id){
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            Transaction transaction =session.get(Transaction.class,id);
-            session.delete(transaction);
-            session.getTransaction().commit();
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
-                logger.info("\n ..........Transaction is being rolled back...........\n");
-                session.getTransaction().rollback();
-            }
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-
+    @Override
+    public SessionFactory getSessionFactory() {
+        return this.sessionFactory;
     }
 
     public  Transaction findByID(long id){
@@ -133,24 +45,5 @@ public class TransactionDao {
     return transaction;
     }
 
-    public  void deleteAllTransactions(){
-       try{
-           session=sessionFactory.openSession();
-           session.beginTransaction();
-           session.createQuery("DELETE FROM Transaction").executeUpdate();
-           session.getTransaction().commit();
-       }
-       catch (Exception e){
-           if(session.getTransaction()!=null){
-               logger.info("\n ..........Transaction is being rolled back...........\n");
-               session.getTransaction().rollback();
-           }
-           System.out.println(e.getMessage());
-       }
-       finally {
-           if (session != null) {
-               session.close();
-           }
-       }
-    }
+
 }

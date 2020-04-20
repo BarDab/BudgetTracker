@@ -1,8 +1,6 @@
 package com.bardab.budgettracker.model;
-import com.bardab.budgettracker.dao.FixedCostsDao;
 
 import javax.persistence.*;
-import java.time.YearMonth;
 
 
 @Entity
@@ -32,14 +30,14 @@ public class BudgetForecast {
     @Column(name="left_for_daily_spending")
     private Double incomeLeftForDailySpending;
     @Column (name = "total_fixed_spending")
-    private Double totalFixedSpending;
+    private Double totalFixedCosts;
 
-    public Double getTotalFixedSpending() {
-        return totalFixedSpending;
+    public Double getTotalFixedCosts() {
+        return totalFixedCosts;
     }
 
-    public void setTotalFixedSpending() {
-        this.totalFixedSpending = fixedCosts.getSum();
+    public void setTotalFixedCosts() {
+        this.totalFixedCosts = fixedCosts.getAndSetSumOfFixedCosts();
     }
 
     public Long getId() {
@@ -54,18 +52,17 @@ public class BudgetForecast {
         this.dailyAverageIncome = income/getNumberOfDaysInMonth();
     }
 
-    public Double getIncomeLeftForDailySpending() {
+    public Double getAverageDailyFundsAfterDeductionOfAllCosts() {
         return incomeLeftForDailySpending;
     }
 
-    public void setIncomeLeftForDailySpending() {
-        this.incomeLeftForDailySpending = (income - fixedCosts.getSum() - additionalSpending - savingGoal)/getNumberOfDaysInMonth();
+    public void setAverageDailyFundsAfterDeductionOfAllCosts() {
+        this.incomeLeftForDailySpending = (income - totalFixedCosts - additionalSpending - savingGoal)/getNumberOfDaysInMonth();
     }
 
-    // this method doesn't differentiate moths from leap year
+    // this method doesn't differentiate months from leap year
     public int getNumberOfDaysInMonth(){
-        YearMonth yearMonth = YearMonth.of(Integer.parseInt(this.monthCode.substring(0,3)),Integer.parseInt(this.monthCode.substring(5,6)));
-        return yearMonth.lengthOfMonth();
+       return MonthCode.getNumberOfDaysInMonth(this.monthCode);
     }
 
 

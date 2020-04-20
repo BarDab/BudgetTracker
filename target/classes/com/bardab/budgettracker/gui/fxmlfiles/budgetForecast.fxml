@@ -14,8 +14,8 @@
       prefWidth="Infinity" prefHeight="Infinity">
     <HBox spacing="10" >
             <padding><Insets top="25" right="5" bottom="5" left="25"/></padding>
-            <ComboBox fx:id="year" promptText="Year"  visible="true" prefWidth="80"><maxWidth></maxWidth></ComboBox>
-            <ComboBox fx:id="month" promptText="Month"  visible="true" prefWidth="80"><maxWidth></maxWidth></ComboBox>
+            <ComboBox fx:id="yearComboBox" promptText="Year" visible="true" prefWidth="80"><maxWidth></maxWidth></ComboBox>
+            <ComboBox fx:id="monthComboBox" promptText="Month" visible="true" prefWidth="80"><maxWidth></maxWidth></ComboBox>
             <Label text="Income" prefWidth="40" ></Label>
             <TextField fx:id="incomeTextField" prefWidth="40" ></TextField>
             <Label text="Savings" prefWidth="60" ></Label>
@@ -42,6 +42,7 @@
         <padding><Insets top="5" right="5" bottom="5" left="25"/></padding>
         <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false" style="-fx-text-fill: #ff0000" />
     </HBox>
+
 </VBox>
 
 

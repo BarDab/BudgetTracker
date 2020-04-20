@@ -2,20 +2,51 @@ package com.bardab.budgettracker.model;
 
 import org.junit.jupiter.api.*;
 
-import java.time.YearMonth;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BudgetForecastTest {
 
     BudgetForecast budgetForecast;
+    int numberOfDaysInMonth ;
+    LocalDate localDate;
+    String monthCode;
 
     @BeforeEach
     public void setUp(){
         budgetForecast = new BudgetForecast();
+
+        localDate = LocalDate.of(2020,6,10);
+        numberOfDaysInMonth = localDate.lengthOfMonth();
+        monthCode = MonthCode.createMonthCodeFromLocalDate(localDate);
     }
+
     @Test
-    public void checkIfNegativeValuesCannotBeAdded(){
+    void plainSettersAndGettersForNegativeValues(){
+        // if value less than 0 method should return 0.0
+        budgetForecast.setIncome(-10.0);
+        budgetForecast.setSavingGoal(-10.0);
+        budgetForecast.setAdditionalSpending(-10.0);
+        assertEquals(0.0,budgetForecast.getIncome());
+        assertEquals(0.0,budgetForecast.getSavingGoal());
+        assertEquals(0.0,budgetForecast.getAdditionalSpending());
+    }
+
+    @Test
+    void plainSettersAndGettersForPositiveValues(){
+        // if value less than 0 method should return 0.0
+        budgetForecast.setIncome(10.0);
+        budgetForecast.setSavingGoal(10.0);
+        budgetForecast.setAdditionalSpending(10.0);
+        assertEquals(10.0,budgetForecast.getIncome());
+        assertEquals(10.0,budgetForecast.getSavingGoal());
+        assertEquals(10.0,budgetForecast.getAdditionalSpending());
+    }
+
+
+    @Test
+    void checkIfNegativeValuesCannotBeAdded(){
         budgetForecast.setIncome(-33.0);
         budgetForecast.setAdditionalSpending(-33.0);
         budgetForecast.setSavingGoal(-33.0);
@@ -28,17 +59,46 @@ class BudgetForecastTest {
     @Test
     void setDailyAverageIncome() {
         int income = 900;
-        int numberOfDaysInMonth = YearMonth.of(2020,6).lengthOfMonth();
         budgetForecast.setIncome(900.0);
-        budgetForecast.setMonthCode("2020_6");
+        budgetForecast.setMonthCode(monthCode);
         budgetForecast.setDailyAverageIncome();
         assertEquals(income/numberOfDaysInMonth,budgetForecast.getDailyAverageIncome());
     }
 
+    @Test
+    void setIncomeLeftForDailySpending() {
+        // equation: this.incomeLeftForDailySpending = (income - totalFixedCosts - additionalSpending - savingGoal)/getNumberOfDaysInMonth();
+        FixedCosts fixedCosts = new FixedCosts();
+        fixedCosts.setMonthCode(monthCode);
+        fixedCosts.setDefaultValues(10.0);
+        Double totalFixedCosts = fixedCosts.getAndSetSumOfFixedCosts();
+
+
+        budgetForecast.setIncome(900.0);
+        budgetForecast.setSavingGoal(10.0);
+        budgetForecast.setAdditionalSpending(10.0);
+        budgetForecast.setFixedCosts(fixedCosts);
+        budgetForecast.setTotalFixedCosts();
+        budgetForecast.setMonthCode(monthCode);
+        budgetForecast.setAverageDailyFundsAfterDeductionOfAllCosts();
+
+        Double expectedValue = (900 - totalFixedCosts - 10 -10)/numberOfDaysInMonth;
+        assertEquals(expectedValue,budgetForecast.getAverageDailyFundsAfterDeductionOfAllCosts());
+
+    }
+
+
 
     @Test
-    @DisplayName("Check if negative values cannot be added")
-    void setFixedSpending() {
+    void setTotalFixedCosts() {
+        FixedCosts fixedCosts = new FixedCosts();
+        fixedCosts.setDefaultValues(10.0);
+        Double totalFixedCosts = fixedCosts.getAndSetSumOfFixedCosts();
+
+        budgetForecast.setFixedCosts(fixedCosts);
+        budgetForecast.setTotalFixedCosts();
+
+        assertEquals(totalFixedCosts,budgetForecast.getTotalFixedCosts());
     }
 
 

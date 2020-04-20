@@ -1,7 +1,7 @@
 package com.bardab.budgettracker.model;
 import java.util.List;
 
-public class TransactionType {
+public final class TransactionType {
 
     public TransactionType() {
     }

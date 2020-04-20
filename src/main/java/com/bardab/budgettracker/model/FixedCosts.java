@@ -36,6 +36,8 @@ public class FixedCosts {
     private Double hobby;
     @Column(name="transport")
     private Double transport;
+    @Column(name = "sum_of_fixed_costs")
+    private Double sumOfFixedCosts;
 
 
     public Long getId() {
@@ -156,26 +158,29 @@ public class FixedCosts {
         else this.transport = 0.0;
     }
 
-    public Double getSum(){
-        return this.electricity+
-        this.gas+
-        this.rent+
-        this.otherUtilities+
-        this.healthCare +
-        this.entertainment+
-        this.hobby+
-        this.transport;
+
+
+    public Double getAndSetSumOfFixedCosts(){
+        return this.sumOfFixedCosts = this.electricity+
+                this.gas+
+                this.rent+
+                this.otherUtilities+
+                this.healthCare +
+                this.entertainment+
+                this.hobby+
+                this.transport;
     }
 
-    public void setDefaultValues(){
-        this.electricity =0.0;
-        this.gas =0.0;
-        this.rent =0.0;
-        this.otherUtilities =0.0;
-        this.healthCare =0.0;
-        this.entertainment =0.0;
-        this.hobby =0.0;
-        this.transport =0.0;
+
+    public void setDefaultValues(Double defaultValue){
+        this.electricity =defaultValue;
+        this.gas =defaultValue;
+        this.rent =defaultValue;
+        this.otherUtilities =defaultValue;
+        this.healthCare =defaultValue;
+        this.entertainment =defaultValue;
+        this.hobby =defaultValue;
+        this.transport =defaultValue;
     }
 
     @Override
@@ -192,12 +197,14 @@ public class FixedCosts {
                 ", transport=" + transport +
                 '}';
     }
-    public LinkedHashMap<String,Double> getFixedCostsTypesWithValues(){
+
+
+    public LinkedHashMap<String,Double> getFixedCostsTypesWithValuesFromToStringMethod(){
         LinkedHashMap<String,Double> typesWithLastValue = new LinkedHashMap<>();
         String typesWithValues = toString();
 
 
-        Pattern valuePattern = Pattern.compile("(\\d+)((\\.\\d{1,2}))|null");
+        Pattern valuePattern = Pattern.compile("(?<=((\\=)))(\\d+)((\\.\\d{1,2}))|null");
         Matcher valueMatcher = valuePattern.matcher(typesWithValues);
 
         Pattern namesPattern = Pattern.compile("(?<=((\\,)(\\s)))(\\w+)(?=((\\=)((\\d)|n)))");
@@ -218,14 +225,13 @@ public class FixedCosts {
             }
             else value = Double.valueOf(typesWithValues.substring(valueMatcher.start(),valueMatcher.end()));
 
-            System.out.println(name+" " +value);
             typesWithLastValue.put(name,value);
         }
         return typesWithLastValue;
     }
     public ArrayList<String> getFixedCostsTypesWithValuesList(){
         ArrayList<String> typesListWithValues = new ArrayList<>();
-        getFixedCostsTypesWithValues().entrySet().forEach(e->typesListWithValues.add(e.getKey()+" "+e.getValue()));
+        getFixedCostsTypesWithValuesFromToStringMethod().entrySet().forEach(e->typesListWithValues.add(e.getKey()+" "+e.getValue()));
         return typesListWithValues;
     }
 

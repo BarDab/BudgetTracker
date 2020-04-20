@@ -17,17 +17,20 @@ public class Transaction {
     @Column(name="ID", nullable = false,unique = true,length = 11)
     private Long id;
 
-    @Column (name="TYPE", nullable = true)
+    @Column (name="TYPE")
     private String type;
 
-    @Column (name="transaction_date", nullable = true)
+    @Column (name="transaction_date" ,nullable = false)
     private LocalDate transactionDate;
 
-    @Column (name="VALUE", nullable = true)
+    @Column (name="VALUE")
     private Double value;
 
-    @Column (name="DESCRIPTION", nullable = true)
+    @Column (name="DESCRIPTION")
     private String description;
+
+    @Column (name = "month_code" ,nullable = false)
+    private String monthCode;
 
 
     public long getId() {
@@ -50,8 +53,13 @@ public class Transaction {
         return transactionDate;
     }
 
-    public void setTransactionDate(LocalDate transactionDate) {
+    public void setTransactionDateAndMonthCode(LocalDate transactionDate) {
         this.transactionDate=transactionDate;
+        this.monthCode = MonthCode.createMonthCodeFromLocalDate(transactionDate);
+    }
+
+    public String getMonthCode() {
+        return monthCode;
     }
 
     public Double getValue() {

@@ -14,16 +14,17 @@ import java.util.List;
 
 public abstract class AbstractDAO<T> {
 
+    // needs change
     public final static Logger logger = Logger.getLogger(TransactionDao.class);
 
 
     public abstract SessionFactory getSessionFactory();
+    public abstract T findByID(long id);
 
 
     public void addTransaction(T instanceOfAnnotatedClass){
         Session session=null;
         try{
-            System.out.println("inside try block");
             session = getSessionFactory().openSession();
             session.beginTransaction();
             session.save(instanceOfAnnotatedClass);
@@ -42,10 +43,6 @@ public abstract class AbstractDAO<T> {
             }
         }
     }
-
-
-
-
 
     public List<T> displayAllTransactions(String tableName){
         List<T> instancesOfAnnotatedClass = new ArrayList<>();
@@ -69,9 +66,6 @@ public abstract class AbstractDAO<T> {
         }
         return instancesOfAnnotatedClass;
     }
-
-
-
 
     public void updateTransaction(long id, T instanceOfAnnotatedClass){
 
@@ -97,7 +91,7 @@ public abstract class AbstractDAO<T> {
         }
     }
 
-    public abstract T findByID(long id);
+
 
     public void deleteTransaction(long id){
         Session session=null;
@@ -121,9 +115,6 @@ public abstract class AbstractDAO<T> {
         }
 
     }
-
-
-
 
     public void deleteAllTransactions(String tableName){
         Session session=null;

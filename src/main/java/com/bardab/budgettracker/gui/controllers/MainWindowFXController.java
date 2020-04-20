@@ -2,7 +2,6 @@ package com.bardab.budgettracker.gui.controllers;
 
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.gui.DoubleFormatter;
-import com.bardab.budgettracker.gui.controllers.BudgetForecastFXController;
 import com.bardab.budgettracker.model.Transaction;
 import com.bardab.budgettracker.model.TransactionType;
 import com.bardab.budgettracker.util.HibernateUtil;
@@ -13,12 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 
 public class MainWindowFXController  {
-    private TransactionDao transactionDao =null;
+    private TransactionDao transactionDao;
     public MainWindowFXController() {
         transactionDao = new TransactionDao(HibernateUtil.getInstance().getSessionFactory());
 
@@ -26,9 +24,6 @@ public class MainWindowFXController  {
 
     @FXML
     private BudgetForecastFXController budgetForecastController;
-
-
-
     @FXML
     TableView transactionTable;
     @FXML
@@ -95,14 +90,10 @@ public class MainWindowFXController  {
         transaction.setType((String) comboBoxTypes.getValue());
         transaction.setDescription(descriptionField.getText());
         transaction.setValue((Double.parseDouble(valueField.getText())));
-        transaction.setTransactionDate(datePicker.getValue());
+        transaction.setTransactionDateAndMonthCode(datePicker.getValue());
 
         transactionDao.addTransaction(transaction);
         init();
-
-    }
-    public void resetInputFields(){
-
 
     }
 
@@ -110,7 +101,7 @@ public class MainWindowFXController  {
         @Override
         public ObservableList<Transaction> call() {
             System.out.println("List all transactions method's thread:  "+ Thread.currentThread().toString());
-            return FXCollections.observableArrayList(transactionDao.displayAllTransactions());
+            return FXCollections.observableArrayList(transactionDao.displayAllTransactions("Transaction"));
         }
     }
 

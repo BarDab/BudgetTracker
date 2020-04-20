@@ -45,7 +45,7 @@
                         </HBox>
                     </VBox>
                 </Tab>
-                <Tab fx:id="budgetForecastTab" text="Budget Forecast" closable="false">
+                <Tab fx:id="budgetForecastTab" text="New Budget" closable="false">
                     <fx:include fx:id="budgetForecast"  source="budgetForecast.fxml" >
 
                     </fx:include>
