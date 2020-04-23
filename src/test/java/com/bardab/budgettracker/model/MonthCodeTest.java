@@ -1,6 +1,6 @@
 package com.bardab.budgettracker.model;
 
-import net.bytebuddy.asm.Advice;
+import com.bardab.budgettracker.model.additional.MonthCode;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ class MonthCodeTest {
 
     @Test
     void createMonthCode() {
-     assertEquals(correctMonthCode,MonthCode.createMonthCode(monthName,String.valueOf(correctYear)));
+     assertEquals(correctMonthCode, MonthCode.createMonthCode(monthName,String.valueOf(correctYear)));
      assertNull(null,MonthCode.createMonthCode(incorrectDateMonthCode,incorrectDateMonthCode));
     }
 

@@ -1,11 +1,11 @@
 package com.bardab.budgettracker.gui.controllers;
 
 import com.bardab.budgettracker.dao.BudgetForecastDao;
-import com.bardab.budgettracker.dao.FixedCostsDao;
+import com.bardab.budgettracker.dao.categories.FixedCostsForecastDao;
 import com.bardab.budgettracker.gui.DoubleFormatter;
 import com.bardab.budgettracker.model.BudgetForecast;
-import com.bardab.budgettracker.model.FixedCosts;
-import com.bardab.budgettracker.model.MonthCode;
+import com.bardab.budgettracker.model.categories.FixedCostsForecast;
+import com.bardab.budgettracker.model.additional.MonthCode;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,16 +44,16 @@ public class BudgetForecastFXController {
 
     private BudgetForecastDao budgetForecastDao;
     private BudgetForecast budgetForecast;
-    private FixedCostsDao fixedCostsDao;
-    private FixedCosts fixedCosts;
+    private FixedCostsForecastDao fixedCostsForecastDao;
+    private FixedCostsForecast fixedCostsForecast;
 
     public BudgetForecastFXController() {
         this.budgetForecastDao = new BudgetForecastDao(HibernateUtil.getInstance().getSessionFactory());
-        this.fixedCostsDao = new FixedCostsDao(HibernateUtil.getInstance().getSessionFactory());
+        this.fixedCostsForecastDao = new FixedCostsForecastDao(HibernateUtil.getInstance().getSessionFactory());
     }
 
     public void init(){
-        this.fixedCosts = this.fixedCostsDao.getLastFixedCostsRecord();
+        this.fixedCostsForecast = this.fixedCostsForecastDao.getLastFixedCostsRecord();
         setFixedCostsComboBox();
         setTextFieldsTextFormatter();
         this.monthComboBox.setItems(monthList);
@@ -68,7 +68,7 @@ public class BudgetForecastFXController {
     }
 
     public void setFixedCostsComboBox(){
-        this.typesList = FXCollections.observableArrayList(fixedCosts.getFixedCostsTypesWithValuesList());
+        this.typesList = FXCollections.observableArrayList(fixedCostsForecast.getFixedCostsTypesWithValuesList());
         this.fixedSpendingComboBox.setItems(typesList);
     }
 
@@ -78,15 +78,15 @@ public class BudgetForecastFXController {
         budgetForecast.setIncome(Double.parseDouble(incomeTextField.getText()));
         budgetForecast.setAdditionalSpending(Double.parseDouble(additionalSpendingTextField.getText()));
         budgetForecast.setSavingGoal(Double.parseDouble(savingGoalTextField.getText()));
-        budgetForecast.setFixedCosts(fixedCosts);
+        budgetForecast.setFixedCostsForecast(fixedCostsForecast);
         budgetForecast.setTotalFixedCosts();
         budgetForecast.setAverageDailyFundsAfterDeductionOfAllCosts();
         budgetForecast.setDailyAverageIncome();
     }
 
-    public void setFixedCosts(String monthCode){
-        fixedCosts.setMonthCode(monthCode);
-        fixedCosts.setBudgetForecast(budgetForecast);
+    public void setFixedCostsForecast(String monthCode){
+        fixedCostsForecast.setMonthCode(monthCode);
+        fixedCostsForecast.setBudgetForecast(budgetForecast);
     }
 
     public void approveBudget(){
@@ -94,7 +94,7 @@ public class BudgetForecastFXController {
         try{
             String monthCode = getMonthCode();
             setNewBudget(monthCode);
-            setFixedCosts(monthCode);
+            setFixedCostsForecast(monthCode);
 
             this.dateWarningLabel.setVisible(false);
             this.budgetForecastDao.addTransaction(budgetForecast);
@@ -112,21 +112,21 @@ public class BudgetForecastFXController {
         String selectedItemsName = this.fixedSpendingComboBox.getSelectionModel().getSelectedItem().toString().split(" ")[0];
         int index = this.fixedSpendingComboBox.getSelectionModel().getSelectedIndex();
         switch (selectedItemsName){
-            case "electricity": fixedCosts.setElectricity(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "electricity": fixedCostsForecast.setElectricity(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
-            case "entertainment": fixedCosts.setEntertainment(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "entertainment": fixedCostsForecast.setEntertainment(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
-            case "gas": fixedCosts.setGas(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "gas": fixedCostsForecast.setGas(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
-            case "healthCare": fixedCosts.setHealthCare(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "healthCare": fixedCostsForecast.setHealthCare(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
-            case "hobby": fixedCosts.setHobby(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "hobby": fixedCostsForecast.setHobby(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
-            case "otherUtilities": fixedCosts.setOtherUtilities(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "otherUtilities": fixedCostsForecast.setOther(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
-            case "rent": fixedCosts.setRent(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "rent": fixedCostsForecast.setRent(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
-            case "transport": fixedCosts.setTransport(Double.parseDouble(fixedSpendingTextField.getText()));
+            case "transport": fixedCostsForecast.setTransport(Double.parseDouble(fixedSpendingTextField.getText()));
             break;
         }
         setFixedCostsComboBox();

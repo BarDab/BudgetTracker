@@ -31,10 +31,12 @@ public abstract class AbstractDAO<T> {
             session.getTransaction().commit();
         }
         catch (Exception e){
+            e.printStackTrace();
             if(session.getTransaction()!=null){
                 logger.info("\n ..........Transaction is being rolled back...........\n");
                 session.getTransaction().rollback();
             }
+
             System.out.println(e.getMessage());
         }
         finally {

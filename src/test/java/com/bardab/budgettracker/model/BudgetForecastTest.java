@@ -1,5 +1,7 @@
 package com.bardab.budgettracker.model;
 
+import com.bardab.budgettracker.model.additional.MonthCode;
+import com.bardab.budgettracker.model.categories.FixedCostsForecast;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
@@ -68,16 +70,16 @@ class BudgetForecastTest {
     @Test
     void setIncomeLeftForDailySpending() {
         // equation: this.incomeLeftForDailySpending = (income - totalFixedCosts - additionalSpending - savingGoal)/getNumberOfDaysInMonth();
-        FixedCosts fixedCosts = new FixedCosts();
-        fixedCosts.setMonthCode(monthCode);
-        fixedCosts.setDefaultValues(10.0);
-        Double totalFixedCosts = fixedCosts.getAndSetSumOfFixedCosts();
+        FixedCostsForecast fixedCostsForecast = new FixedCostsForecast();
+        fixedCostsForecast.setMonthCode(monthCode);
+        fixedCostsForecast.setDefaultValues(10.0);
+        Double totalFixedCosts = fixedCostsForecast.getSumOfFixedCosts();
 
 
         budgetForecast.setIncome(900.0);
         budgetForecast.setSavingGoal(10.0);
         budgetForecast.setAdditionalSpending(10.0);
-        budgetForecast.setFixedCosts(fixedCosts);
+        budgetForecast.setFixedCostsForecast(fixedCostsForecast);
         budgetForecast.setTotalFixedCosts();
         budgetForecast.setMonthCode(monthCode);
         budgetForecast.setAverageDailyFundsAfterDeductionOfAllCosts();
@@ -91,11 +93,11 @@ class BudgetForecastTest {
 
     @Test
     void setTotalFixedCosts() {
-        FixedCosts fixedCosts = new FixedCosts();
-        fixedCosts.setDefaultValues(10.0);
-        Double totalFixedCosts = fixedCosts.getAndSetSumOfFixedCosts();
+        FixedCostsForecast fixedCostsForecast = new FixedCostsForecast();
+        fixedCostsForecast.setDefaultValues(10.0);
+        Double totalFixedCosts = fixedCostsForecast.getSumOfFixedCosts();
 
-        budgetForecast.setFixedCosts(fixedCosts);
+        budgetForecast.setFixedCostsForecast(fixedCostsForecast);
         budgetForecast.setTotalFixedCosts();
 
         assertEquals(totalFixedCosts,budgetForecast.getTotalFixedCosts());

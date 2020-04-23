@@ -1,5 +1,8 @@
 package com.bardab.budgettracker.model;
 
+import com.bardab.budgettracker.model.additional.MonthCode;
+import com.bardab.budgettracker.model.categories.FixedCostsForecast;
+
 import javax.persistence.*;
 
 
@@ -15,7 +18,13 @@ public class BudgetForecast {
     private Long id;
 
     @OneToOne (mappedBy = "budgetForecast", cascade = CascadeType.ALL)
-    private FixedCosts fixedCosts;
+    private FixedCostsForecast fixedCostsForecast;
+
+    @OneToOne  (mappedBy = "budgetForecast", cascade = CascadeType.ALL)
+    private MonthlyBalance monthlyBalance;
+
+
+
 
     @Column(name="income")
     private Double income;
@@ -37,7 +46,7 @@ public class BudgetForecast {
     }
 
     public void setTotalFixedCosts() {
-        this.totalFixedCosts = fixedCosts.getAndSetSumOfFixedCosts();
+        this.totalFixedCosts = fixedCostsForecast.getSumOfFixedCosts();
     }
 
     public Long getId() {
@@ -78,15 +87,15 @@ public class BudgetForecast {
     }
 
 
-    public FixedCosts getFixedCosts() {
-        return fixedCosts;
+    public FixedCostsForecast getFixedCostsForecast() {
+        return fixedCostsForecast;
     }
 
-    public void setFixedCosts(FixedCosts fixedCosts) {
+    public void setFixedCostsForecast(FixedCostsForecast fixedCostsForecast) {
         if(monthCode!=null){
-        fixedCosts.setMonthCode(getMonthCode());
+        fixedCostsForecast.setMonthCode(getMonthCode());
         }
-        this.fixedCosts = fixedCosts;
+        this.fixedCostsForecast = fixedCostsForecast;
     }
 
     public Double getAdditionalSpending() {
@@ -124,8 +133,8 @@ public class BudgetForecast {
     public void setMonthCode(String yearMonth) {
         if(validateMonthCode(yearMonth)){
             this.monthCode = yearMonth;
-            if(fixedCosts!=null){
-                fixedCosts.setMonthCode(yearMonth);
+            if(fixedCostsForecast !=null){
+                fixedCostsForecast.setMonthCode(yearMonth);
             }
         }
     }

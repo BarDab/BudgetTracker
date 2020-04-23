@@ -3,7 +3,7 @@ package com.bardab.budgettracker.gui.controllers;
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.gui.DoubleFormatter;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.TransactionType;
+import com.bardab.budgettracker.model.transactionTypes.TransactionTypesVariable;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +27,7 @@ public class MainWindowFXController  {
     @FXML
     TableView transactionTable;
     @FXML
-    ObservableList<String> typeList = FXCollections.observableArrayList(TransactionType.getTransactionTypes());
+    ObservableList<String> typeList = FXCollections.observableArrayList(TransactionTypesVariable.getTypes());
     @FXML
     ComboBox comboBoxTypes;
     @FXML

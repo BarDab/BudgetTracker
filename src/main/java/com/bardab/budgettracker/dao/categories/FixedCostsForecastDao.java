@@ -1,16 +1,17 @@
-package com.bardab.budgettracker.dao;
+package com.bardab.budgettracker.dao.categories;
 
-import com.bardab.budgettracker.model.FixedCosts;
+import com.bardab.budgettracker.dao.AbstractDAO;
+import com.bardab.budgettracker.model.categories.FixedCostsForecast;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.Query;
 
 
-public class FixedCostsDao extends AbstractDAO<FixedCosts> {
+public class FixedCostsForecastDao extends AbstractDAO<FixedCostsForecast> {
     private SessionFactory sessionFactory;
 
-    public FixedCostsDao(SessionFactory sessionFactory) {
+    public FixedCostsForecastDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -20,13 +21,13 @@ public class FixedCostsDao extends AbstractDAO<FixedCosts> {
     }
 
     @Override
-    public FixedCosts findByID(long id) {
-        FixedCosts budgetForecast=null;
+    public FixedCostsForecast findByID(long id) {
+        FixedCostsForecast fixedCostsForecast =null;
         Session session=null;
         try{
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            budgetForecast = session.get(FixedCosts.class,id);
+            fixedCostsForecast = session.get(FixedCostsForecast.class,id);
             session.getTransaction().commit();
         }
         catch (Exception e){
@@ -41,18 +42,18 @@ public class FixedCostsDao extends AbstractDAO<FixedCosts> {
                 session.close();
             }
         }
-        return budgetForecast;
+        return fixedCostsForecast;
     }
 
-    public FixedCosts getLastFixedCostsRecord(){
-        FixedCosts fixedCosts =null;
+    public FixedCostsForecast getLastFixedCostsRecord(){
+        FixedCostsForecast fixedCostsForecast =null;
         Session session=null;
         try{
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            Query query = session.createQuery("from FixedCosts order by budgetForecast_ID desc");
+            Query query = session.createQuery("from FixedCostsForecast order by budgetForecast_ID desc");
             query.setMaxResults(1);
-            fixedCosts = (FixedCosts) query.getSingleResult();
+            fixedCostsForecast = (FixedCostsForecast) query.getSingleResult();
             session.getTransaction().commit();
         }
         catch (Exception e){
@@ -68,8 +69,8 @@ public class FixedCostsDao extends AbstractDAO<FixedCosts> {
             }
         }
 
-        fixedCosts.setId(null);
-        return fixedCosts;
+        fixedCostsForecast.setId(null);
+        return fixedCostsForecast;
     }
 }
 

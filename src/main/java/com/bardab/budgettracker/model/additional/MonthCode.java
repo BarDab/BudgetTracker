@@ -1,4 +1,4 @@
-package com.bardab.budgettracker.model;
+package com.bardab.budgettracker.model.additional;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

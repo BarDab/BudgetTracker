@@ -9,7 +9,7 @@ import java.util.List;
 public class TransactionDao extends AbstractDAO<Transaction> {
 
     private  SessionFactory sessionFactory;
-    private static Session session;
+
     public final static Logger logger = Logger.getLogger(TransactionDao.class);
 
 
@@ -19,11 +19,13 @@ public class TransactionDao extends AbstractDAO<Transaction> {
 
     @Override
     public SessionFactory getSessionFactory() {
+        System.out.println(sessionFactory.toString());
         return this.sessionFactory;
     }
 
     public  Transaction findByID(long id){
     Transaction transaction=null;
+    Session session = null;
     try{
         session=sessionFactory.openSession();
         session.beginTransaction();
