@@ -4,10 +4,9 @@ package com.bardab.budgettracker.model.categories;
 import com.bardab.budgettracker.model.MonthlyBalance;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table (name = "VariableCostsReal",uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
+@Table (name = "VariableCosts")
 public class VariableCostsReal {
 
 
@@ -25,52 +24,52 @@ public class VariableCostsReal {
     private String monthCode;
 
     @Column(name = "food")
-    private Double foodTotalValue;
+    private Double food;
 
     @Column(name = "household")
-    private Double houseHoldTotalValue;
+    private Double houseHold;
 
     @Column(name = "clothing")
-    private Double clothingTotalValue;
+    private Double clothing;
 
     @Column(name = "health")
-    private Double healthTotalValue;
+    private Double healthCare;
 
     @Column(name = "bills")
-    private Double billsTotalValue;
+    private Double bills;
 
     @Column(name = "transport")
-    private Double transportTotalValue;
+    private Double transport;
 
     @Column(name = "hobby")
-    private Double hobbyTotalValue;
+    private Double hobby;
 
     @Column(name = "dining")
-    private Double diningTotalValue;
+    private Double dining;
 
     @Column(name = "events")
-    private Double eventsTotalValue;
+    private Double events;
 
     @Column(name = "gifts")
-    private Double giftsTotalValue;
+    private Double gifts;
 
     @Column(name = "investments")
-    private Double investmentsTotalValue;
+    private Double investments;
 
     @Column(name = "travel")
-    private Double travelTotalValue;
+    private Double travel;
 
     @Column(name = "fees")
-    private Double feesTotalValue;
+    private Double fees;
 
     @Column(name = "development")
-    private Double developmentTotalValue;
+    private Double development;
 
     @Column(name = "books")
-    private Double booksTotalValue;
+    private Double books;
 
     @Column(name = "other")
-    private Double otherTotalValue;
+    private Double other;
 
 
     public MonthlyBalance getMonthlyBalance() {
@@ -81,79 +80,124 @@ public class VariableCostsReal {
         this.monthlyBalance = monthlyBalance;
     }
 
-    public static List<String> getTypes() {
-        List<String> transactionTypes = List.of("Food", "Household","Clothing","Health","Bills","Transport",
-                "Hobby","Dining","Events","Gifts","Investments","Travel","Fees","Development","Books", "Other");
-        return transactionTypes;
+    public void setMonthCode(String monthCode) {
+        this.monthCode = monthCode;
     }
 
-
     public VariableCostsReal() {
-        this.foodTotalValue = 0.0;
-        this.houseHoldTotalValue = 0.0;
-        this.clothingTotalValue = 0.0;
-        this.healthTotalValue = 0.0;
-        this.billsTotalValue = 0.0;
-        this.transportTotalValue = 0.0;
-        this.hobbyTotalValue = 0.0;
-        this.diningTotalValue = 0.0;
-        this.eventsTotalValue = 0.0;
-        this.giftsTotalValue = 0.0;
-        this.investmentsTotalValue = 0.0;
-        this.travelTotalValue = 0.0;
-        this.feesTotalValue = 0.0;
-        this.developmentTotalValue = 0.0;
-        this.booksTotalValue = 0.0;
-        this.otherTotalValue = 0.0;
+//        this.food = 0.0;
+//        this.houseHold = 0.0;
+//        this.clothing = 0.0;
+//        this.healthCare = 0.0;
+//        this.bills = 0.0;
+//        this.transport = 0.0;
+//        this.hobby = 0.0;
+//        this.dining = 0.0;
+//        this.events = 0.0;
+//        this.gifts = 0.0;
+//        this.investments = 0.0;
+//        this.travel = 0.0;
+//        this.fees = 0.0;
+//        this.development = 0.0;
+//        this.books = 0.0;
+//        this.other = 0.0;
     }
 
     public void addValueOrInitializeFoodValue(Double newValue){
-         foodTotalValue+=newValue;
+        if(this.food==null){
+            this.food = newValue;
+        }
+        else food+=newValue;
     }
     public void addValueOrInitializeHouseHoldValue(Double newValue){
-        houseHoldTotalValue+=newValue;
+        if(this.houseHold==null){
+            this.houseHold = newValue;
+        }
+        else houseHold+=newValue;
     }
     public void addValueOrInitializeClothingValue(Double newValue){
-         clothingTotalValue+=newValue;
+        if(this.clothing==null){
+            this.clothing = newValue;
+        }
+        else clothing+=newValue;
     }
     public void addValueOrInitializeBooksValue(Double newValue){
-         booksTotalValue+=newValue;
+        if(this.books==null){
+            this.books = newValue;
+        }
+        else books+=newValue;
     }
     public void addValueOrInitializeDevelopmentValue(Double newValue){
-         developmentTotalValue+=newValue;
+        if(this.development==null){
+            this.development = newValue;
+        }
+        else development+=newValue;
     }
     public void addValueOrInitializeOtherValue(Double newValue){
-         otherTotalValue+=newValue;
+        if(this.other==null){
+            this.other = newValue;
+        }
+        else other+=newValue;
     }
     public void addValueOrInitializeFeesValue(Double newValue){
-         feesTotalValue+=newValue;
+        if(this.fees==null){
+            this.fees = newValue;
+        }
+        else fees+=newValue;
     }
     public void addValueOrInitializeTravelValue(Double newValue){
-         travelTotalValue+=newValue;
+        if(this.travel==null){
+            this.travel = newValue;
+        }
+        else travel+=newValue;
     }
     public void addValueOrInitializeInvestmentsValue(Double newValue){
-         investmentsTotalValue+=newValue;
+        if(this.investments==null){
+            this.investments = newValue;
+        }
+        else investments+=newValue;
     }
     public void addValueOrInitializeTransportValue(Double newValue){
-         transportTotalValue+=newValue;
+        if(this.transport==null){
+            this.transport = newValue;
+        }
+        else transport+=newValue;
     }
     public void addValueOrInitializeHobbyValue(Double newValue){
-        hobbyTotalValue+=newValue;
+        if(this.hobby==null){
+            this.hobby = newValue;
+        }
+        else hobby+=newValue;
     }
     public void addValueOrInitializeEventsValue(Double newValue){
-         eventsTotalValue+=newValue;
+        if(this.events==null){
+            this.events = newValue;
+        }
+        else events+=newValue;
     }
     public void addValueOrInitializeDiningValue(Double newValue){
-         diningTotalValue+=newValue;
+        if(this.dining==null){
+            this.dining = newValue;
+        }
+        else dining+=newValue;
     }
     public void addValueOrInitializeHealthCareValue(Double newValue){
-         healthTotalValue+=newValue;
+        if(this.healthCare ==null){
+            this.healthCare = newValue;
+        }
+        else healthCare +=newValue;
     }
     public void addValueOrInitializeBillsValue(Double newValue){
-         billsTotalValue+=newValue;
+        if(this.bills==null){
+            this.bills = newValue;
+        }
+        else bills+=newValue;
     }
     public void addValueOrInitializeGiftsValue(Double newValue){
-        giftsTotalValue+=newValue;
+        if(this.gifts==null){
+            this.gifts = newValue;
+        }
+        else gifts+=newValue;
     }
 
 
@@ -161,67 +205,87 @@ public class VariableCostsReal {
         return monthCode;
     }
 
-    public Double getFoodTotalValue() {
-        return foodTotalValue;
+    public Double getFood() {
+        return food;
     }
 
-    public Double getHouseHoldTotalValue() {
-        return houseHoldTotalValue;
+    public Double getHouseHold() {
+        return houseHold;
     }
 
-    public Double getClothingTotalValue() {
-        return clothingTotalValue;
+    public Double getClothing() {
+        return clothing;
     }
 
-    public Double getHealthTotalValue() {
-        return healthTotalValue;
+    public Double getHealthCare() {
+        return healthCare;
     }
 
-    public Double getBillsTotalValue() {
-        return billsTotalValue;
+    public Double getBills() {
+        return bills;
     }
 
-    public Double getTransportTotalValue() {
-        return transportTotalValue;
+    public Double getTransport() {
+        return transport;
     }
 
-    public Double getHobbyTotalValue() {
-        return hobbyTotalValue;
+    public Double getHobby() {
+        return hobby;
     }
 
-    public Double getDiningTotalValue() {
-        return diningTotalValue;
+    public Double getDining() {
+        return dining;
     }
 
-    public Double getEventsTotalValue() {
-        return eventsTotalValue;
+    public Double getEvents() {
+        return events;
     }
 
-    public Double getGiftsTotalValue() {
-        return giftsTotalValue;
+    public Double getGifts() {
+        return gifts;
     }
 
-    public Double getInvestmentsTotalValue() {
-        return investmentsTotalValue;
+    public Double getInvestments() {
+        return investments;
     }
 
-    public Double getTravelTotalValue() {
-        return travelTotalValue;
+    public Double getTravel() {
+        return travel;
     }
 
-    public Double getFeesTotalValue() {
-        return feesTotalValue;
+    public Double getFees() {
+        return fees;
     }
 
-    public Double getDevelopmentTotalValue() {
-        return developmentTotalValue;
+    public Double getDevelopment() {
+        return development;
     }
 
-    public Double getBooksTotalValue() {
-        return booksTotalValue;
+    public Double getBooks() {
+        return books;
     }
 
-    public Double getOtherTotalValue() {
-        return otherTotalValue;
+    public Double getOther() {
+        return other;
+    }
+
+    public static String variableCostsTypes() {    return "VariableCostsReal{" +
+                ", food=" +
+                ", houseHold=" +
+                ", clothing=" +
+                ", healthCare=" +
+                ", bills=" +
+                ", transport=" +
+                ", hobby=" +
+                ", dining=" +
+                ", events=" +
+                ", gifts=" +
+                ", investments=" +
+                ", travel=" +
+                ", fees=" +
+                ", development=" +
+                ", books=" +
+                ", other=" +
+                '}';
     }
 }
