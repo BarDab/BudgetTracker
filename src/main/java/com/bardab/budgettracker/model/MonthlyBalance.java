@@ -1,16 +1,16 @@
 package com.bardab.budgettracker.model;
 
 
-import com.bardab.budgettracker.model.categories.FixedCostsReal;
-import com.bardab.budgettracker.model.categories.VariableCostsReal;
+import com.bardab.budgettracker.model.categories.FixedCosts;
+import com.bardab.budgettracker.model.categories.VariableCosts;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "MonthlyBalance",uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
-public class MonthlyBalance {
+@Table(name = "MonthlyBalance")
+public class MonthlyBalance implements Serializable {
 
     public MonthlyBalance() {
     }
@@ -18,36 +18,41 @@ public class MonthlyBalance {
 
     // how those generation types work?
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="ID", nullable = false,unique = true,length = 11)
+    @GeneratedValue
     private Long id;
-    @Column (name = "month_code")
-    private String monthCode;
 
-    @Column (name = "total_spending")
+
+    @NaturalId
+    @Column( unique = true)
+    private Integer monthCode;
+
+
+    @Column(name = "total_spending")
     private Double totalSpending;
 
-    @Column (name = "total_income")
+    @Column(name = "total_income")
     private Double totalIncome;
 
-    @Column (name = "daily_balance")
+    @Column(name = "daily_balance")
     private Double balance;
 
-    @Column (name = "average_daily_spending")
+    @Column(name = "average_daily_spending")
     private Double averageSpending;
 
-    @Column (name = "average_spending_excluding_fixed_costs")
+    @Column(name = "average_spending_excluding_fixed_costs")
     private Double averageSpendingExcludingFixedCosts;
 
-    @Column (name = "number_of_transactions")
+    @Column(name = "number_of_transactions")
     private Integer numberOfTransactions;
 
-//
-    @OneToOne (mappedBy = "monthlyBalance", cascade = CascadeType.ALL)
-    private FixedCostsReal fixedCostsReal;
-//
-    @OneToOne (mappedBy = "monthlyBalance", cascade = CascadeType.ALL)
-    private VariableCostsReal variableCostsReal;
+
+    @OneToOne(mappedBy = "monthlyBalance",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    private FixedCosts fixedCosts;
+
+    @OneToOne(mappedBy = "monthlyBalance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    private VariableCosts variableCosts;
 
 
 //    @OneToOne(fetch = FetchType.LAZY)
@@ -55,76 +60,72 @@ public class MonthlyBalance {
 //    private BudgetForecast budgetForecast;
 
 
-    @OneToMany ( mappedBy = "monthlyBalance",cascade = CascadeType.ALL, orphanRemoval = true )
-    private List<Transaction> transactions = new ArrayList<>();
+//    @OneToMany ( mappedBy = "monthlyBalance",cascade = CascadeType.ALL, orphanRemoval = true )
+//    private List<Transaction> transactions = new ArrayList<>();
 
-    public void removeTransaction(Transaction transaction){
-        this.transactions.remove(transaction);
-        transaction.setMonthlyBalance(null);
+    public void removeTransaction(Transaction transaction) {
+//        this.transactions.remove(transaction);
+//        transaction.setMonthlyBalance(null);
     }
 
-    public VariableCostsReal getVariableCostsReal() {
-        return variableCostsReal;
+    public VariableCosts getVariableCosts() {
+        return variableCosts;
     }
 
-    public void setVariableCostsReal(VariableCostsReal variableCostsReal) {
-        this.variableCostsReal = variableCostsReal;
-        variableCostsReal.setMonthlyBalance(this);
+    public void setVariableCosts(VariableCosts variableCosts) {
+        this.variableCosts = variableCosts;
+        variableCosts.setMonthlyBalance(this); }
+
+    public FixedCosts getFixedCosts() {
+        return fixedCosts;
     }
 
-    public FixedCostsReal getFixedCostsReal() {
-        return fixedCostsReal;
+    public void setFixedCosts(FixedCosts fixedCosts) {
+        this.fixedCosts = fixedCosts;
+        fixedCosts.setMonthlyBalance(this);
     }
 
-    public void setFixedCostsReal(FixedCostsReal fixedCostsReal) {
-        this.fixedCostsReal = fixedCostsReal;
-        fixedCostsReal.setMonthlyBalance(this);
-    }
 
-    public void addTransaction(Transaction transaction){
-        this.transactions.add(transaction);
-        transaction.setMonthlyBalance(this);
-        updateAllFields(transaction);
-    }
 
-    public void updateAllFields(Transaction transaction){
+    public void updateAllFields(Transaction transaction) {
         initializeValueFieldsAndNumberOfTransactions();
         updateValueFieldsAndNumberOfTransactions(transaction);
         setMonthCode(transaction.getMonthCode());
+        variableCosts.updateWithTransaction(transaction);
+        fixedCosts.updateWithTransaction(transaction);
     }
 
-    public void setMonthCode(String monthCode){
+    public void setMonthCode(Integer monthCode) {
         this.monthCode = monthCode;
     }
 
-    public void initializeValueFieldsAndNumberOfTransactions(){
-        if(this.totalSpending==null) {
-            this.totalSpending=0.0;
+    public void initializeValueFieldsAndNumberOfTransactions() {
+        if (this.totalSpending == null) {
+            this.totalSpending = 0.0;
         }
-        if(this.totalIncome==null) {
-            this.totalIncome=0.0;
+        if (this.totalIncome == null) {
+            this.totalIncome = 0.0;
         }
-        if(this.balance==null) {
-            this.balance=0.0;
+        if (this.balance == null) {
+            this.balance = 0.0;
         }
-        if(this.numberOfTransactions==null) {
-            this.numberOfTransactions=0;
+        if (this.numberOfTransactions == null) {
+            this.numberOfTransactions = 0;
         }
     }
 
     // be careful with those values, not thought through all possible outcomes and relations with other classes
     public void updateValueFieldsAndNumberOfTransactions(Transaction transaction) {
-        if(transaction!=null){
-            if(transaction.getValue()>0){
-                this.totalIncome+=transaction.getValue();
-                this.balance+=transaction.getValue();
-                this.numberOfTransactions++;
+        if (transaction != null) {
+            if (transaction.getType().equalsIgnoreCase("income")) {
+                this.totalIncome += transaction.getValue();
+                this.balance += transaction.getValue();
+            } else {
+                this.totalSpending += transaction.getValue();
+                this.balance -= transaction.getValue();
+                System.out.println(balance);
             }
-            else if (transaction.getValue()<0) {
-                this.totalSpending+=transaction.getValue();
-                this.balance-=transaction.getValue();
-                this.numberOfTransactions++;
-            }
+            this.numberOfTransactions++;
         }
     }
 
@@ -133,12 +134,20 @@ public class MonthlyBalance {
         return totalSpending;
     }
 
-    public void setTotalSpending() {
-        if(transactions !=null){
-        for(Transaction transaction: transactions){
-            this.totalSpending += transaction.getValue();
-        }
-        }
-        else this.totalSpending=0.0;
+    @Override
+    public String toString() {
+        return "MonthlyBalance{" +
+                "fixedCosts=" + fixedCosts +
+                ", variableCosts=" + variableCosts +
+                '}';
     }
+
+    //    public void setTotalSpending() {
+//        if(transactions !=null){
+//        for(Transaction transaction: transactions){
+//            this.totalSpending += transaction.getValue();
+//        }
+//        }
+//        else this.totalSpending=0.0;
+//    }
 }

@@ -14,6 +14,31 @@ public class BudgetForecastDao extends AbstractDAO <BudgetForecast> {
     }
 
     @Override
+    public BudgetForecast findByMonthCode(int monthCode) {
+        BudgetForecast budgetForecast=null;
+        Session session=null;
+        try{
+            session = getSessionFactory().openSession();
+            session.beginTransaction();
+            budgetForecast = session.bySimpleNaturalId(BudgetForecast.class).load(monthCode);
+            session.getTransaction().commit();
+        }
+        catch (Exception e){
+            if(session.getTransaction()!=null){
+                logger.info("\n ..........Transaction is being rolled back...........\n");
+                session.getTransaction().rollback();
+            }
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return budgetForecast;
+    }
+
+    @Override
     public SessionFactory getSessionFactory() {
         return this.sessionFactory;
     }
@@ -26,7 +51,7 @@ public class BudgetForecastDao extends AbstractDAO <BudgetForecast> {
             session = getSessionFactory().openSession();
             session.beginTransaction();
             budgetForecast = session.get(BudgetForecast.class,id);
-            session.getTransaction().commit();
+//            session.getTransaction().commit();
         }
         catch (Exception e){
             if(session.getTransaction()!=null){

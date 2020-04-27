@@ -1,13 +1,19 @@
 package com.bardab.budgettracker.model;
+
 import com.bardab.budgettracker.model.additional.MonthCode;
+import com.bardab.budgettracker.model.additional.VariableTypesConverter;
+import com.bardab.budgettracker.model.categories.FixedCosts;
+import com.bardab.budgettracker.model.categories.VariableCosts;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
+import java.util.ArrayList;
 
 
 @Entity
-@Table (name="Transaction",uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
+@Table(name = "Transaction", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
+//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@NaturalIdCache
 public class Transaction {
 
 
@@ -15,75 +21,30 @@ public class Transaction {
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.AUTO)
+    @Column(unique = true)
     private Long id;
 
 
-
-    @Column (name="transaction_date" ,nullable = false)
+    @Column(name = "transaction_date", nullable = false)
     private LocalDate transactionDate;
-    @Column (name = "month_code" ,nullable = false)
-    private String monthCode;
-    @Column (name="TYPE")
+
+    @Column(nullable = false)
+    private Integer monthCode;
+    @Column(name = "TYPE")
     private String type;
-    @Column (name="VALUE")
+    @Column(name = "VALUE")
     private Double value;
-    @Column (name="DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
 
 
-
-    //lazy fetching so transactions are loaded on demand, not every time
-    @ManyToOne (fetch = FetchType.LAZY)
-    private MonthlyBalance monthlyBalance;
-
-
-    // The child entity, Transaction, implement the equals and hashCode methods.
-    // Since we cannot rely on a natural identifier for equality checks, we need
-    // to use the entity identifier instead for the equals method. However, you
-    // need to do it properly so that equality is consistent across all entity
-    // state transitions, which is also the reason why the hashCode has to be
-    // a constant value. Because we rely on equality for the removeComment, it’s
-    // good practice to override equals and hashCode for the child entity in a bidirectional association.
-
-
-    public MonthlyBalance getMonthlyBalance() {
-        return monthlyBalance;
-    }
-
-    public void setMonthlyBalance(MonthlyBalance monthlyBalance) {
-        this.monthlyBalance = monthlyBalance;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj != null && obj instanceof Transaction) {
-            Transaction other = (Transaction) obj;
-            return this.toStringWithoutID().equals(other.toStringWithoutID());
-        }
-        return false;
-    }
-    @Override
-    public int hashCode() {
-        return 31;
-    }
 
     @Override
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
-                ", transactionDate=" + transactionDate +
-                ", value=" + value +
-                ", description='" + description + '\'' +
-                '}';
-    }
-    public String toStringWithoutID(){
-        return "Transaction{" +
-                " type='" + type + '\'' +
                 ", transactionDate=" + transactionDate +
                 ", value=" + value +
                 ", description='" + description + '\'' +
@@ -103,7 +64,25 @@ public class Transaction {
     }
 
     public void setType(String type) {
-        this.type = type;
+        ArrayList<String> arrayListFixed = VariableTypesConverter.toStringToLinkedListConvertingOnlyNames(FixedCosts.fixedCostsTypes());
+        if (type.matches("(.+)fixed")) {
+            for (String t : arrayListFixed) {
+                if (type.equalsIgnoreCase(t)) {
+                    this.type = type;
+                    return;
+                }
+            }
+        }
+        ArrayList<String> arrayListVariable = VariableTypesConverter.toStringToLinkedListConvertingOnlyNames(VariableCosts.variableCostsTypes());
+        for (String t : arrayListVariable) {
+            System.out.println(t);
+            if (type.equalsIgnoreCase(t)) {
+                this.type = type;
+                return;
+            }
+        }
+
+        System.out.println("No such type");
     }
 
     public LocalDate getTransactionDate() {
@@ -111,11 +90,11 @@ public class Transaction {
     }
 
     public void setTransactionDateAndMonthCode(LocalDate transactionDate) {
-        this.transactionDate=transactionDate;
-        this.monthCode = MonthCode.createMonthCodeFromLocalDate(transactionDate);
+        this.transactionDate = transactionDate;
+        this.monthCode = MonthCode.createIntMonthCodeFromLocalDate(transactionDate);
     }
 
-    public String getMonthCode() {
+    public Integer getMonthCode() {
         return monthCode;
     }
 
@@ -124,8 +103,8 @@ public class Transaction {
     }
 
     public void setValue(Double value) {
-        if(value>=0){
-        this.value = value;
+        if (value >= 0) {
+            this.value = value;
         }
     }
 
@@ -136,8 +115,6 @@ public class Transaction {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 
 
 }

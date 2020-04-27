@@ -20,8 +20,8 @@ public class BudgetForecast {
     @OneToOne (mappedBy = "budgetForecast", cascade = CascadeType.ALL)
     private FixedCostsForecast fixedCostsForecast;
 
-    @OneToOne  (mappedBy = "budgetForecast", cascade = CascadeType.ALL)
-    private MonthlyBalance monthlyBalance;
+//    @OneToOne  (mappedBy = "budgetForecast", cascade = CascadeType.ALL)
+//    private MonthlyBalance monthlyBalance;
 
 
 

@@ -3,7 +3,8 @@ package com.bardab.budgettracker.gui.controllers;
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.gui.DoubleFormatter;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.transactionTypes.TransactionTypesVariable;
+import com.bardab.budgettracker.dao.TransactionInsertionManager;
+import com.bardab.budgettracker.model.categories.VariableCosts;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,8 +18,12 @@ import java.time.LocalDate;
 
 public class MainWindowFXController  {
     private TransactionDao transactionDao;
+
+    TransactionInsertionManager transactionInsertionManager;
+
     public MainWindowFXController() {
         transactionDao = new TransactionDao(HibernateUtil.getInstance().getSessionFactory());
+        transactionInsertionManager = new TransactionInsertionManager();
 
     }
 
@@ -27,7 +32,7 @@ public class MainWindowFXController  {
     @FXML
     TableView transactionTable;
     @FXML
-    ObservableList<String> typeList = FXCollections.observableArrayList(TransactionTypesVariable.getTypes());
+    ObservableList<String> typeList = FXCollections.observableArrayList(VariableCosts.getTypes());
     @FXML
     ComboBox comboBoxTypes;
     @FXML
@@ -53,7 +58,7 @@ public class MainWindowFXController  {
         datePicker.setValue(LocalDate.now());
         valueField.setTextFormatter(new DoubleFormatter().doubleFormatter());
 
-        budgetForecastController.init();
+//        budgetForecastController.init();
 
     }
 
@@ -88,11 +93,12 @@ public class MainWindowFXController  {
     public void addTransaction(){
         Transaction transaction = new Transaction();
         transaction.setType((String) comboBoxTypes.getValue());
+        System.out.println((String) comboBoxTypes.getValue());
         transaction.setDescription(descriptionField.getText());
         transaction.setValue((Double.parseDouble(valueField.getText())));
         transaction.setTransactionDateAndMonthCode(datePicker.getValue());
 
-        transactionDao.addTransaction(transaction);
+        transactionInsertionManager.insertTransactionAndUpdateActiveCategories(transaction);
         init();
 
     }

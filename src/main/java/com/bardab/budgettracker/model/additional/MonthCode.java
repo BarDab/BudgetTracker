@@ -40,6 +40,13 @@ public final class MonthCode {
         else return null;
     }
 
+    public static int createIntMonthCodeFromLocalDate(LocalDate localDate){
+        String monthCode = localDate.getYear() +""+ localDate.getMonthValue();
+        Integer monthCodeInt = Integer.parseInt(monthCode);
+        return monthCodeInt;
+    }
+
+
     public static String createMonthCodeFromLocalDate(LocalDate localDate){
         return createMonthCode(localDate.getMonth().getValue(),String.valueOf(localDate.getYear()));
     }

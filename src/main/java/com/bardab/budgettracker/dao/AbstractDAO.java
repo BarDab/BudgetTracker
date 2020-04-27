@@ -19,49 +19,48 @@ public abstract class AbstractDAO<T> {
 
 
     public abstract SessionFactory getSessionFactory();
+
     public abstract T findByID(long id);
 
+    public abstract T findByMonthCode(int monthCode);
 
-    public void addTransaction(T instanceOfAnnotatedClass){
-        Session session=null;
-        try{
+
+    public void addEntity(T instanceOfAnnotatedClass) {
+        Session session = null;
+        try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
             session.save(instanceOfAnnotatedClass);
             session.getTransaction().commit();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            if(session.getTransaction()!=null){
+            if (session.getTransaction() != null) {
                 logger.info("\n ..........Transaction is being rolled back...........\n");
                 session.getTransaction().rollback();
             }
 
             System.out.println(e.getMessage());
-        }
-        finally {
-            if(session!=null){
+        } finally {
+            if (session != null) {
                 session.close();
             }
         }
     }
 
-    public List<T> displayAllTransactions(String tableName){
+    public List<T> displayAllTransactions(String tableName) {
         List<T> instancesOfAnnotatedClass = new ArrayList<>();
-        Session session=null;
-        try{
+        Session session = null;
+        try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            instancesOfAnnotatedClass.addAll(session.createQuery("FROM "+tableName).list());
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
+            instancesOfAnnotatedClass.addAll(session.createQuery("FROM " + tableName).list());
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
                 logger.info("\n ..........Transaction is being rolled back...........\n");
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -69,24 +68,22 @@ public abstract class AbstractDAO<T> {
         return instancesOfAnnotatedClass;
     }
 
-    public void updateTransaction(long id, T instanceOfAnnotatedClass){
+    public void updateTransaction(long id, T instanceOfAnnotatedClass) {
 
-        Session session=null;
-        try{
+        Session session = null;
+        try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
             session.merge(instanceOfAnnotatedClass);
             session.getTransaction().commit();
 
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
                 logger.info("\n ..........Transaction is being rolled back...........\n");
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -94,23 +91,20 @@ public abstract class AbstractDAO<T> {
     }
 
 
-
-    public void deleteTransaction(long id){
-        Session session=null;
-        try{
+    public void deleteTransaction(long id) {
+        Session session = null;
+        try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
             session.delete(findByID(id));
             session.getTransaction().commit();
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
                 logger.info("\n ..........Transaction is being rolled back...........\n");
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -118,22 +112,20 @@ public abstract class AbstractDAO<T> {
 
     }
 
-    public void deleteAllTransactions(String tableName){
-        Session session=null;
-        try{
+    public void deleteAllTransactions(String tableName) {
+        Session session = null;
+        try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            session.createQuery("DELETE FROM "+tableName).executeUpdate();
+            session.createQuery("DELETE FROM " + tableName).executeUpdate();
             session.getTransaction().commit();
-        }
-        catch (Exception e){
-            if(session.getTransaction()!=null){
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
                 logger.info("\n ..........Transaction is being rolled back...........\n");
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (session != null) {
                 session.close();
             }

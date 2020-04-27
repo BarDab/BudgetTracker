@@ -53,7 +53,14 @@ public class BudgetForecastFXController {
     }
 
     public void init(){
+        try{
         this.fixedCostsForecast = this.fixedCostsForecastDao.getLastFixedCostsRecord();
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            this.fixedCostsForecast = new FixedCostsForecast();
+
+        }
         setFixedCostsComboBox();
         setTextFieldsTextFormatter();
         this.monthComboBox.setItems(monthList);
@@ -97,7 +104,7 @@ public class BudgetForecastFXController {
             setFixedCostsForecast(monthCode);
 
             this.dateWarningLabel.setVisible(false);
-            this.budgetForecastDao.addTransaction(budgetForecast);
+            this.budgetForecastDao.addEntity(budgetForecast);
         }
         catch (NullPointerException e){
             e.printStackTrace();

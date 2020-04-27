@@ -1,44 +1,56 @@
 package com.bardab.budgettracker.model.categories;
 
 import com.bardab.budgettracker.model.MonthlyBalance;
-
+import com.bardab.budgettracker.model.Transaction;
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "FixedCostsReal")
-public class FixedCostsReal {
+@Table(name = "FixedCosts")
+public class FixedCosts implements Serializable{
 
     @Id
     @GeneratedValue
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "monthlyBalance_ID")
     private MonthlyBalance monthlyBalance;
 
-    @Column (name = "monthCode")
-    private String monthCode;
-    @Column(name="electricity_fixed")
+    @Column
+    private Integer monthCode;
+
+    @Column(name = "electricity_fixed")
     private Double electricityFixed;
-    @Column(name="gas_fixed")
+    @Column(name = "gas_fixed")
     private Double gasFixed;
-    @Column(name="rent_fixed")
+    @Column(name = "rent_fixed")
     private Double rentFixed;
-    @Column(name="other_fixed")
+    @Column(name = "other_fixed")
     private Double otherFixed;
-    @Column(name="healthCare_fixed")
+    @Column(name = "healthCare_fixed")
     private Double healthCareFixed;
-    @Column(name="entertainment_fixed")
+    @Column(name = "entertainment_fixed")
     private Double entertainmentFixed;
-    @Column(name="hobby_fixed")
+    @Column(name = "hobby_fixed")
     private Double hobbyFixed;
-    @Column(name="transport_fixed")
+    @Column(name = "transport_fixed")
     private Double transportFixed;
-    @Column(name="mobileNetwork_fixed")
+    @Column(name = "mobileNetwork_fixed")
     private Double mobileNetworkFixed;
-    @Column(name="internet_fixed")
+    @Column(name = "internet_fixed")
     private Double internetFixed;
 
 
+    public Integer getMonthCode() {
+        return monthCode;
+    }
+
+    public void setMonthCode(Integer monthCode) {
+        this.monthCode = monthCode;
+    }
 
     public MonthlyBalance getMonthlyBalance() {
         return monthlyBalance;
@@ -48,120 +60,125 @@ public class FixedCostsReal {
         this.monthlyBalance = monthlyBalance;
     }
 
-    public FixedCostsReal() {
-
-        this.gasFixed = 0.0;
-        this.rentFixed = 0.0;
-        this.otherFixed = 0.0;
-        this.healthCareFixed = 0.0;
-        this.entertainmentFixed = 0.0;
-        this.hobbyFixed = 0.0;
-        this.transportFixed = 0.0;
-        this.mobileNetworkFixed = 0.0;
-        this.internetFixed = 0.0;
-    }
-
-    public Double getSumOfFixedCosts(){
-        return  this.internetFixed +
-                this.mobileNetworkFixed +
-                this.electricityFixed +
-                this.gasFixed +
-                this.rentFixed +
-                this.otherFixed +
-                this.healthCareFixed +
-                this.entertainmentFixed +
-                this.hobbyFixed +
-                this.transportFixed;
+    public static List<String> getTypes() {
+        List<String> transactionTypes = List.of("Rent","Electricity","Gas","HealthCare","Entertainment","Transport",
+                "Hobby","MobileNetwork","Internet","Other");
+        return transactionTypes;
     }
 
 
-    public void setMonthCode(String monthCode) {
-        this.monthCode = monthCode;
-    }
 
-    public void addElectricitySpending(Double electricity) {
-        if(this.electricityFixed==null){
-            this.electricityFixed = electricity;
+    public void updateWithTransaction(Transaction transaction) {
+        this.monthCode = transaction.getMonthCode();
+
+        String transactionType = transaction.getType();
+        Double transactionValue = transaction.getValue();
+        switch (transactionType) {
+            case "electricityFixed":
+                addElectricitySpending(transactionValue);
+                break;
+            case "gasFixed":
+                addGasSpending(transactionValue);
+                break;
+            case "rentFixed":
+                addRentSpending(transactionValue);
+                break;
+            case "otherFixed":
+                addOtherSpending(transactionValue);
+                break;
+            case "healthCareFixed":
+                addHealthCareSpending(transactionValue);
+                break;
+            case "entertainmentFixed":
+                addEntertainmentSpending(transactionValue);
+                break;
+            case "hobbyFixed":
+                addHobbySpending(transactionValue);
+                break;
+            case "transportFixed":
+                addTransportSpending(transactionValue);
+                break;
+            case "mobileNetworkFixed":
+                addMobileNetworkSpending(transactionValue);
+                break;
+            case "internetFixed":
+                addInternetSpending(transactionValue);
+                break;
+
         }
-        else
+    }
+
+
+    private void addElectricitySpending(Double electricity) {
+        if (this.electricityFixed == null) {
+            this.electricityFixed = electricity;
+        } else
             this.electricityFixed += electricity;
     }
 
-    public void addGasSpending(Double gas) {
-        if(this.gasFixed==null){
+    private void addGasSpending(Double gas) {
+        if (this.gasFixed == null) {
             this.gasFixed = gas;
-        }
-        else
-        this.gasFixed += gas;
+        } else
+            this.gasFixed += gas;
     }
 
-    public void addRentSpending(Double rent) {
-        if(this.rentFixed==null){
+    private void addRentSpending(Double rent) {
+        if (this.rentFixed == null) {
             this.rentFixed = rent;
-        }
-        else
-        this.rentFixed += rent;
+        } else
+            this.rentFixed += rent;
     }
 
-    public void addOtherSpending(Double other) {
-        if(this.otherFixed==null){
+    private void addOtherSpending(Double other) {
+        if (this.otherFixed == null) {
             this.otherFixed = other;
-        }
-        else
-        this.otherFixed += other;
+        } else
+            this.otherFixed += other;
     }
 
-    public void addHealthCareSpending(Double healthCare) {
-        if(this.healthCareFixed==null){
+    private void addHealthCareSpending(Double healthCare) {
+        if (this.healthCareFixed == null) {
             this.healthCareFixed = healthCare;
-        }
-        else
-        this.healthCareFixed += healthCare;
+        } else
+            this.healthCareFixed += healthCare;
     }
 
-    public void addEntertainmentSpending(Double entertainment) {
-        if(this.entertainmentFixed==null){
+    private void addEntertainmentSpending(Double entertainment) {
+        if (this.entertainmentFixed == null) {
             this.entertainmentFixed = entertainment;
-        }
-        else
-        this.entertainmentFixed += entertainment;
+        } else
+            this.entertainmentFixed += entertainment;
     }
 
-    public void addHobbySpending(Double hobby) {
-        if(this.hobbyFixed==null){
+    private void addHobbySpending(Double hobby) {
+        if (this.hobbyFixed == null) {
             this.hobbyFixed = hobby;
-        }
-        else
-        this.hobbyFixed += hobby;
+        } else
+            this.hobbyFixed += hobby;
     }
 
-    public void addTransportSpending(Double transport) {
-        if(this.transportFixed==null){
+    private void addTransportSpending(Double transport) {
+        if (this.transportFixed == null) {
             this.transportFixed = transport;
-        }
-        else
-        this.transportFixed += transport;
+        } else
+            this.transportFixed += transport;
     }
 
-    public void addMobileNetworkSpending(Double mobileNetwork) {
-        if(this.mobileNetworkFixed==null){
+    private void addMobileNetworkSpending(Double mobileNetwork) {
+        if (this.mobileNetworkFixed == null) {
             this.mobileNetworkFixed = mobileNetwork;
-        }
-        else
-        this.mobileNetworkFixed += mobileNetwork;
+        } else
+            this.mobileNetworkFixed += mobileNetwork;
     }
 
-    public void addInternetSpending(Double internet) {
-        if(this.internetFixed==null){
+    private void addInternetSpending(Double internet) {
+        if (this.internetFixed == null) {
             this.internetFixed = internet;
-        }
-        else
-        this.internetFixed += internet;
+        } else
+            this.internetFixed += internet;
     }
 
-    public String getMonthCode() {
-        return monthCode;
-    }
 
     public Double getElectricityFixed() {
         return electricityFixed;
@@ -202,7 +219,6 @@ public class FixedCostsReal {
     public Double getInternetFixed() {
         return internetFixed;
     }
-
 
 
     public static String fixedCostsTypes() {

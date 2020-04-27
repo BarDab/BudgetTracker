@@ -3,6 +3,7 @@ package com.bardab.budgettracker.model.categories;
 import com.bardab.budgettracker.model.BudgetForecast;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
@@ -10,7 +11,7 @@ import java.util.regex.Pattern;
 
 @Entity
 @Table (name = "FixedCostsForecast",uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
-public class FixedCostsForecast {
+public class FixedCostsForecast  {
 
     @Id
     @GeneratedValue
@@ -229,6 +230,8 @@ public class FixedCostsForecast {
                 ", internet=" + internet +
                 '}';
     }
+
+
 
     public LinkedHashMap<String,Double> getFixedCostsTypesWithValuesFromToStringMethod(){
         LinkedHashMap<String,Double> typesWithLastValue = new LinkedHashMap<>();

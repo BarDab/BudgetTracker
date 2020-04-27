@@ -41,7 +41,7 @@ class BudgetForecastDaoTest {
 
     @Test
     public void addBudgetForecast(){
-        budgetForecastDao.addTransaction(budgetForecast);
+        budgetForecastDao.addEntity(budgetForecast);
         BudgetForecast testBudgetForecast = budgetForecastDao.findByID(budgetForecast.getId());
         assertNotNull(testBudgetForecast);
         assertEquals(budgetForecast.getId(),testBudgetForecast.getId());

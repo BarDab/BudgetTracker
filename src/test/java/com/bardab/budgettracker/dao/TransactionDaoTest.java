@@ -50,7 +50,7 @@ class TransactionDaoTest {
 
     @Test
     void addTransaction(){
-        transactionDao.addTransaction(transaction);
+        transactionDao.addEntity(transaction);
         Transaction fromDB = transactionDao.findByID(transaction.getId());
 
         assertNotNull(fromDB);
@@ -61,7 +61,7 @@ class TransactionDaoTest {
     }
     @Test
     void deleteTransaction(){
-        transactionDao.addTransaction(transaction);
+        transactionDao.addEntity(transaction);
         Transaction fromDB = transactionDao.findByID(id);
         transactionDao.deleteTransaction(fromDB.getId());
         assertNull(transactionDao.findByID(fromDB.getId()));
@@ -74,7 +74,7 @@ class TransactionDaoTest {
         updatedTransaction.setValue(9.99);
         updatedTransaction.setTransactionDateAndMonthCode(LocalDate.of(1999,12,31));
 
-        transactionDao.addTransaction(transaction);
+        transactionDao.addEntity(transaction);
         transactionDao.updateTransaction(id,updatedTransaction);
         Transaction fromDB = transactionDao.findByID(id);
         assertEquals("updated transaction's description",fromDB.getDescription());
@@ -93,7 +93,7 @@ class TransactionDaoTest {
         transaction.setDescription("Description number "+i);
         transaction.setTransactionDateAndMonthCode(localDate);
         transaction.setType("Type number "+i);
-        transactionDao.addTransaction(transaction);
+        transactionDao.addEntity(transaction);
         transactions.add(transaction);
         }
         assertEquals(10,transactionDao.displayAllTransactions("Transaction").size());
@@ -107,7 +107,7 @@ class TransactionDaoTest {
             transaction.setDescription("Description number "+i);
             transaction.setTransactionDateAndMonthCode(localDate);
             transaction.setType("Type number "+i);
-            transactionDao.addTransaction(transaction);
+            transactionDao.addEntity(transaction);
         }
         transactionDao.deleteAllTransactions("Transaction");
         assertEquals(0,transactionDao.displayAllTransactions("Transaction").size());

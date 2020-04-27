@@ -16,6 +16,31 @@ public class FixedCostsForecastDao extends AbstractDAO<FixedCostsForecast> {
     }
 
     @Override
+    public FixedCostsForecast findByMonthCode(int monthCode) {
+        FixedCostsForecast fixedCostsForecast =null;
+        Session session=null;
+        try{
+            session = getSessionFactory().openSession();
+            session.beginTransaction();
+            fixedCostsForecast = session.bySimpleNaturalId(FixedCostsForecast.class).load(monthCode);
+            session.getTransaction().commit();
+        }
+        catch (Exception e){
+            if(session.getTransaction()!=null){
+                logger.info("\n ..........Transaction is being rolled back...........\n");
+                session.getTransaction().rollback();
+            }
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return fixedCostsForecast;
+    }
+
+    @Override
     public SessionFactory getSessionFactory() {
         return this.sessionFactory;
     }
