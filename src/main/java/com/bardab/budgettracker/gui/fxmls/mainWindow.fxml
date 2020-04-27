@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.text.Font?>
+<?import com.sun.javafx.scene.control.DatePickerContent?>
+<?import com.sun.javafx.scene.control.DoubleField?>
+<?import com.sun.javafx.scene.control.ContextMenuContent.MenuBox?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bardab.budgettracker.gui.controllers.MainWindowFXController"
+            >
+    <right>
+        <TabPane prefWidth="Infinity" prefHeight="Infinity">
+            <tabs>
+                <Tab text="Actual" closable="false" >
+                    <VBox prefWidth="Infinity" prefHeight="Infinity">
+                        <HBox>
+                            <children>
+                                <TextField text="textfield1"></TextField>
+                                <TextField text="textfield2"></TextField>
+                                <TextField text="textfield3"></TextField>
+                            </children>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <TextField text="textfield1"></TextField>
+                                <TextField text="textfield2"></TextField>
+                                <TextField text="textfield3"></TextField>
+                            </children>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <TextField text="textfield1"></TextField>
+                                <TextField text="textfield2"></TextField>
+                                <TextField text="textfield3"></TextField>
+                            </children>
+                        </HBox>
+                    </VBox>
+                </Tab>
+                <Tab fx:id="budgetForecastTab" text="New Budget" closable="false">
+                    <fx:include fx:id="budgetForecast"  source="budgetForecast.fxml" >
+
+                    </fx:include>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </right>
+    <top>
+        <HBox>
+            <MenuBar prefWidth="800" prefHeight="25.0">
+              <menus>
+                <Menu text="File">
+                  <MenuItem text="File"></MenuItem>
+                  <MenuItem text="Import"></MenuItem>
+                  <MenuItem text="Exit"></MenuItem>
+                </Menu>
+                <Menu text="View">
+                    <MenuItem text="Daily"></MenuItem>
+                    <MenuItem text="Monthly"></MenuItem>
+                    <MenuItem text="Specify time period"></MenuItem>
+                </Menu>
+                  <Menu text="Options">
+                      <MenuItem text="Delete" ></MenuItem>
+                      <MenuItem text="Edit" ></MenuItem>
+                      <MenuItem text="Manage types" ></MenuItem>
+                  </Menu>
+                  <Menu text="Help">
+                      <MenuItem text="About" ></MenuItem>
+                  </Menu>
+
+              </menus>
+            </MenuBar>
+        </HBox>
+
+    </top>
+
+    <left>
+
+        <TableView fx:id="transactionTable" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER" onMouseClicked="#deleteTransaction" onKeyPressed="#deleteTransaction" >
+
+            <columns>
+                <TableColumn  text="Date" >
+                    <cellValueFactory>
+                        <PropertyValueFactory property="transactionDate" />
+                    </cellValueFactory>
+                </TableColumn>
+
+
+                <TableColumn  text="Value" >
+                    <cellValueFactory>
+                        <PropertyValueFactory property="value" />
+                    </cellValueFactory>
+                </TableColumn>
+
+                <TableColumn  text="Type" >
+                    <cellValueFactory>
+                        <PropertyValueFactory property="type" />
+                    </cellValueFactory>
+                </TableColumn>
+
+                <TableColumn  text="Description" >
+                    <cellValueFactory>
+                        <PropertyValueFactory property="description" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+
+            <BorderPane.margin>
+                <Insets right="10.0" />
+            </BorderPane.margin>
+        </TableView>
+
+    </left>
+    <center>
+
+    </center>
+
+    <bottom>
+        <VBox>
+            <HBox>
+                <ProgressBar fx:id="progressBar" prefWidth="200.0" progress="0.0">
+                    <HBox.margin>
+                        <Insets left="50.0" />
+                    </HBox.margin>
+                </ProgressBar>
+            </HBox>
+
+        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="BOTTOM_LEFT">
+            <children>
+                <TextField fx:id="valueField" promptText="Value"><maxWidth></maxWidth></TextField>
+                <ComboBox fx:id="comboBoxTypes" promptText="Type"  visible="true"><maxWidth></maxWidth></ComboBox>
+                <TextField fx:id="descriptionField" promptText="Description"><maxWidth></maxWidth></TextField>
+                <DatePicker fx:id="datePicker" promptText="Date"><maxWidth></maxWidth></DatePicker>
+                <Button text="Add" onAction="#addTransaction"><maxWidth></maxWidth></Button>
+            </children>
+        </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>
