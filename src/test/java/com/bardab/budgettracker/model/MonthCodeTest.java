@@ -60,4 +60,20 @@ class MonthCodeTest {
         assertTrue(MonthCode.validateMonthCode("2021_1"));
         assertTrue(MonthCode.validateMonthCode("2020_11"));
     }
+
+    @Test
+    void nextMonthCode(){
+       assertEquals(20207,MonthCode.getNextMonthCode(20206));
+       assertEquals(20202,MonthCode.getNextMonthCode(20201));
+       assertEquals(20211,MonthCode.getNextMonthCode(202012));
+    }
+
+
+    @Test
+    void previousMonthCode(){
+        assertEquals(20205,MonthCode.getPreviousMonthCode(20206));
+        assertEquals(201912,MonthCode.getPreviousMonthCode(20201));
+        assertEquals(202011,MonthCode.getPreviousMonthCode(202012));
+    }
+
 }

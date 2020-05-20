@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.shape.Box?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:id="budget"
+      fx:controller="com.bardab.budgettracker.gui.controllers.BudgetFXController"
+      spacing="20"
+
+
+>
+    <padding>
+        <Insets left="10" top="10"> </Insets>
+    </padding>
+
+    <VBox>
+        <HBox alignment="CENTER_LEFT">
+        <Label text="Add budget" textFill="white"  ></Label>
+        <HBox>
+            <Button alignment="TOP_CENTER" text="&lt;&lt;" textFill="#DAA520"
+                    style="-fx-background-color: #434343"/>
+            <VBox alignment="CENTER">
+                <Label text="Date" fx:id="dateLabel"/>
+            </VBox>
+            <Button alignment="TOP_CENTER" text="&gt;&gt;" textFill="#DAA520"
+                    style="-fx-background-color: #434343"/>
+        </HBox>
+        </HBox>
+
+        <HBox minHeight="1" style="-fx-background-color: #6B8E23" ></HBox>
+    </VBox>
+    <HBox>
+
+        <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" />
+        <Button  text="&gt;&gt;"  textFill="#DAA520"
+                 style="-fx-background-color: #434343"/>
+
+
+
+        <!--            <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false"-->
+        <!--                   style="-fx-text-fill: #ff0000"/>-->
+    </HBox>
+
+
+
+<HBox>
+
+    <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
+               style="-fx-font: 10;"></TextField>
+    <TextField fx:id="fixedSpendingTextField" promptText="0.0" maxWidth="50"/>
+
+    <Button fx:id="fixedSpendingButton" text="Update" textFill="white" style="-fx-background-color: #2f4f4f" onAction="#updateFixedCost" maxWidth="150"/>
+
+
+</HBox>
+    <Button fx:id="approveButton" text="Approve"  onAction="#approveBudget" textFill="white" style="-fx-background-color: #2f4f4f"/>
+    <HBox minHeight="1" style="-fx-background-color: #6B8E23" alignment="BOTTOM_LEFT"></HBox>
+
+
+
+</VBox>
+
+

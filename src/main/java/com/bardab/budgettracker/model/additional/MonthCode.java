@@ -2,7 +2,6 @@ package com.bardab.budgettracker.model.additional;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +39,17 @@ public final class MonthCode {
         else return null;
     }
 
+    public static String monthYear(Integer monthCode){
+        String yearMonth = monthCode.toString();
+        int length = yearMonth.length();
+
+        Integer year = Integer.parseInt(yearMonth.substring(0,4));
+        Integer monthInt = Integer.parseInt(yearMonth.substring(4,length));
+        String  month = monthNames().get(monthInt-1);
+        return  year + " " + month;
+
+    }
+
     public static int createIntMonthCodeFromLocalDate(LocalDate localDate){
         String monthCode = localDate.getYear() +""+ localDate.getMonthValue();
         Integer monthCodeInt = Integer.parseInt(monthCode);
@@ -67,6 +77,35 @@ public final class MonthCode {
         return monthList.get(fullMonthName);
     }
 
+
+    public static Integer getNextMonthCode(Integer monthCode){
+        String yearMonth = monthCode.toString();
+        int length = yearMonth.length();
+        Integer year = Integer.parseInt(monthCode.toString().substring(0,4));
+        Integer month = Integer.parseInt(monthCode.toString().substring(4,length));
+        if(month<12){
+            month++;
+        }
+        else if(month==12)  {
+            year++;
+            month=1;
+        }
+        return Integer.parseInt(year+""+month);
+    }
+    public static Integer getPreviousMonthCode(Integer monthCode){
+        String yearMonth = monthCode.toString();
+        int length = yearMonth.length();
+        Integer year = Integer.parseInt(monthCode.toString().substring(0,4));
+        Integer month = Integer.parseInt(monthCode.toString().substring(4,length));
+        if(month>1){
+            month--;
+        }
+        else if(month==1)  {
+            year--;
+            month=12;
+        }
+        return Integer.parseInt(year+""+month);
+    }
 
 
     public static boolean validateMonthCode(String yearMonth){

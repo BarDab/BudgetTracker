@@ -1,20 +1,19 @@
 package com.bardab.budgettracker.model;
 
 import com.bardab.budgettracker.model.additional.MonthCode;
-import com.bardab.budgettracker.model.additional.VariableTypesConverter;
-import com.bardab.budgettracker.model.categories.FixedCosts;
-import com.bardab.budgettracker.model.categories.VariableCosts;
+import com.bardab.budgettracker.model.categories.Categories;
+import com.bardab.budgettracker.model.categories.FixedExpenses;
+import com.bardab.budgettracker.model.categories.VariableExpenses;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 @Table(name = "Transaction", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
-//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-//@NaturalIdCache
-public class Transaction {
+public class Transaction  {
 
 
     public Transaction() {
@@ -26,29 +25,46 @@ public class Transaction {
     private Long id;
 
 
-    @Column(name = "transaction_date", nullable = false)
+    @Column(name = "transactionDate", nullable = false)
     private LocalDate transactionDate;
 
     @Column(nullable = false)
     private Integer monthCode;
-    @Column(name = "TYPE")
-    private String type;
-    @Column(name = "VALUE")
+    @Column(name = "category")
+    private String category;
+    @Column(name = "value")
     private Double value;
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
 
 
+    public void setCategoryAndTransformToCamelCase(String category) {
+        category = Categories.transformToCamelCase(category);
+        if(Categories.validateType(category, getAllCategories())){
+            this.category = category;
+        }
+    }
+    public void setPresentableCategory(String category){
+        this.category = category;
+    }
+    public List<String> getAllCategories(){
+        FixedExpenses fixedExpenses = new FixedExpenses();
+        VariableExpenses variableExpenses = new VariableExpenses();
+        List<String> allCategories = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", transactionDate=" + transactionDate +
-                ", value=" + value +
-                ", description='" + description + '\'' +
-                '}';
+        allCategories.addAll(fixedExpenses.getCategoriesNames(fixedExpenses));
+        allCategories.addAll(variableExpenses.getCategoriesNames(variableExpenses));
+
+        return allCategories;
+    }
+
+    public void setTransactionDateAndMonthCode(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+        this.monthCode = MonthCode.createIntMonthCodeFromLocalDate(transactionDate);
+    }
+
+    public LocalDate getTransactionDate() {
+        return transactionDate;
     }
 
     public long getId() {
@@ -59,39 +75,8 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        ArrayList<String> arrayListFixed = VariableTypesConverter.toStringToLinkedListConvertingOnlyNames(FixedCosts.fixedCostsTypes());
-        if (type.matches("(.+)fixed")) {
-            for (String t : arrayListFixed) {
-                if (type.equalsIgnoreCase(t)) {
-                    this.type = type;
-                    return;
-                }
-            }
-        }
-        ArrayList<String> arrayListVariable = VariableTypesConverter.toStringToLinkedListConvertingOnlyNames(VariableCosts.variableCostsTypes());
-        for (String t : arrayListVariable) {
-            System.out.println(t);
-            if (type.equalsIgnoreCase(t)) {
-                this.type = type;
-                return;
-            }
-        }
-
-        System.out.println("No such type");
-    }
-
-    public LocalDate getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDateAndMonthCode(LocalDate transactionDate) {
-        this.transactionDate = transactionDate;
-        this.monthCode = MonthCode.createIntMonthCodeFromLocalDate(transactionDate);
+    public String getCategory() {
+        return category;
     }
 
     public Integer getMonthCode() {

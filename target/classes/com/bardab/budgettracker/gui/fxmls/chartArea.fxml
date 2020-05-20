@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.geometry.Insets?>
+<?import com.sun.javafx.charts.Legend?>
+<?import javafx.geometry.Side?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<TabPane xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.bardab.budgettracker.gui.controllers.ChartFXController"
+         prefHeight="250.0" minWidth="500"
+         fx:id="chartArea" tabClosingPolicy="UNAVAILABLE">
+
+
+    <tabs>
+        <Tab text="Pie Chart">
+            <HBox>
+                <padding>
+                    <Insets left="10"></Insets>
+                </padding>
+                <VBox spacing="5">
+                    <padding>
+                        <Insets top="10"></Insets>
+                    </padding>
+                    <VBox spacing="5">
+                        <Label text="Date from" maxWidth="100"></Label>
+                        <Label text="Date from" maxWidth="100"></Label>
+                    </VBox>
+
+
+                </VBox>
+
+                <HBox>
+                    <PieChart fx:id="categoriesPieChart" visible="true" maxHeight="350" maxWidth="350"
+                              legendSide="RIGHT" labelLineLength="5" animated="true">
+
+                    </PieChart>
+                </HBox>
+            </HBox>
+        </Tab>
+        <Tab text="Line Chart">
+            <HBox>
+                <padding>
+                    <Insets left="10"></Insets>
+                </padding>
+                <VBox spacing="5">
+                    <padding>
+                        <Insets top="10"></Insets>
+                    </padding>
+
+
+
+                </VBox>
+
+                <HBox>
+                    <LineChart fx:id="lineChart" xAxis="" yAxis="" animated="true">
+                        <xAxis>
+                            <CategoryAxis fx:id="xAxis"></CategoryAxis>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxis"></NumberAxis>
+                        </yAxis>
+
+                    </LineChart>
+                </HBox>
+            </HBox>
+
+
+        </Tab>
+
+    </tabs>
+
+
+</TabPane>

@@ -2,7 +2,6 @@ package com.bardab.budgettracker.dao;
 
 import com.bardab.budgettracker.model.MonthlyBalance;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.VariableCosts;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -49,6 +48,7 @@ public class MonthlyBalanceDao extends AbstractDAO<MonthlyBalance> {
             session = sessionFactory.openSession();
             session.beginTransaction();
             monthlyBalance = session.bySimpleNaturalId(MonthlyBalance.class).load(monthCode);
+            session.getTransaction().commit();
 
         } catch (Exception e) {
             if (session.getTransaction() != null) {
@@ -73,7 +73,7 @@ public class MonthlyBalanceDao extends AbstractDAO<MonthlyBalance> {
 
 
             MonthlyBalance monthlyBalance = session.bySimpleNaturalId(MonthlyBalance.class).load(transaction.getMonthCode());
-            monthlyBalance.updateAllFields(transaction);
+            monthlyBalance.manageTransactionInsertion(transaction);
             session.getTransaction().commit();
             isUpdated = true;
         } catch (Exception e) {

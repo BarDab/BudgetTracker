@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Box?>
+<VBox
+        xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.bardab.budgettracker.gui.controllers.NewTransactionFXController"
+        fx:id="newTransaction"
+        spacing="20"
+        maxWidth="200"
+        alignment="TOP_RIGHT"
+
+>
+    <padding>
+        <Insets left="10" top="14"> </Insets>
+    </padding>
+<VBox spacing="4">
+
+    <Label text="Add transaction" textFill="white"  ></Label>
+
+
+    <HBox minHeight="1" style="-fx-background-color: #6B8E23" ></HBox>
+</VBox>
+
+
+    <VBox style="-fx-background-color: #434343"  >
+
+        <HBox>
+
+            <ComboBox fx:id="categoriesComboBox" promptText="Type" minWidth="80" visible="true" ></ComboBox>
+            <Button  text="&gt;&gt;" onAction="#nextCategory" textFill="#DAA520" minWidth="30"
+                    style="-fx-background-color: #434343"/>
+        </HBox>
+
+
+    </VBox>
+<HBox>
+
+            <DatePicker fx:id="datePicker" promptText="Date" prefWidth="100" style="-fx-font: 10;"></DatePicker>
+
+            <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
+                       style="-fx-font: 10;"></TextField>
+</HBox>
+        <HBox spacing="20">
+            <TextField fx:id="valueField" promptText="Value" prefWidth="50" style="-fx-font: 10;"></TextField>
+            <Button text="Add" onAction="#addTransaction" textFill="white" style="-fx-background-color: #2f4f4f">
+
+            </Button>
+        </HBox>
+    <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
+
+
+
+
+
+</VBox>

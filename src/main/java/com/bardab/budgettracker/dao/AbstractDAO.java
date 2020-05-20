@@ -1,20 +1,13 @@
 package com.bardab.budgettracker.dao;
 
-import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.jboss.logging.Logger;
-
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractDAO<T> {
 
-    // needs change
     public final static Logger logger = Logger.getLogger(TransactionDao.class);
 
 

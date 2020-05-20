@@ -44,9 +44,12 @@ class TransactionTest {
     }
 
     @Test
-    void getAndSetType() {
-        transaction.setType("Food");
-        assertEquals("Food",transaction.getType());
+    void  setCategoryAndTransformToCamelCase() {
+        transaction.setCategoryAndTransformToCamelCase("Food");
+        assertEquals("food",transaction.getCategory());
+
+        transaction.setCategoryAndTransformToCamelCase("Health Care");
+        assertEquals("healthCare",transaction.getCategory());
     }
 
     @Test
@@ -80,10 +83,10 @@ class TransactionTest {
         transaction.setValue(0.00);
         transaction.setDescription("");
         transaction.setTransactionDateAndMonthCode(LocalDate.now());
-        transaction.setType("");
+        transaction.setCategoryAndTransformToCamelCase("");
         transaction.setId(0);
 
-        assertEquals(String.format("Transaction{id=%s, type='%s', transactionDate=%s, value=%s, description='%s'}",transaction.getId(),transaction.getType(),
+        assertEquals(String.format("Transaction{id=%s, type='%s', transactionDate=%s, value=%s, description='%s'}",transaction.getId(),transaction.getCategory(),
                 transaction.getTransactionDate(),transaction.getValue(),transaction.getDescription()), transaction.toString());
     }
 }

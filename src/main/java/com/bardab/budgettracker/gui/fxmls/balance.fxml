@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Line?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.bardab.budgettracker.gui.controllers.BalanceFXController"
+      fx:id="balance"
+      style=" fx-background-color: #336699;"
+      spacing="10">
+    <VBox spacing="0" minHeight="20">
+        <HBox style="-fx-background-color: #434343" spacing="30">
+            <VBox alignment="CENTER">
+                <Label text="Balance" textFill="DAA520"></Label>
+            </VBox>
+            <HBox>
+                <Button alignment="TOP_CENTER" text="&lt;&lt;" onAction="#previousMonth" textFill="#DAA520"
+                        style="-fx-background-color: #434343"/>
+                <VBox alignment="CENTER">
+                    <Label text="Date" fx:id="dateLabel"/>
+                </VBox>
+                <Button alignment="TOP_CENTER" text="&gt;&gt;" onAction="#nextMonth" textFill="#DAA520"
+                        style="-fx-background-color: #434343"/>
+            </HBox>
+        </HBox>
+        <HBox minHeight="1" style="-fx-background-color: #DAA520"></HBox>
+    </VBox>
+
+    <HBox maxHeight="132" style="-fx-background-color: #434343">
+
+        <VBox>
+            <HBox minHeight="1" style="-fx-background-color: #434343"></HBox>
+            <ListView  fx:id="summaryNamesListView" mouseTransparent="true" focusTraversable="false" ></ListView>
+        </VBox>
+        <VBox>
+            <Label text="Actual"/>
+            <ListView fx:id="balanceListView" maxWidth="100" mouseTransparent="true"
+                      focusTraversable="false"></ListView>
+        </VBox>
+        <VBox>
+            <Label text="Budget"/>
+            <ListView fx:id="budgetListView" maxWidth="100" mouseTransparent="true" focusTraversable="false"></ListView>
+        </VBox>
+        <VBox>
+            <Label text="Achieved"/>
+            <ListView fx:id="comparisonListView" maxWidth="100" mouseTransparent="true"
+                      focusTraversable="false"></ListView>
+        </VBox>
+    </HBox>
+
+
+</VBox>
