@@ -37,21 +37,25 @@
                 <DatePicker fx:id="datePickerTo" promptText="To" maxWidth="100"></DatePicker>
             </HBox>
         </VBox>
-        <HBox alignment="CENTER">
+        <HBox alignment="CENTER_LEFT">
+            <Label fx:id="chosenListName" textFill="white"></Label>
+            <Button onAction="#switchList" alignment="CENTER_LEFT" text="&gt;&gt;" textFill="#DAA520"
+                    style="-fx-background-color: #434343"/>
 
-            <Button  onAction="#addCategory" alignment="TOP_CENTER" text="&gt;&gt;" textFill="#DAA520"
-                    style="-fx-background-color: #434343"/>
-            <Button  onAction="#removeCategory" alignment="TOP_CENTER" text="&lt;&lt;" textFill="#DAA520"
-                    style="-fx-background-color: #434343"/>
+
         </HBox>
         <HBox spacing="5">
             <ListView fx:id="availableCategories"  maxHeight="120" maxWidth="100"></ListView>
+            <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT" textFill="#DAA520"
+                    style="-fx-background-color: #434343"></Button>
+            <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All" alignment="CENTER_RIGHT" textFill="#DAA520"
+                    style="-fx-background-color: #434343"></Button>
             <ListView fx:id="categoriesToBeAdded" maxHeight="120" maxWidth="100"></ListView>
         </HBox>
         <HBox spacing="5" alignment="TOP_RIGHT">
-            <Button  onAction="#updateLineChart"  text="&gt;&gt;" textFill="#DAA520"
+            <Button  onAction="#updateLineChart"  text="Update Line Chart" textFill="#DAA520"
                     style="-fx-background-color: #434343"/>
-            <Button onAction="#updatePieChart" text="&lt;&lt;" textFill="#DAA520"
+            <Button onAction="#updatePieChart" text="Update Pie Chart" textFill="#DAA520"
                     style="-fx-background-color: #434343"/>
         </HBox>
 

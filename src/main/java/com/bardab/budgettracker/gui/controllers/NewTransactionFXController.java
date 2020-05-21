@@ -59,7 +59,7 @@ public class NewTransactionFXController {
     }
 
     public void setInvestmentsCategoriesComboBox(){
-        categoriesList = FXCollections.observableArrayList(Stocks.stockList());
+        categoriesList = FXCollections.observableArrayList(List.of("stock 1"));
         categoriesComboBox.setPromptText("Stocks");
         categoriesComboBox.setItems(categoriesList);
     }

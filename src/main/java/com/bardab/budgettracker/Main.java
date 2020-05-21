@@ -1,13 +1,7 @@
 package com.bardab.budgettracker;
 import com.bardab.budgettracker.dao.TransactionDao;
-import com.bardab.budgettracker.dao.TransactionInsertionManager;
-import com.bardab.budgettracker.dao.categories.PlannedExpensesDao;
 import com.bardab.budgettracker.gui.controllers.MainWindowFXController;
-import com.bardab.budgettracker.model.Budget;
-import com.bardab.budgettracker.model.MonthlyBalance;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.Categories;
-import com.bardab.budgettracker.model.categories.PlannedExpenses;
 import com.bardab.budgettracker.model.categories.VariableExpenses;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.application.Application;
@@ -17,12 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 //import java.util.HashMap;
@@ -32,6 +21,9 @@ public class Main
 extends Application  {
 @Override
 public void start(Stage primaryStage) throws Exception{
+
+        String cwd = System.getProperty("user.dir");
+        System.out.println(cwd);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/fxmls/mainWindow.fxml"));
         Parent root = fxmlLoader.load();

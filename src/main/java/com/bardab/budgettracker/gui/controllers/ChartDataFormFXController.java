@@ -1,48 +1,46 @@
 package com.bardab.budgettracker.gui.controllers;
 
-import com.bardab.budgettracker.gui.ChartData;
+import com.bardab.budgettracker.model.MonthlyBalance;
 import com.bardab.budgettracker.model.categories.Categories;
 import com.bardab.budgettracker.model.categories.FixedExpenses;
 import com.bardab.budgettracker.model.categories.VariableExpenses;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+import java.util.List;
 
-import java.awt.*;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class ChartDataFormFXController {
 
+
+    private static final List<String> fixedExpensesList = Categories.getPresentableCategoriesNames(new FixedExpenses());
+    private static final List<String> variableExpensesList = Categories.getPresentableCategoriesNames(new VariableExpenses());
+    private static final List<String> monthlyBalanceList = Categories.getPresentableCategoriesNames(new MonthlyBalance());
+
+    private static final String fixedExpensesName = "Fixed Expenses";
+    private static final String variableExpensesName = "Variable Expenses";
+    private static final String balanceMeasures = "Balance Measures";
 
 
     private MainWindowFXController mainController;
 
     @FXML
-    private ListView<String> availableCategories= new ListView<>();
+    private ListView<String> availableCategories = new ListView<>();
     @FXML
-    private ListView<String> categoriesToBeAdded= new ListView<>();
+    private ListView<String> categoriesToBeAdded = new ListView<>();
 
-    private ObservableList<String> listOfAvailableCategories = FXCollections.observableArrayList();
+    private ObservableList<String> listOfVariableExpenses = FXCollections.observableArrayList();
+    private ObservableList<String> listOfFixedExpenses = FXCollections.observableArrayList();
+    private ObservableList<String> listOfBalanceMeasures = FXCollections.observableArrayList();
+
     private ObservableList<String> listOfCategoriesToBeAdded = FXCollections.observableArrayList();
 
     @FXML
-    private Button addButton;
-    @FXML
-    private Button removeButton;
-    @FXML
-    private Button saveNewCategoryButton;
-    @FXML
-    private Button updateChartButton ;
+    private Label chosenListName;
 
     @FXML
     private DatePicker datePickerFrom;
@@ -50,45 +48,131 @@ public class ChartDataFormFXController {
     private DatePicker datePickerTo;
 
 
-    public void init(MainWindowFXController mainController){
+    public void init(MainWindowFXController mainController) {
+        chosenListName.setText(variableExpensesName);
         this.mainController = mainController;
         populateAvailableCategories();
-        availableCategories.setItems(listOfAvailableCategories);
-        categoriesToBeAdded.setItems(listOfCategoriesToBeAdded);
-
+        setItemsInBothLists();
+        availableCategories.setOnMouseClicked(e ->
+                fromAvailableToToBeAdded()
+        );
+        categoriesToBeAdded.setOnMouseClicked(e ->
+                fromToToBeAddedToAvailable()
+        );
     }
 
     public void populateAvailableCategories() {
-        VariableExpenses variableExpenses = new VariableExpenses();
-        FixedExpenses fixedExpenses = new FixedExpenses();
-        listOfAvailableCategories.addAll(Categories.getPresentableCategoriesNames(variableExpenses));
-        listOfAvailableCategories.addAll(Categories.getPresentableCategoriesNames(fixedExpenses));
+        listOfVariableExpenses.setAll(variableExpensesList);
+        listOfFixedExpenses.setAll(fixedExpensesList);
+        listOfBalanceMeasures.setAll(monthlyBalanceList);
     }
 
-    public void addCategory() {
+    public void fromAvailableToToBeAdded() {
         String selectedItem = availableCategories.getSelectionModel().getSelectedItem();
-        if(selectedItem!=null) {
-            listOfCategoriesToBeAdded.add(selectedItem);
-            listOfAvailableCategories.remove(selectedItem);
+        String categoryName = chosenListName.getText();
+        if (selectedItem != null) {
+            switch (categoryName) {
+                case (variableExpensesName):
+                    listOfCategoriesToBeAdded.add(selectedItem);
+                    listOfVariableExpenses.remove(selectedItem);
+                    break;
+                case (fixedExpensesName):
+                    listOfCategoriesToBeAdded.add(selectedItem);
+                    listOfFixedExpenses.remove(selectedItem);
+                    break;
+                case (balanceMeasures):
+                    listOfCategoriesToBeAdded.add(selectedItem);
+                    listOfBalanceMeasures.remove(selectedItem);
+                    break;
+            }
+
         }
     }
 
-    public void removeCategory() {
+    public void fromToToBeAddedToAvailable() {
         String selectedItem = categoriesToBeAdded.getSelectionModel().getSelectedItem();
-        if(selectedItem!=null) {
-            listOfAvailableCategories.add(selectedItem);
+        if (selectedItem != null) {
+            if(Categories.validateType(selectedItem,monthlyBalanceList)) {
+                listOfBalanceMeasures.add(selectedItem);
+            }
+            else if (Categories.validateType(selectedItem,fixedExpensesList)) {
+                listOfFixedExpenses.add(selectedItem);
+            }
+            else listOfVariableExpenses.add(selectedItem);
+
             listOfCategoriesToBeAdded.remove(selectedItem);
         }
     }
 
-    public void saveAsNewCategory() {
+    public void switchList() {
+        switch (chosenListName.getText()) {
+            case (variableExpensesName):
+                switchToFixedExpensesList();
+                break;
+            case (fixedExpensesName):
+                switchToMeasuresList();
+                break;
+            case (balanceMeasures):
+                switchToVariableExpensesList();
+                break;
+
+        }
     }
 
-        public void updatePieChart() {
-            this.mainController.updatePieChart(datePickerFrom.getValue(),datePickerTo.getValue(),listOfCategoriesToBeAdded);
+
+    public void switchToFixedExpensesList() {
+        availableCategories.setItems(listOfFixedExpenses);
+        this.chosenListName.setText(fixedExpensesName);
+    }
+
+    public void switchToMeasuresList() {
+        availableCategories.setItems(listOfBalanceMeasures);
+        this.chosenListName.setText(balanceMeasures);
+
+    }
+
+    public void switchToVariableExpensesList() {
+        availableCategories.setItems(listOfVariableExpenses);
+        this.chosenListName.setText(variableExpensesName);
+    }
+
+
+    public void moveAllCategoriesFromAvailable() {
+        String categoryName = chosenListName.getText();
+        switch (categoryName) {
+            case (variableExpensesName):
+                listOfCategoriesToBeAdded.addAll(listOfVariableExpenses);
+                listOfVariableExpenses.removeAll(listOfVariableExpenses);
+                break;
+            case (fixedExpensesName):
+                listOfCategoriesToBeAdded.addAll(listOfFixedExpenses);
+                listOfFixedExpenses.removeAll(listOfFixedExpenses);
+                break;
+            case (balanceMeasures):
+                listOfCategoriesToBeAdded.addAll(listOfBalanceMeasures);
+                listOfBalanceMeasures.removeAll(listOfBalanceMeasures);
+                break;
+        }
+    }
+
+    public void moveAllCategoriesFromToBeAdded() {
+        listOfCategoriesToBeAdded.removeAll(listOfCategoriesToBeAdded);
+        System.out.println(listOfCategoriesToBeAdded.isEmpty());
+        populateAvailableCategories();
+    }
+
+
+    public void setItemsInBothLists() {
+        availableCategories.setItems(listOfVariableExpenses);
+        categoriesToBeAdded.setItems(listOfCategoriesToBeAdded);
+
+    }
+
+    public void updatePieChart() {
+        this.mainController.updatePieChart(datePickerFrom.getValue(), datePickerTo.getValue(), listOfCategoriesToBeAdded);
     }
 
     public void updateLineChart() {
-        this.mainController.updateLineChart(datePickerFrom.getValue(),datePickerTo.getValue(),listOfCategoriesToBeAdded);
+        this.mainController.updateLineChart(datePickerFrom.getValue(), datePickerTo.getValue(), listOfCategoriesToBeAdded);
     }
 }
