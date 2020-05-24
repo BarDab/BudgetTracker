@@ -42,7 +42,8 @@
         <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" />
         <Button  text="&gt;&gt;"  textFill="#DAA520"
                  style="-fx-background-color: #434343"/>
-
+        <ComboBox fx:id="monthComboBox" promptText="Fixed/Income" visible="true" />
+        <ComboBox fx:id="yearComboBox" promptText="Fixed/Income" visible="true" />
 
 
         <!--            <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false"-->

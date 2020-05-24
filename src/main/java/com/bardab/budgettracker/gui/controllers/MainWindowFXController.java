@@ -1,5 +1,6 @@
 package com.bardab.budgettracker.gui.controllers;
 
+import com.bardab.budgettracker.model.additional.MonthCode;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -50,10 +51,10 @@ public class MainWindowFXController  {
     chartDataFormController.init(this);
 
 
-//        budgetController.init();
-//        balanceController.init(MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now()));
-//        newTransactionController.init();
-//        transactionsController.init();
+        budgetController.init();
+        balanceController.init(MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now()));
+        newTransactionController.init();
+        transactionsController.init();
 
 
 //        tabPane.getSelectionModel().selectedItemProperty().addListener(

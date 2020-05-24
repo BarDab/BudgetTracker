@@ -1,5 +1,6 @@
 package com.bardab.budgettracker.gui.controllers;
 
+import com.bardab.budgettracker.dao.TransactionInsertionManager;
 import com.bardab.budgettracker.gui.DoubleFormatter;
 import com.bardab.budgettracker.model.Transaction;
 import com.bardab.budgettracker.model.categories.FixedExpenses;
@@ -16,10 +17,10 @@ import java.util.List;
 
 public class NewTransactionFXController {
 
-//    private TransactionInsertionManager transactionInsertionManager;
+    private TransactionInsertionManager transactionInsertionManager;
 
     public NewTransactionFXController() {
-//        transactionInsertionManager = new TransactionInsertionManager();
+        transactionInsertionManager = new TransactionInsertionManager();
     }
 
     private int categoryNumber = 0;
@@ -105,7 +106,7 @@ public class NewTransactionFXController {
         transaction.setValue((Double.parseDouble(valueField.getText())));
         transaction.setTransactionDateAndMonthCode(datePicker.getValue());
 
-//        transactionInsertionManager.insertTransactionAndUpdateActiveCategories(transaction);
+        transactionInsertionManager.insertTransactionAndUpdateActiveCategories(transaction);
         init();
 
     }

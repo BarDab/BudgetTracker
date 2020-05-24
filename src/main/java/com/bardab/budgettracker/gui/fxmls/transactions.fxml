@@ -17,26 +17,46 @@
         fx:id="transactions"
         maxHeight="300" stylesheets="@budgetLook.css">
 
-    <VBox spacing="0" minHeight="40">
-        <HBox style="-fx-background-color: #434343" spacing="30">
-            <VBox alignment="CENTER">
-                <Label text="Transactions" textFill="#6B8E23"></Label>
-            </VBox>
-            <HBox>
-                <HBox>
-                    <Button text="&lt;&lt;" onAction="#previousMonthTransactions" textFill="#6B8E23"
-                            style="-fx-background-color: #434343"/>
+<HBox>
+    <MenuBar fx:id="transactionsMenuBar" prefWidth="300" minHeight="20" style="-fx-background-color: #434343">
 
-                    <VBox alignment="CENTER">
-                        <Label text="Date" fx:id="transactionTableLabel" textFill="white"></Label>
-                    </VBox>
-                    <Button text="&gt;&gt;" onAction="#nextMonthTransactions" textFill="#6B8E23"
-                            style="-fx-background-color: #434343"/>
-                </HBox>
-            </HBox>
-        </HBox>
-        <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
-    </VBox>
+        <menus>
+            <Menu>
+                <graphic>
+
+                    <HBox>
+                        <HBox>
+                            <Label text="Transactions" textFill="white"></Label>
+<!--                            <Button text="&lt;&lt;" onAction="#previousMonthTransactions" textFill="#6B8E23"-->
+<!--                                    style="-fx-background-color: #434343"/>-->
+
+                            <HBox spacing="10">
+                                <DatePicker fx:id="dateFrom" promptText="From" maxWidth="100"></DatePicker>
+                                <DatePicker fx:id="dateTo" promptText="To" maxWidth="100"></DatePicker>
+                            </HBox>
+                        </HBox>
+                    </HBox>
+                </graphic>
+            </Menu>
+            <Menu fx:id="variableCategoriesMenu">
+                <graphic>
+                    <Label text="Variables" textFill="white"></Label>
+                </graphic>
+            </Menu>
+            <Menu fx:id="fixedCategoriesMenu">
+                <graphic>
+                    <Label text="Fixed" textFill="white"></Label>
+                </graphic>
+            </Menu>
+
+
+        </menus>
+    </MenuBar>
+<Button onAction="#listFilteredTransactions" text="Search" textFill="#DAA520"
+        style="-fx-background-color: #434343"></Button>
+</HBox>
+    <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
+    <!--    </VBox>-->
 
     <TableView
             fx:id="transactionTable" onMouseClicked="#deleteTransaction"

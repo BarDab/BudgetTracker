@@ -139,7 +139,10 @@
 -fx-font-size:6;
 }
 
-
+.menu{  -fx-background-color: transparent;
+              -fx-focus-color: transparent;
+              -fx-faint-focus-color: transparent;
+              }
 
 
 

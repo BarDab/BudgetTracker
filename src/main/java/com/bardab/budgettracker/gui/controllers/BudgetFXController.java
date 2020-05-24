@@ -4,13 +4,16 @@ import com.bardab.budgettracker.dao.BudgetDao;
 import com.bardab.budgettracker.dao.categories.PlannedExpensesDao;
 import com.bardab.budgettracker.gui.DoubleFormatter;
 import com.bardab.budgettracker.model.Budget;
-import com.bardab.budgettracker.model.categories.PlannedExpenses;
 import com.bardab.budgettracker.model.additional.MonthCode;
+import com.bardab.budgettracker.model.categories.PlannedExpenses;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +48,21 @@ public class BudgetFXController {
     private Label dateWarningLabel;
 
 
-//    private BudgetDao budgetDao;
+    private BudgetDao budgetDao;
     private Budget newBudget;
-//    private PlannedExpensesDao plannedExpensesDao;
+    private PlannedExpensesDao plannedExpensesDao;
     private PlannedExpenses plannedExpenses;
 
     public BudgetFXController() {
-//        this.budgetDao = new BudgetDao(HibernateUtil.getInstance().getSessionFactory());
-//        this.plannedExpensesDao = new PlannedExpensesDao(HibernateUtil.getInstance().getSessionFactory());
+        this.budgetDao = new BudgetDao(HibernateUtil.getInstance().getSessionFactory());
+        this.plannedExpensesDao = new PlannedExpensesDao(HibernateUtil.getInstance().getSessionFactory());
     }
 
     public void init(){
-//        if(this.plannedExpensesDao.getLastFixedCostsRecord()!=null){
-//            this.plannedExpenses = this.plannedExpensesDao.getLastFixedCostsRecord();
-//        }
-//        else
+        if(this.plannedExpensesDao.getLastFixedCostsRecord()!=null){
+            this.plannedExpenses = this.plannedExpensesDao.getLastFixedCostsRecord();
+        }
+        else
             this.plannedExpenses = new PlannedExpenses();
 
         setFixedCostsComboBox();
@@ -89,8 +92,6 @@ public class BudgetFXController {
         newBudget.setInvestments(Double.parseDouble(savingGoalTextField.getText()));
         newBudget.setPlannedExpenses(plannedExpenses);
         newBudget.setTotalSpending();
-//        newBudget.setDailyAverageExpenses();
-//        newBudget.setDailyAverageIncome();
     }
 
     public void setPlannedExpenses(Integer monthCode){
@@ -106,7 +107,7 @@ public class BudgetFXController {
             setPlannedExpenses(monthCode);
 
             this.dateWarningLabel.setVisible(false);
-//            this.budgetDao.addEntity(newBudget);
+            this.budgetDao.addEntity(newBudget);
         }
         catch (NullPointerException e){
             e.printStackTrace();

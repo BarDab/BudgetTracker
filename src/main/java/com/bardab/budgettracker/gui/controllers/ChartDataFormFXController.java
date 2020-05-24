@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ChartDataFormFXController {
 
-
+    @FXML
     private static final List<String> fixedExpensesList = Categories.getPresentableCategoriesNames(new FixedExpenses());
     private static final List<String> variableExpensesList = Categories.getPresentableCategoriesNames(new VariableExpenses());
     private static final List<String> monthlyBalanceList = Categories.getPresentableCategoriesNames(new MonthlyBalance());

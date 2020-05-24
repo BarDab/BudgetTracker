@@ -31,7 +31,7 @@ public void start(Stage primaryStage) throws Exception{
         controller.init();
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 880, 660);
 
         primaryStage.setScene(scene);
         primaryStage.show();
