@@ -17,8 +17,8 @@
         fx:id="transactions"
         maxHeight="300" stylesheets="@budgetLook.css">
 
-<HBox>
-    <MenuBar fx:id="transactionsMenuBar" prefWidth="300" minHeight="20" style="-fx-background-color: #434343">
+<HBox style="-fx-background-color: #3C3F41" prefWidth="430">
+    <MenuBar fx:id="transactionsMenuBar"  minHeight="20" style="-fx-background-color: #3C3F41" >
 
         <menus>
             <Menu>
@@ -26,9 +26,9 @@
 
                     <HBox>
                         <HBox>
-                            <Label text="Transactions" textFill="white"></Label>
+
 <!--                            <Button text="&lt;&lt;" onAction="#previousMonthTransactions" textFill="#6B8E23"-->
-<!--                                    style="-fx-background-color: #434343"/>-->
+<!--                                    style="-fx-background-color: #3C3F41"/>-->
 
                             <HBox spacing="10">
                                 <DatePicker fx:id="dateFrom" promptText="From" maxWidth="100"></DatePicker>
@@ -42,48 +42,53 @@
                 <graphic>
                     <Label text="Variables" textFill="white"></Label>
                 </graphic>
+                <CustomMenuItem fx:id="customMenuItemVariables" style="-fx-background-color: #3C3F41">
+
+                </CustomMenuItem>
             </Menu>
             <Menu fx:id="fixedCategoriesMenu">
                 <graphic>
                     <Label text="Fixed" textFill="white"></Label>
                 </graphic>
+                <CustomMenuItem fx:id="customMenuItemFixed" style="-fx-background-color: #3C3F41"></CustomMenuItem>
             </Menu>
 
 
         </menus>
     </MenuBar>
 <Button onAction="#listFilteredTransactions" text="Search" textFill="#DAA520"
-        style="-fx-background-color: #434343"></Button>
+        style="-fx-background-color: #3C3F41"></Button>
 </HBox>
     <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
     <!--    </VBox>-->
 
     <TableView
             fx:id="transactionTable" onMouseClicked="#deleteTransaction"
-            onKeyPressed="#deleteTransaction" maxHeight="270">
+            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="410">
+
 
 
         <columns>
-            <TableColumn fx:id="dateColumn" text="Date">
+            <TableColumn fx:id="dateColumn" text="Date" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="transactionDate"/>
                 </cellValueFactory>
             </TableColumn>
 
 
-            <TableColumn fx:id="valueColumn" text="Value" maxWidth="60">
+            <TableColumn fx:id="valueColumn" text="Value" maxWidth="60" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="value"/>
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn fx:id="categoryColumn" text="Category" minWidth="100">
+            <TableColumn fx:id="categoryColumn" text="Category" minWidth="120" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="category"/>
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="150">
+            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="140" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="description"/>
                 </cellValueFactory>

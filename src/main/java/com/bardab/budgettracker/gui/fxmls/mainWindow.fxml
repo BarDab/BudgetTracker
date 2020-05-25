@@ -14,72 +14,83 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bardab.budgettracker.gui.controllers.MainWindowFXController"
             stylesheets="@budgetLook.css"
+            fx:id="mainWindow"
 
 >
 
 
     <left>
-        <HBox minWidth="800" minHeight="600" spacing="10" style="-fx-background-color: #434343;">
+        <HBox minWidth="966" minHeight="722" spacing="0" style="-fx-background-color: #2B2B2B;">
 
-           <VBox > <HBox >
-            <TabPane fx:id="addingPane" side="LEFT" tabMinHeight="50" minHeight="300">
-                <padding><Insets right="20"></Insets></padding>
-                <tabs>
-                    <Tab  fx:id="expensesTab" closable="false">
-                        <graphic>
-                            <HBox  style="-fx-background-color: #434343;"  >
-<!--                                <Label text="Expense/Income" textFill="white"></Label>-->
-                                <FontIcon iconLiteral="fa-money" iconSize="23" iconColor="white"></FontIcon>
-                            </HBox>
-                        </graphic>
-                        <HBox spacing="20">
-                            <VBox minWidth="1" style="-fx-background-color: #DAA520"></VBox>
-                            <fx:include fx:id="newTransaction" source="newTransaction.fxml"></fx:include>
-                        </HBox>
-                    </Tab>
-                    <Tab fx:id="incomeTab" closable="false" >
-                        <graphic>
-                            <HBox  style="-fx-background-color: #434343;" >
-<!--                                <Label text="Budget" textFill="white"></Label>-->
-                                <FontIcon iconLiteral="fa-pencil-square-o" iconSize="23" iconColor="white"></FontIcon>
-                            </HBox>
-                        </graphic>
-                        <HBox  spacing="20">
-                            <VBox minWidth="1" style="-fx-background-color: #DAA520"></VBox>
-                            <fx:include fx:id="budget" source="budget.fxml"/>
-                        </HBox>
-                    </Tab>
+            <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; ">
 
-                    <Tab  closable="false">
-                        <graphic>
-                            <HBox  style="-fx-background-color: #434343;" >
-<!--                                <Label text="Stocks" textFill="white"></Label>-->
-                                <FontIcon iconLiteral="fa-line-chart" iconSize="23" iconColor="white"></FontIcon>
-                            </HBox>
-                        </graphic>
-                        <HBox spacing="20">
-                        <VBox maxWidth="1" style="-fx-background-color: #DAA520"></VBox>
-                            <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>
-                        </HBox>
-                    </Tab>
-                </tabs>
-            </TabPane>
-               <VBox minWidth="1" style="-fx-background-color: #DAA520"></VBox>
-               <fx:include fx:id="chart" source="chartArea.fxml" ></fx:include>
-           </HBox>
-               <HBox>
-                   <fx:include fx:id="balance" source="balance.fxml" maxHeight="200" maxWidth="400"/>
-                   <fx:include fx:id="transactions" source="transactions.fxml"></fx:include>
-               </HBox>
-           </VBox>
+            </VBox>
 
+            <VBox>
+                <HBox>
+                    <!--            <TabPane fx:id="addingPane" side="LEFT" tabMinHeight="50" minHeight="300">-->
+                    <!--                <padding><Insets right="20"></Insets></padding>-->
+                    <!--                <tabs>-->
+                    <!--                    <Tab  fx:id="expensesTab" closable="false">-->
+                    <!--                        <graphic>-->
+                    <!--                            <HBox  style="-fx-background-color: #616161;"  >-->
+                    <!--&lt;!&ndash;                                <Label text="Expense/Income" textFill="white"></Label>&ndash;&gt;-->
+                    <!--                                <FontIcon iconLiteral="fa-money" iconSize="23" iconColor="white"></FontIcon>-->
+                    <!--                            </HBox>-->
+                    <!--                        </graphic>-->
+                    <!--                        <HBox spacing="20">-->
+                    <!--                            <VBox minWidth="1" style="-fx-background-color: #DAA520"></VBox>-->
 
-            <HBox maxWidth="420" spacing="30">
+                    <!--                        </HBox>-->
+                    <!--                    </Tab>-->
+                    <!--                    <Tab fx:id="incomeTab" closable="false" >-->
+                    <!--                        <graphic>-->
+                    <!--                            <HBox  style="-fx-background-color: #616161;" >-->
+                    <!--&lt;!&ndash;                                <Label text="Budget" textFill="white"></Label>&ndash;&gt;-->
+                    <!--                                <FontIcon iconLiteral="fa-pencil-square-o" iconSize="23" iconColor="white"></FontIcon>-->
+                    <!--                            </HBox>-->
+                    <!--                        </graphic>-->
+                    <!--                        <HBox  spacing="20">-->
+                    <!--                            <VBox minWidth="1" style="-fx-background-color: #DAA520"></VBox>-->
+
+                    <!--                        </HBox>-->
+                    <!--                    </Tab>-->
+
+                    <!--                    <Tab  closable="false">-->
+                    <!--                        <graphic>-->
+                    <!--                            <HBox  style="-fx-background-color: #616161;" >-->
+                    <!--&lt;!&ndash;                                <Label text="Stocks" textFill="white"></Label>&ndash;&gt;-->
+                    <!--                                <FontIcon iconLiteral="fa-line-chart" iconSize="23" iconColor="white"></FontIcon>-->
+                    <!--                            </HBox>-->
+                    <!--                        </graphic>-->
+
+                    <!--                    </Tab>-->
+                    <!--                </tabs>-->
+                    <!--            </TabPane>-->
+
+                    <VBox minWidth="430">
+                        <fx:include fx:id="transactions" source="transactions.fxml"></fx:include>
+                        <fx:include fx:id="newTransaction" source="newTransaction.fxml"></fx:include>
+                    </VBox>
 
 
-            </HBox>
+                </HBox>
 
+                <fx:include fx:id="balance" source="balance.fxml" minHeight="200" maxWidth="400"/>
 
+                <HBox>
+                    <fx:include fx:id="budget" source="budget.fxml"/>
+
+                </HBox>
+            </VBox>
+            <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
+            <VBox>
+
+                <fx:include fx:id="chart" source="chartArea.fxml"></fx:include>
+                <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>
+            </VBox>
+
+            <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
         </HBox>
 
     </left>
@@ -87,8 +98,8 @@
 
     <top>
         <VBox>
-            <HBox style="-fx-background-color:#606365">
-                <MenuBar prefWidth="1600" minHeight="50" style="-fx-background-color:#606365">
+            <HBox style="-fx-background-color:#3C3F41">
+                <MenuBar fx:id="menuBar" prefWidth="1600" minHeight="30" style="-fx-background-color:#3C3F41">
                     <menus>
                         <Menu>
                             <graphic>
@@ -129,23 +140,26 @@
                     </menus>
                 </MenuBar>
 
-                <Button style="-fx-background-color:#606365">
+                <Button style="-fx-background-color:#3C3F41">
                     <graphic>
                         <FontIcon iconLiteral="fa-window-minimize" iconColor="white" iconSize="10"></FontIcon>
                     </graphic>
                 </Button>
-                <Button style="-fx-background-color:#606365">
+                <Button style="-fx-background-color:#3C3F41">
                     <graphic>
                         <FontIcon iconLiteral="fa-window-maximize" iconColor="white" iconSize="10"></FontIcon>
                     </graphic>
                 </Button>
-                <Button style="-fx-background-color:#606365">
+                <Button style="-fx-background-color:#3C3F41">
                     <graphic>
                         <FontIcon iconLiteral="fa-close" iconColor="white" iconSize="10"></FontIcon>
                     </graphic>
                 </Button>
             </HBox>
-            <Line fill="lightgray" visible="true"></Line>
+            <HBox minHeight="1" style="-fx-background-color:#323232"></HBox>
         </VBox>
     </top>
+    <bottom>
+        <HBox minHeight="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
+    </bottom>
 </BorderPane>

@@ -1,4 +1,5 @@
 package com.bardab.budgettracker;
+
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.gui.controllers.MainWindowFXController;
 import com.bardab.budgettracker.model.Transaction;
@@ -18,7 +19,9 @@ import java.util.List;
 //
 //
 public class Main
+
 extends Application  {
+
 @Override
 public void start(Stage primaryStage) throws Exception{
 
@@ -28,13 +31,16 @@ public void start(Stage primaryStage) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/fxmls/mainWindow.fxml"));
         Parent root = fxmlLoader.load();
         MainWindowFXController controller = fxmlLoader.getController();
-        controller.init();
+        controller.init(primaryStage);
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        Scene scene = new Scene(root, 880, 660);
+        Scene scene = new Scene(root, 966, 722);
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+
         }
 
 

@@ -103,11 +103,11 @@ public class BalanceFXController {
     }
 
     public void nextMonth(){
-//        init(MonthCode.getNextMonthCode(this.monthCode));
+        init(MonthCode.getNextMonthCode(this.monthCode));
 
     }
     public void previousMonth(){
-//        init(MonthCode.getPreviousMonthCode(this.monthCode));
+        init(MonthCode.getPreviousMonthCode(this.monthCode));
     }
 
 

@@ -11,7 +11,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bardab.budgettracker.gui.controllers.ChartDataFormFXController"
       fx:id="chartDataForm"
-      style=" fx-background-color: #336699;"
+      style=" fx-background-color: #2B2B2B;"
       spacing="10"
 
 >
@@ -40,23 +40,23 @@
         <HBox alignment="CENTER_LEFT">
             <Label fx:id="chosenListName" textFill="white"></Label>
             <Button onAction="#switchList" alignment="CENTER_LEFT" text="&gt;&gt;" textFill="#DAA520"
-                    style="-fx-background-color: #434343"/>
+                    style="-fx-background-color: #2B2B2B"/>
 
 
         </HBox>
         <HBox spacing="5">
             <ListView fx:id="availableCategories"  maxHeight="120" maxWidth="100"></ListView>
             <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT" textFill="#DAA520"
-                    style="-fx-background-color: #434343"></Button>
+                    style="-fx-background-color: #2B2B2B"></Button>
             <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All" alignment="CENTER_RIGHT" textFill="#DAA520"
-                    style="-fx-background-color: #434343"></Button>
+                    style="-fx-background-color: #2B2B2B"></Button>
             <ListView fx:id="categoriesToBeAdded" maxHeight="120" maxWidth="100"></ListView>
         </HBox>
         <HBox spacing="5" alignment="TOP_RIGHT">
             <Button  onAction="#updateLineChart"  text="Update Line Chart" textFill="#DAA520"
-                    style="-fx-background-color: #434343"/>
+                    style="-fx-background-color: #2B2B2B"/>
             <Button onAction="#updatePieChart" text="Update Pie Chart" textFill="#DAA520"
-                    style="-fx-background-color: #434343"/>
+                    style="-fx-background-color: #2B2B2B"/>
         </HBox>
 
     </VBox>

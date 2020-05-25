@@ -14,7 +14,7 @@
       fx:id="budget"
       fx:controller="com.bardab.budgettracker.gui.controllers.BudgetFXController"
       spacing="20"
-
+      maxWidth="430"
 
 >
     <padding>
@@ -26,12 +26,12 @@
         <Label text="Add budget" textFill="white"  ></Label>
         <HBox>
             <Button alignment="TOP_CENTER" text="&lt;&lt;" textFill="#DAA520"
-                    style="-fx-background-color: #434343"/>
+                    style="-fx-background-color: #3C3F41"/>
             <VBox alignment="CENTER">
                 <Label text="Date" fx:id="dateLabel"/>
             </VBox>
             <Button alignment="TOP_CENTER" text="&gt;&gt;" textFill="#DAA520"
-                    style="-fx-background-color: #434343"/>
+                    style="-fx-background-color: #3C3F41"/>
         </HBox>
         </HBox>
 
@@ -39,9 +39,9 @@
     </VBox>
     <HBox>
 
-        <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" />
+        <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" maxWidth="100"/>
         <Button  text="&gt;&gt;"  textFill="#DAA520"
-                 style="-fx-background-color: #434343"/>
+                 style="-fx-background-color: #3C3F41"/>
         <ComboBox fx:id="monthComboBox" promptText="Fixed/Income" visible="true" />
         <ComboBox fx:id="yearComboBox" promptText="Fixed/Income" visible="true" />
 
@@ -58,11 +58,11 @@
                style="-fx-font: 10;"></TextField>
     <TextField fx:id="fixedSpendingTextField" promptText="0.0" maxWidth="50"/>
 
-    <Button fx:id="fixedSpendingButton" text="Update" textFill="white" style="-fx-background-color: #2f4f4f" onAction="#updateFixedCost" maxWidth="150"/>
+    <Button fx:id="fixedSpendingButton" text="Update" textFill="white" style="-fx-background-color: #3C3F41" onAction="#updateFixedCost" maxWidth="150"/>
 
 
 </HBox>
-    <Button fx:id="approveButton" text="Approve"  onAction="#approveBudget" textFill="white" style="-fx-background-color: #2f4f4f"/>
+    <Button fx:id="approveButton" text="Approve"  onAction="#approveBudget" textFill="white" style="-fx-background-color: #3C3F41"/>
     <HBox minHeight="1" style="-fx-background-color: #6B8E23" alignment="BOTTOM_LEFT"></HBox>
 
 

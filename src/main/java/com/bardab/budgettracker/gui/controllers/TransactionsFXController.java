@@ -64,6 +64,13 @@ public class TransactionsFXController {
     private TableColumn descriptionColumn;
 
     @FXML
+    private CustomMenuItem customMenuItemVariables;
+
+    @FXML
+    private CustomMenuItem customMenuItemFixed;
+
+
+    @FXML
     private DatePicker dateFrom;
     @FXML
     private DatePicker dateTo;
@@ -76,14 +83,13 @@ public class TransactionsFXController {
 
     private Integer monthCode = MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now());
 
-    public void init()  {
-        dateFrom.setValue(LocalDate.of(LocalDate.now().getYear(),LocalDate.now().getMonthValue(),1));
-        dateTo.setValue(LocalDate.of(LocalDate.now().getYear(),LocalDate.now().getMonthValue(),LocalDate.now().lengthOfMonth()));
+    public void init() {
+        dateFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
+        dateTo.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()));
 
-        createMenuCheckBoxes(variablesList, variableCategoriesMenu,5);
-        createMenuCheckBoxes(fixedList,fixedCategoriesMenu,5);
+        createMenuCheckBoxes(variablesList, variableCategoriesMenu, 5,customMenuItemVariables);
+        createMenuCheckBoxes(fixedList, fixedCategoriesMenu, 5,customMenuItemFixed);
 
-        filteredList.forEach(e-> System.out.println(e));
         listFilteredTransactions();
         setToolTip();
 //        transactionTableLabel.setText(MonthCode.monthYear(monthCode));
@@ -91,68 +97,73 @@ public class TransactionsFXController {
 
     }
 
-    public void setToolTip(){
-    descriptionColumn.setCellFactory(TooltippedTableCell.forTableColumn());
+    public void setToolTip() {
+        descriptionColumn.setCellFactory(TooltippedTableCell.forTableColumn());
     }
 
 
-
-
-
-
-    public void createMenuCheckBoxes(List<String> list, Menu menu, int numberOfRows){
+    public void createMenuCheckBoxes(List<String> list, Menu menu, int numberOfRows, CustomMenuItem customMenuItem) {
         GridPane gp = new GridPane();
+        gp.setOpacity(30);
+
         List<CheckBox> checkBoxes = new ArrayList<>();
         int x = 0;
         int y = 0;
-        for(String category:list) {
+        for (String category : list) {
             CheckBox cb = new CheckBox(Categories.getPresentableCategoryName(category));
-            cb.setStyle("-fx-text-fill: -fx-text-base-color");
+            cb.setStyle("-fx-text-fill: white; -fx-font-size: 10;");
             cb.selectedProperty().setValue(true);
             filteredList.add(category);
 
             cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                    if(t1){
+                    if (t1) {
                         filteredList.add(category);
-                    }
-                    else filteredList.remove(category);
+                    } else filteredList.remove(category);
                 }
             });
-            gp.add(cb,x,y);
-            if(y<numberOfRows){
+            gp.add(cb, x, y);
+            if (y < numberOfRows) {
                 y++;
-            }
-            else {
-                y=0;
+            } else {
+                y = 0;
                 x++;
             }
             checkBoxes.add(cb);
         }
-        Button addAll = new Button("Mark all");
-        addAll.setOnAction(e-> markAllCheckBoxes(checkBoxes));
-        GridPane.setHalignment(addAll, HPos.LEFT);
-        gp.add(addAll,x,y+1);
-
-        Button unmarkAll = new Button("Unmark All");
-        unmarkAll.setOnAction(e-> unmarkAllCheckBoxes(checkBoxes));
-        GridPane.setHalignment(unmarkAll, HPos.RIGHT);
-        gp.add(unmarkAll,x,y+1);
+        Button button = new Button("Unmark all");
+        button.setOnAction(e -> markAllCheckBoxes(checkBoxes,button));
+        GridPane.setHalignment(button, HPos.RIGHT);
+        gp.add(button, x, y + 1);
 
 
-        CustomMenuItem cmi = new CustomMenuItem(gp);
-        cmi.setHideOnClick(false);
 
-        menu.getItems().add(cmi);
+
+
+        customMenuItem.setContent(gp);
+
+
+        customMenuItem.setHideOnClick(false);
+
+
+        menu.getItems().add(customMenuItem);
+
+        menu.getItems().forEach(e-> System.out.println(e.toString()));
+
+
     }
 
 
-    public void markAllCheckBoxes(List<CheckBox> checkBoxes){
-        checkBoxes.forEach(e->e.selectedProperty().setValue(true));
-    }
-    public void unmarkAllCheckBoxes(List<CheckBox> checkBoxes){
-        checkBoxes.forEach(e->e.selectedProperty().setValue(false));
+    public void markAllCheckBoxes(List<CheckBox> checkBoxes,Button button) {
+        if(button.getText().equals("Mark all")) {
+            checkBoxes.forEach(e -> e.selectedProperty().setValue(true));
+            button.setText("Unmark All");
+        }
+         else  {
+                checkBoxes.forEach(e -> e.selectedProperty().setValue(false));
+                button.setText("Mark all");
+         }
     }
 
 //
@@ -169,10 +180,8 @@ public class TransactionsFXController {
 //    }
 
 
-
-
-    public void listFilteredTransactions(){
-        Task<ObservableList<Transaction>> task = new GetTransactionsFiltered(dateFrom.getValue(),dateTo.getValue(),filteredList);
+    public void listFilteredTransactions() {
+        Task<ObservableList<Transaction>> task = new GetTransactionsFiltered(dateFrom.getValue(), dateTo.getValue(), filteredList);
         transactionTable.itemsProperty().bind(task.valueProperty());
         transactionTable.onMouseClickedProperty();
 //        progressBar.progressProperty().bind(task.progressProperty());
@@ -182,14 +191,15 @@ public class TransactionsFXController {
 
         new Thread(task).start();
     }
-    public void deleteTransaction(){
+
+    public void deleteTransaction() {
         transactionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableContextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Transaction transaction = (Transaction)transactionTable.getSelectionModel().getSelectedItem();
+                Transaction transaction = (Transaction) transactionTable.getSelectionModel().getSelectedItem();
                 transactionDao.deleteTransaction(transaction.getId());
 //                init();
             }
@@ -215,13 +225,12 @@ public class TransactionsFXController {
 
         @Override
         public ObservableList<Transaction> call() {
-            List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom,dateTo,categories);
-            transactions.forEach(e->e.setPresentableCategory(Categories.getPresentableCategoryName(e.getCategory())));
+            List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, categories);
+            transactions.forEach(e -> e.setPresentableCategory(Categories.getPresentableCategoryName(e.getCategory())));
 
             return FXCollections.observableArrayList(transactions);
         }
     }
-
 
 
 }

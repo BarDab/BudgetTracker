@@ -6,6 +6,7 @@ import com.bardab.budgettracker.model.categories.VariableExpenses;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.chart.*;
 import javafx.scene.control.ListView;
 
@@ -31,6 +32,8 @@ public class ChartFXController {
     private ListView<String> categoriesListView = new ListView();
 
 
+
+
     private ObservableList categoriesList;
     private VariableExpenses variableExpenses;
 
@@ -54,6 +57,7 @@ public class ChartFXController {
         listOfCategories = FXCollections.observableArrayList(camelCaseCategories);
 
         this.categoriesPieChart.setData(ChartData.getSeriesForPieChart(dateFrom,dateTo,listOfCategories));
+        this.categoriesPieChart.setLegendSide(Side.BOTTOM);
 
     }
 
