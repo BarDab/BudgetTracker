@@ -30,7 +30,7 @@ public class NewTransactionFXController {
     private ComboBox categoriesComboBox;
 
     @FXML
-    private DatePicker datePicker = new DatePicker();
+    private DatePicker newTransactionDatePicker = new DatePicker();
     @FXML
     private TextField valueField = new TextField();
     @FXML
@@ -39,7 +39,7 @@ public class NewTransactionFXController {
     public void init(){
         setCategory(categoryNumber);
         descriptionField.clear();
-        datePicker.setValue(LocalDate.now());
+        newTransactionDatePicker.setValue(LocalDate.now());
         valueField.setTextFormatter(new DoubleFormatter().doubleFormatter());
     }
 
@@ -104,7 +104,7 @@ public class NewTransactionFXController {
         transaction.setCategoryAndTransformToCamelCase((String) categoriesComboBox.getValue());
         transaction.setDescription(descriptionField.getText());
         transaction.setValue((Double.parseDouble(valueField.getText())));
-        transaction.setTransactionDateAndMonthCode(datePicker.getValue());
+        transaction.setTransactionDateAndMonthCode(newTransactionDatePicker.getValue());
 
         transactionInsertionManager.insertTransactionAndUpdateActiveCategories(transaction);
         init();

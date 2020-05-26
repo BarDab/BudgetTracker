@@ -8,41 +8,24 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.Box?>
-<VBox
+<HBox
         xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="com.bardab.budgettracker.gui.controllers.NewTransactionFXController"
         fx:id="newTransaction"
-        spacing="10"
+        spacing="5"
         maxWidth="430"
-        alignment="TOP_RIGHT"
+        minHeight="40"
+        alignment="CENTER"
+        style="-fx-background-color: #2B2B2B; -fx-border-color:#323232; -fx-border-width: 1; ">
 
->
-    <padding>
-        <Insets left="10" top="10" right="10"> </Insets>
-    </padding>
-<VBox spacing="4">
-
-</VBox>
-
-
-    <VBox style="-fx-background-color: #2B2B2B"  >
-
-        <HBox>
-
-            <ComboBox fx:id="categoriesComboBox" promptText="Type" maxWidth="80" visible="true" ></ComboBox>
-            <Button  text="&gt;&gt;" onAction="#nextCategory" textFill="#DAA520" minWidth="40"
-                    style="-fx-background-color: #2B2B2B"/>
-            <DatePicker fx:id="datePicker" promptText="Date" prefWidth="100" style="-fx-font: 10;"></DatePicker>
-            <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
-                       style="-fx-font: 10;"></TextField>
-            <TextField fx:id="valueField" promptText="Value" prefWidth="50" style="-fx-font: 10;"></TextField>
-            <Button text="Add" onAction="#addTransaction" textFill="white" style="-fx-background-color: #3C3F41"/>
-        </HBox>
-
-
-    </VBox>
-
-
-    <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
-</VBox>
+    <ComboBox fx:id="categoriesComboBox" promptText="Type" maxWidth="80" visible="true"  style="-fx-background-color: #2B2B2B"></ComboBox>
+    <Button text="&gt;&gt;" onAction="#nextCategory" textFill="#DAA520" minWidth="40"
+            style="-fx-background-color: #2B2B2B"/>
+    <DatePicker fx:id="newTransactionDatePicker" promptText="Date" prefWidth="100" style="-fx-font: 10;"></DatePicker>
+    <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
+               style="-fx-font: 10;"></TextField>
+    <TextField fx:id="valueField" promptText="Value" prefWidth="50" style="-fx-font: 10; -fx-background-color: #2B2B2B; "></TextField>
+    <Button   text="Add" textFill="#DAA520" onAction="#addTransaction"
+                style="-fx-background-color: #3C3F41"></Button>
+</HBox>

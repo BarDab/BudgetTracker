@@ -71,9 +71,9 @@ public class TransactionsFXController {
 
 
     @FXML
-    private DatePicker dateFrom;
+    private DatePicker transactionsDateFrom;
     @FXML
-    private DatePicker dateTo;
+    private DatePicker transactionsDateTo;
 
 //    @FXML
 //    private Label transactionTableLabel;
@@ -84,8 +84,8 @@ public class TransactionsFXController {
     private Integer monthCode = MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now());
 
     public void init() {
-        dateFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
-        dateTo.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()));
+        transactionsDateFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
+        transactionsDateTo.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()));
 
         createMenuCheckBoxes(variablesList, variableCategoriesMenu, 5,customMenuItemVariables);
         createMenuCheckBoxes(fixedList, fixedCategoriesMenu, 5,customMenuItemFixed);
@@ -181,7 +181,7 @@ public class TransactionsFXController {
 
 
     public void listFilteredTransactions() {
-        Task<ObservableList<Transaction>> task = new GetTransactionsFiltered(dateFrom.getValue(), dateTo.getValue(), filteredList);
+        Task<ObservableList<Transaction>> task = new GetTransactionsFiltered(transactionsDateFrom.getValue(), transactionsDateTo.getValue(), filteredList);
         transactionTable.itemsProperty().bind(task.valueProperty());
         transactionTable.onMouseClickedProperty();
 //        progressBar.progressProperty().bind(task.progressProperty());

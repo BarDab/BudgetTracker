@@ -16,15 +16,21 @@
 
 >
     <padding>
-        <Insets left="10" top="14"></Insets>
+        <Insets  top="14"></Insets>
     </padding>
-    <VBox spacing="4">
+<!--    <VBox spacing="4">-->
 
-        <Label text="Choose data for charts" textFill="white"></Label>
+<!--        <Label text="Choose data for charts" textFill="white"></Label>-->
 
 
-        <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
-    </VBox>
+<!--        <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>-->
+<!--    </VBox>-->
+
+    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "  minHeight="40">
+        <VBox alignment="CENTER">
+            <Label text="Choose data for charts" textFill="DAA520"></Label>
+        </VBox>
+    </HBox>
 
 
     <VBox>
@@ -32,32 +38,33 @@
             <Insets top="10"></Insets>
         </padding>
         <VBox spacing="5">
-            <HBox spacing="10">
-                <DatePicker fx:id="datePickerFrom" promptText="From" maxWidth="100"></DatePicker>
-                <DatePicker fx:id="datePickerTo" promptText="To" maxWidth="100"></DatePicker>
-            </HBox>
+
         </VBox>
         <HBox alignment="CENTER_LEFT">
             <Label fx:id="chosenListName" textFill="white"></Label>
-            <Button onAction="#switchList" alignment="CENTER_LEFT" text="&gt;&gt;" textFill="#DAA520"
-                    style="-fx-background-color: #2B2B2B"/>
+            <Button fx:id="switchList" onAction="#switchList" alignment="CENTER_LEFT" text="&gt;&gt;" textFill="#DAA520"
+                    style="-fx-background-color: #2B2B2B;"/>
 
 
         </HBox>
         <HBox spacing="5">
-            <ListView fx:id="availableCategories"  maxHeight="120" maxWidth="100"></ListView>
+            <ListView fx:id="availableCategories"  maxHeight="120" maxWidth="140"></ListView>
+            <VBox spacing="5">
             <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT" textFill="#DAA520"
                     style="-fx-background-color: #2B2B2B"></Button>
             <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All" alignment="CENTER_RIGHT" textFill="#DAA520"
                     style="-fx-background-color: #2B2B2B"></Button>
-            <ListView fx:id="categoriesToBeAdded" maxHeight="120" maxWidth="100"></ListView>
+            </VBox>
+            <ListView fx:id="categoriesToBeAdded" maxHeight="120" maxWidth="140"></ListView>
+            <VBox spacing="5">
+                <DatePicker fx:id="datePickerFrom" promptText="From" maxWidth="100"></DatePicker>
+                <DatePicker fx:id="datePickerTo" promptText="To" maxWidth="100"></DatePicker>
+                <Button  onAction="#updateLineChart"  text="Update Line Chart" textFill="#DAA520"
+                         style="-fx-background-color: #2B2B2B"/>
+                <Button onAction="#updatePieChart" text="Update Pie Chart" textFill="#DAA520"
+                        style="-fx-background-color: #2B2B2B"/></VBox>
         </HBox>
-        <HBox spacing="5" alignment="TOP_RIGHT">
-            <Button  onAction="#updateLineChart"  text="Update Line Chart" textFill="#DAA520"
-                    style="-fx-background-color: #2B2B2B"/>
-            <Button onAction="#updatePieChart" text="Update Pie Chart" textFill="#DAA520"
-                    style="-fx-background-color: #2B2B2B"/>
-        </HBox>
+
 
     </VBox>
 

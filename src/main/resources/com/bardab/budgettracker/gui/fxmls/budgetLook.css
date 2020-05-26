@@ -13,6 +13,20 @@
    -fx-faint-focus-color: transparent;
 }
 
+    #variableCategoriesMenu {
+     -fx-background-color:transparent;
+    }
+    #fixedCategoriesMenu {
+         -fx-background-color:transparent;
+        }
+    #searchTransactionsMenu {
+         -fx-background-color:transparent;
+         }
+    #transactionsDateMenu {
+        -fx-background-color:transparent;
+    }
+
+
 
 
 .table-view{
@@ -28,6 +42,7 @@
 .table-view .column-header-background{
     -fx-background-color:  #2B2B2B;
 }
+
 
 .table-view .column-header-background .label{
 
@@ -86,6 +101,26 @@
           -fx-border-width: 1;
           -fx-border-color: #2B2B2B;
       }
+
+
+.text-field{
+
+  -fx-border-radius: 5 5 5 5;
+  -fx-background-radius: 5 5 5 5;
+
+  /* top-left, top-right, bottom-right, and bottom-left corners, in that
+  order. */
+
+}
+
+#switchList:hover{
+-fx-background-color: #4e5254;
+
+}
+
+
+
+
 
 .label{
        -fx-text-fill:white;}

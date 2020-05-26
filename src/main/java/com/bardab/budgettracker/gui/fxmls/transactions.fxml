@@ -17,11 +17,11 @@
         fx:id="transactions"
         maxHeight="300" stylesheets="@budgetLook.css">
 
-<HBox style="-fx-background-color: #3C3F41" prefWidth="430">
-    <MenuBar fx:id="transactionsMenuBar"  minHeight="20" style="-fx-background-color: #3C3F41" >
+<HBox style="-fx-background-color: #3C3F41" minWidth="430">
+    <MenuBar fx:id="transactionsMenuBar"  minHeight="30" style="-fx-background-color: #2B2B2B" >
 
         <menus>
-            <Menu>
+            <Menu fx:id="transactionsDateMenu">
                 <graphic>
 
                     <HBox>
@@ -31,16 +31,20 @@
 <!--                                    style="-fx-background-color: #3C3F41"/>-->
 
                             <HBox spacing="10">
-                                <DatePicker fx:id="dateFrom" promptText="From" maxWidth="100"></DatePicker>
-                                <DatePicker fx:id="dateTo" promptText="To" maxWidth="100"></DatePicker>
+                                <DatePicker fx:id="transactionsDateFrom" maxHeight="20" promptText="From" maxWidth="100"></DatePicker>
+                                <DatePicker fx:id="transactionsDateTo" promptText="To" maxWidth="100"></DatePicker>
                             </HBox>
                         </HBox>
                     </HBox>
                 </graphic>
             </Menu>
-            <Menu fx:id="variableCategoriesMenu">
+            <Menu fx:id="variableCategoriesMenu" >
                 <graphic>
-                    <Label text="Variables" textFill="white"></Label>
+                    <VBox minHeight="27" alignment="CENTER">
+                        <Button   text="Variables" textFill="white"
+                                  style="-fx-background-color: #3C3F41" alignment="CENTER"></Button>
+
+                    </VBox>
                 </graphic>
                 <CustomMenuItem fx:id="customMenuItemVariables" style="-fx-background-color: #3C3F41">
 
@@ -48,23 +52,31 @@
             </Menu>
             <Menu fx:id="fixedCategoriesMenu">
                 <graphic>
-                    <Label text="Fixed" textFill="white"></Label>
+                    <VBox minHeight="27" alignment="CENTER">
+                        <Button   text="Fixed" textFill="white"
+                                 style="-fx-background-color: #3C3F41" alignment="CENTER"></Button>
+                    </VBox>
                 </graphic>
-                <CustomMenuItem fx:id="customMenuItemFixed" style="-fx-background-color: #3C3F41"></CustomMenuItem>
+                <CustomMenuItem fx:id="customMenuItemFixed" ></CustomMenuItem>
             </Menu>
-
-
+            <Menu fx:id="searchTransactionsMenu">
+                <graphic>
+                    <VBox minHeight="27" alignment="CENTER">
+                        <Button  onAction="#listFilteredTransactions" text="Search" textFill="#DAA520"
+                                style="-fx-background-color: #3C3F41" alignment="CENTER"></Button>
+                    </VBox>
+                </graphic>
+            </Menu>
         </menus>
     </MenuBar>
-<Button onAction="#listFilteredTransactions" text="Search" textFill="#DAA520"
-        style="-fx-background-color: #3C3F41"></Button>
+
 </HBox>
-    <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
+    <HBox minHeight="1" style="-fx-background-color: #3C3F41"></HBox>
     <!--    </VBox>-->
 
     <TableView
             fx:id="transactionTable" onMouseClicked="#deleteTransaction"
-            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="410">
+            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="430">
 
 
 
@@ -88,7 +100,7 @@
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="140" resizable="false">
+            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="168" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="description"/>
                 </cellValueFactory>

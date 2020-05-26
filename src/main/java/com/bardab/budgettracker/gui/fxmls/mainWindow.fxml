@@ -28,45 +28,7 @@
 
             <VBox>
                 <HBox>
-                    <!--            <TabPane fx:id="addingPane" side="LEFT" tabMinHeight="50" minHeight="300">-->
-                    <!--                <padding><Insets right="20"></Insets></padding>-->
-                    <!--                <tabs>-->
-                    <!--                    <Tab  fx:id="expensesTab" closable="false">-->
-                    <!--                        <graphic>-->
-                    <!--                            <HBox  style="-fx-background-color: #616161;"  >-->
-                    <!--&lt;!&ndash;                                <Label text="Expense/Income" textFill="white"></Label>&ndash;&gt;-->
-                    <!--                                <FontIcon iconLiteral="fa-money" iconSize="23" iconColor="white"></FontIcon>-->
-                    <!--                            </HBox>-->
-                    <!--                        </graphic>-->
-                    <!--                        <HBox spacing="20">-->
-                    <!--                            <VBox minWidth="1" style="-fx-background-color: #DAA520"></VBox>-->
 
-                    <!--                        </HBox>-->
-                    <!--                    </Tab>-->
-                    <!--                    <Tab fx:id="incomeTab" closable="false" >-->
-                    <!--                        <graphic>-->
-                    <!--                            <HBox  style="-fx-background-color: #616161;" >-->
-                    <!--&lt;!&ndash;                                <Label text="Budget" textFill="white"></Label>&ndash;&gt;-->
-                    <!--                                <FontIcon iconLiteral="fa-pencil-square-o" iconSize="23" iconColor="white"></FontIcon>-->
-                    <!--                            </HBox>-->
-                    <!--                        </graphic>-->
-                    <!--                        <HBox  spacing="20">-->
-                    <!--                            <VBox minWidth="1" style="-fx-background-color: #DAA520"></VBox>-->
-
-                    <!--                        </HBox>-->
-                    <!--                    </Tab>-->
-
-                    <!--                    <Tab  closable="false">-->
-                    <!--                        <graphic>-->
-                    <!--                            <HBox  style="-fx-background-color: #616161;" >-->
-                    <!--&lt;!&ndash;                                <Label text="Stocks" textFill="white"></Label>&ndash;&gt;-->
-                    <!--                                <FontIcon iconLiteral="fa-line-chart" iconSize="23" iconColor="white"></FontIcon>-->
-                    <!--                            </HBox>-->
-                    <!--                        </graphic>-->
-
-                    <!--                    </Tab>-->
-                    <!--                </tabs>-->
-                    <!--            </TabPane>-->
 
                     <VBox minWidth="430">
                         <fx:include fx:id="transactions" source="transactions.fxml"></fx:include>
@@ -75,13 +37,11 @@
 
 
                 </HBox>
+<VBox>
+                <fx:include fx:id="balance" source="balance.fxml" minHeight="200" minWidth="400"/>
+                <fx:include fx:id="budget" source="budget.fxml"/>
+</VBox>
 
-                <fx:include fx:id="balance" source="balance.fxml" minHeight="200" maxWidth="400"/>
-
-                <HBox>
-                    <fx:include fx:id="budget" source="budget.fxml"/>
-
-                </HBox>
             </VBox>
             <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
             <VBox>

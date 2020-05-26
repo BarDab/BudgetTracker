@@ -9,6 +9,8 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Box?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.shape.Line?>
 <TabPane xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.bardab.budgettracker.gui.controllers.ChartFXController"
@@ -17,7 +19,7 @@
 
 
     <tabs>
-        <Tab text="Pie Chart">
+        <Tab fx:id="pieChartTab">
             <VBox>
                 <padding>
                     <Insets left="10"></Insets>
@@ -26,11 +28,6 @@
                     <padding>
                         <Insets top="10"></Insets>
                     </padding>
-<!--                    <VBox spacing="5">-->
-<!--                        <Label text="Date from" maxWidth="100"></Label>-->
-<!--                        <Label text="Date from" maxWidth="100"></Label>-->
-<!--                    </VBox>-->
-
 
                 </VBox>
 
@@ -43,7 +40,7 @@
                 </HBox>
             </VBox>
         </Tab>
-        <Tab text="Line Chart">
+        <Tab   fx:id="lineChartTab">
             <VBox>
                 <padding>
                     <Insets left="10"></Insets>

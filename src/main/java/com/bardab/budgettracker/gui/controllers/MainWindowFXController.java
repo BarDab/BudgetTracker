@@ -3,7 +3,6 @@ package com.bardab.budgettracker.gui.controllers;
 import com.bardab.budgettracker.model.additional.MonthCode;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
@@ -70,28 +69,6 @@ public class MainWindowFXController  {
         balanceController.init(MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now()));
         newTransactionController.init();
         transactionsController.init();
-
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/fxmls/mainWindow.fxml"));
-
-
-
-
-
-
-//        addingPane.getSelectionModel().selectedItemProperty().addListener(
-//                new ChangeListener<Tab>() {
-//                    @Override
-//                    public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-//                        addingPane.getSelectionModel().getSelectedItem().getGraphic().setStyle("-fx-background-color: #2B2B2B;");
-//                        for(Tab tab: addingPane.getTabs()){
-//                            if(tab.getId()!=ov.getValue().getId()){
-//                                tab.getGraphic().setStyle("-fx-background-color:#3C3F41;");
-//
-//                            }
-//                        }
-//                    }
-//                });
 
     moveWindowByMouseDragging(stage);
     }
