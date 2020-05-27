@@ -7,6 +7,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -42,7 +43,9 @@ public class MainWindowFXController  {
     private MenuBar menuBar;
 
     @FXML
+    private Pane mainPane;
 
+    @FXML
     private BorderPane mainWindow;
 
     @FXML
@@ -96,7 +99,8 @@ public class MainWindowFXController  {
 
 
     public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
-        this.chartController.updatePieChart(dateFrom,dateTo,listOfCategories);
+        this.chartController.updatePieChart(dateFrom,dateTo,listOfCategories,mainPane);
+        this.chartController.updateDatesLabelPieChart(dateFrom,dateTo);
     }
     public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
         this.chartController.updateLineChart(dateFrom,dateTo,listOfCategories);

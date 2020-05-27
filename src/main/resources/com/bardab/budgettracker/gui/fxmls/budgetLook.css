@@ -168,7 +168,7 @@
 }
 
 .chart-pie-label{
--fx-fill: transparent;
+-fx-fill: white;
 }
 
 
@@ -177,7 +177,7 @@
 }
 
 .chart-legend-item-symbol{
-   -fx-background-radius: 0;
+   -fx-background-radius: 10;
 }
 
 .chart-legend-item{

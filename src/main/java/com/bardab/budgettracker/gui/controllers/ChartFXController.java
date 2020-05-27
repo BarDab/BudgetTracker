@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.chart.*;
@@ -14,8 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,6 +41,9 @@ public class ChartFXController {
     @FXML
     private Tab lineChartTab;
 
+
+
+
     @FXML
     private CategoryAxis xAxis = new CategoryAxis();
     @FXML
@@ -47,6 +54,8 @@ public class ChartFXController {
     @FXML
     private ListView<String> categoriesListView = new ListView();
 
+    @FXML
+    private Label datesLabelPieChart;
 
 
 
@@ -65,10 +74,17 @@ public class ChartFXController {
         pieChartTab.setGraphic(tabHighlighting(createVBoxWithNamedLabel("Pie Chart"),true));
         lineChartTab.setGraphic(tabHighlighting(createVBoxWithNamedLabel("Line Chart"),false));
         tabsHighlight();
+
     }
 
 
-    public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
+    public void updateDatesLabelPieChart(LocalDate datesFrom, LocalDate datesTo){
+        this.datesLabelPieChart.setText("From: "+ datesFrom.toString()+" To: "+ datesTo.toString());
+
+    }
+
+
+    public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories, Pane pane){
         List<String> camelCaseCategories = new ArrayList();
         for (String category : listOfCategories) {
             camelCaseCategories.add(Categories.transformToCamelCase(category));
@@ -77,7 +93,7 @@ public class ChartFXController {
 
         this.categoriesPieChart.setData(ChartData.getSeriesForPieChart(dateFrom,dateTo,listOfCategories));
         this.categoriesPieChart.setLegendSide(Side.BOTTOM);
-
+        addLabelOnHover(pane);
     }
 
     public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
@@ -126,7 +142,6 @@ public class ChartFXController {
     public void tabsHighlight(){
 
 
-
             chartArea.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Tab>() {
                     @Override
@@ -140,6 +155,35 @@ public class ChartFXController {
                         }
                     }
                 });
+    }
+
+    public void addLabelOnHover(Pane pane){
+
+
+        Label pieSliceValue = new Label("");
+        pane.getChildren().add(pieSliceValue);
+
+        for (final PieChart.Data data : categoriesPieChart.getData()) {
+
+            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED,
+                    new EventHandler<MouseEvent>() {
+                        @Override public void handle(MouseEvent e) {
+
+
+                            pieSliceValue.setTextFill(Color.WHITE);
+//                            pieSliceValue.setStyle("-fx-background-color: black;");
+
+                            pieSliceValue.setTranslateX(e.getSceneX());
+
+                            pieSliceValue.setTranslateY(e.getSceneY());
+                            pieSliceValue.setText(String.valueOf(data.getPieValue()) + "%");
+                            System.out.println(data.getPieValue());
+                            System.out.println(e.getSceneX() + " "+ e.getSceneY());
+                        }
+                    });
+        }
+
+
     }
 
 }

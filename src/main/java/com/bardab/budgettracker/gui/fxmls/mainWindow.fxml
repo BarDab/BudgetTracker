@@ -8,19 +8,23 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.shape.Line?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="800.0"
-            xmlns="http://javafx.com/javafx"
+<Pane       xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bardab.budgettracker.gui.controllers.MainWindowFXController"
             stylesheets="@budgetLook.css"
-            fx:id="mainWindow"
-
+            fx:id="mainPane"
 >
+
+    <BorderPane fx:id="mainWindow"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="726.0"
+                prefWidth="968.0"
+    >
+
+
+
 
 
     <left>
-        <HBox minWidth="966" minHeight="722" spacing="0" style="-fx-background-color: #2B2B2B;">
+        <HBox  style="-fx-background-color: #2B2B2B;">
 
             <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; ">
 
@@ -53,11 +57,16 @@
             <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
         </HBox>
 
+
+
+
     </left>
 
 
     <top>
-        <VBox>
+
+
+    <VBox>
             <HBox style="-fx-background-color:#3C3F41">
                 <MenuBar fx:id="menuBar" prefWidth="1600" minHeight="30" style="-fx-background-color:#3C3F41">
                     <menus>
@@ -122,4 +131,5 @@
     <bottom>
         <HBox minHeight="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
     </bottom>
-</BorderPane>
+    </BorderPane>
+</Pane>

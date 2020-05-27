@@ -20,27 +20,25 @@
 
     <tabs>
         <Tab fx:id="pieChartTab">
+
+
             <VBox>
-                <padding>
-                    <Insets left="10"></Insets>
-                </padding>
-                <VBox spacing="5">
-                    <padding>
-                        <Insets top="10"></Insets>
-                    </padding>
-
-                </VBox>
+                <HBox alignment="BOTTOM_CENTER">
 
 
+                    <Label fx:id="datesLabelPieChart"></Label>
+                </HBox>
                 <HBox>
-                    <PieChart fx:id="categoriesPieChart" visible="true" minHeight="400" minWidth="400"
+
+
+                    <PieChart fx:id="categoriesPieChart" visible="true" minHeight="350" minWidth="350"
                               legendSide="RIGHT" labelLineLength="5" animated="true">
 
                     </PieChart>
                 </HBox>
             </VBox>
         </Tab>
-        <Tab   fx:id="lineChartTab">
+        <Tab fx:id="lineChartTab">
             <VBox>
                 <padding>
                     <Insets left="10"></Insets>
@@ -51,7 +49,7 @@
                     </padding>
                 </VBox>
 
-<!--                <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>-->
+                <!--                <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>-->
 
                 <HBox>
                     <LineChart fx:id="lineChart" xAxis="" yAxis="" animated="true" minWidth="400" maxHeight="400">
