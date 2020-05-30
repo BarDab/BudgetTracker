@@ -70,6 +70,7 @@ public class BudgetFXController {
         this.monthComboBox.setItems(monthList);
         this.yearComboBox.setItems(yearList);
 
+
     }
 
     public void setTextFieldsTextFormatter(){

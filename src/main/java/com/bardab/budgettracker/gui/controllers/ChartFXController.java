@@ -4,8 +4,6 @@ import com.bardab.budgettracker.gui.ChartData;
 import com.bardab.budgettracker.gui.DoubleFormatter;
 import com.bardab.budgettracker.model.categories.Categories;
 import com.bardab.budgettracker.model.categories.VariableExpenses;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -14,12 +12,9 @@ import javafx.geometry.Side;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
@@ -36,11 +31,7 @@ public class ChartFXController {
     @FXML
     private TabPane chartArea;
 
-    @FXML
-    private Tab pieChartTab;
 
-    @FXML
-    private Tab lineChartTab;
 
 
 
@@ -50,7 +41,7 @@ public class ChartFXController {
     @FXML
     private NumberAxis yAxis = new NumberAxis();
     @FXML
-    private LineChart<String, Double> lineChart;
+    private StackedBarChart<String, Double> stackedBarChart;
 
     @FXML
     private ListView<String> categoriesListView = new ListView();
@@ -72,9 +63,6 @@ public class ChartFXController {
         categoriesListView.setItems(categoriesList);
 
 
-        pieChartTab.setGraphic(tabHighlighting(createVBoxWithNamedLabel("Pie Chart"),true));
-        lineChartTab.setGraphic(tabHighlighting(createVBoxWithNamedLabel("Line Chart"),false));
-        tabsHighlight();
 
     }
 
@@ -107,54 +95,54 @@ public class ChartFXController {
 
         List<XYChart.Series<String, Double>> list = ChartData.getListOfSeriesForLineChart(dateFrom, dateTo, listOfCategories);
 
-        lineChart.getData().setAll(list);
+        stackedBarChart.getData().setAll(list);
     }
 
 
 
 
-    public VBox createVBoxWithNamedLabel(String labelText){
-        VBox vBox = new VBox();
-        Label label = new Label(labelText);
-        vBox.getChildren().add(label);
+//    public VBox createVBoxWithNamedLabel(String labelText){
+//        VBox vBox = new VBox();
+//        Label label = new Label(labelText);
+//        vBox.getChildren().add(label);
+//
+//        return vBox;
+//    }
 
-        return vBox;
-    }
+//    public VBox tabHighlighting (VBox vBox,boolean isHighlighted){
+//        if(isHighlighted){
+//            HBox hBox = new HBox();
+//            hBox.setMinHeight(1);
+//            hBox.setStyle("-fx-background-color: #75c5fa");
+//            vBox.setStyle("-fx-background-color:#4e5254;");
+//            vBox.getChildren().add(hBox);
+//        }
+//        else {
+//            vBox.setStyle("-fx-background-color:#2B2B2B;");
+//
+//        }
+//
+//        return vBox;
+//    }
 
-    public VBox tabHighlighting (VBox vBox,boolean isHighlighted){
-        if(isHighlighted){
-            HBox hBox = new HBox();
-            hBox.setMinHeight(1);
-            hBox.setStyle("-fx-background-color: #75c5fa");
-            vBox.setStyle("-fx-background-color:#4e5254;");
-            vBox.getChildren().add(hBox);
-        }
-        else {
-            vBox.setStyle("-fx-background-color:#2B2B2B;");
+//
+//    public void tabsHighlight(){
+//
+//
+//            chartArea.getSelectionModel().selectedItemProperty().addListener(
+//                new ChangeListener<Tab>() {
+//                    @Override
+//                    public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+//                    VBox vBox = (VBox) chartArea.getSelectionModel().getSelectedItem().getGraphic();
+//                    chartArea.getSelectionModel().getSelectedItem().setGraphic(tabHighlighting(vBox,true));
+//                    for(Tab tab: chartArea.getTabs()){
+//                            if(tab.getId()!=ov.getValue().getId()){
+//                                tab.setGraphic(tabHighlighting((VBox) tab.getGraphic(),false));
+//                            }
+//                        }
+//                    }
+//                });
 
-        }
-
-        return vBox;
-    }
-
-
-    public void tabsHighlight(){
-
-
-            chartArea.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Tab>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-                    VBox vBox = (VBox) chartArea.getSelectionModel().getSelectedItem().getGraphic();
-                    chartArea.getSelectionModel().getSelectedItem().setGraphic(tabHighlighting(vBox,true));
-                    for(Tab tab: chartArea.getTabs()){
-                            if(tab.getId()!=ov.getValue().getId()){
-                                tab.setGraphic(tabHighlighting((VBox) tab.getGraphic(),false));
-                            }
-                        }
-                    }
-                });
-    }
 
     public void addLabelOnHover(Pane pane){
 
@@ -166,21 +154,34 @@ public class ChartFXController {
 
         for (final PieChart.Data data : categoriesPieChart.getData()) {
             arr[0]+=data.getPieValue();
-            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED,
+            data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
                     new EventHandler<MouseEvent>() {
                         @Override public void handle(MouseEvent e) {
 
+
+
+                            data.getNode().setScaleX(1.5);
+                            data.getNode().setScaleY(1.5);
+                            data.getNode().setScaleZ(1.5);
 
                             pieSliceValue.setTextFill(Color.WHITE);
 
                             pieSliceValue.setTranslateX(e.getSceneX());
                             pieSliceValue.setTranslateY(e.getSceneY());
                             pieSliceValue.setText(String.valueOf(DoubleFormatter.round(data.getPieValue()/arr[0]*100,1)) +"%");
+
                         }
                     });
-        }
+            data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED,e->
+            {
+                pieSliceValue.setTextFill(Color.TRANSPARENT);
+                data.getNode().setScaleX(1);
+                data.getNode().setScaleY(1);
+                data.getNode().setScaleZ(1);
+            });
 
 
-    }
+
+    }}
 
 }

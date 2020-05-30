@@ -11,6 +11,8 @@
 <?import javafx.scene.shape.Box?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.StackedBarChart?>
 <TabPane xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.bardab.budgettracker.gui.controllers.ChartFXController"
@@ -19,7 +21,7 @@
 
 
     <tabs>
-        <Tab fx:id="pieChartTab">
+        <Tab fx:id="pieChartTab" text="Pie Chart">
 
 
             <VBox>
@@ -38,7 +40,7 @@
                 </HBox>
             </VBox>
         </Tab>
-        <Tab fx:id="lineChartTab">
+        <Tab fx:id="lineChartTab" text="Line Chart">
             <VBox>
                 <padding>
                     <Insets left="10"></Insets>
@@ -52,7 +54,7 @@
                 <!--                <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>-->
 
                 <HBox>
-                    <LineChart fx:id="lineChart" xAxis="" yAxis="" animated="true" minWidth="400" maxHeight="400">
+                    <StackedBarChart fx:id="stackedBarChart" xAxis="" yAxis="" animated="true" minWidth="400" maxHeight="400">
                         <xAxis>
                             <CategoryAxis fx:id="xAxis"></CategoryAxis>
                         </xAxis>
@@ -60,7 +62,7 @@
                             <NumberAxis fx:id="yAxis"></NumberAxis>
                         </yAxis>
 
-                    </LineChart>
+                    </StackedBarChart>
                 </HBox>
             </VBox>
 

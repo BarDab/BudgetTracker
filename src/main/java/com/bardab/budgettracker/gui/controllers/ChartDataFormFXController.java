@@ -50,6 +50,7 @@ public class ChartDataFormFXController {
 
     public void init(MainWindowFXController mainController) {
         chosenListName.setText(variableExpensesName);
+        setPlaceHoldersForListViews();
         this.mainController = mainController;
         populateAvailableCategories();
         setItemsInBothLists();
@@ -59,6 +60,7 @@ public class ChartDataFormFXController {
         categoriesToBeAdded.setOnMouseClicked(e ->
                 fromToToBeAddedToAvailable()
         );
+
     }
 
     public void populateAvailableCategories() {
@@ -87,6 +89,7 @@ public class ChartDataFormFXController {
             }
 
         }
+
     }
 
     public void fromToToBeAddedToAvailable() {
@@ -102,6 +105,7 @@ public class ChartDataFormFXController {
 
             listOfCategoriesToBeAdded.remove(selectedItem);
         }
+
     }
 
     public void switchList() {
@@ -166,6 +170,13 @@ public class ChartDataFormFXController {
         availableCategories.setItems(listOfVariableExpenses);
         categoriesToBeAdded.setItems(listOfCategoriesToBeAdded);
 
+    }
+
+    public void setPlaceHoldersForListViews(){
+        ListView placeHolder = new ListView();
+        placeHolder.getItems().add("");
+        availableCategories.setPlaceholder(placeHolder);
+        categoriesToBeAdded.setPlaceholder(placeHolder);
     }
 
     public void updatePieChart() {

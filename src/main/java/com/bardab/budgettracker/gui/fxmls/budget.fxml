@@ -19,7 +19,7 @@
     <padding><Insets bottom="30"> </Insets></padding>
 
 
-    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "  minHeight="40">
+    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "  minHeight="32">
         <VBox alignment="CENTER">
             <Label text="Add budget" textFill="DAA520"></Label>
         </VBox>
@@ -32,8 +32,7 @@
     <HBox>
 
         <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" maxWidth="100"/>
-        <Button  text="&gt;&gt;"  textFill="#DAA520"
-                 style="-fx-background-color: #3C3F41"/>
+        <Button  text="&gt;&gt;"/>
         <ComboBox fx:id="monthComboBox" promptText="Month" visible="true" />
         <ComboBox fx:id="yearComboBox" promptText="Year" visible="true" />
 
@@ -50,8 +49,8 @@
                style="-fx-font: 10;"></TextField>
     <TextField fx:id="fixedSpendingTextField" promptText="0.0" maxWidth="50"/>
 
-    <Button fx:id="fixedSpendingButton" text="Update" textFill="white" style="-fx-background-color: #3C3F41" onAction="#updateFixedCost" maxWidth="150"/>
-    <Button fx:id="approveButton" text="Approve"  onAction="#approveBudget" textFill="white" style="-fx-background-color: #3C3F41"/>
+    <Button fx:id="fixedSpendingButton" text="Update"   onAction="#updateFixedCost" maxWidth="150"/>
+    <Button fx:id="approveButton" text="Approve"  onAction="#approveBudget" />
 
 </HBox>
 

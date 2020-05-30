@@ -17,6 +17,7 @@ import java.util.List;
 public class MainWindowFXController  {
 
 
+    private Stage stage;
     public MainWindowFXController() {
 
 
@@ -72,8 +73,10 @@ public class MainWindowFXController  {
         balanceController.init(MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now()));
         newTransactionController.init();
         transactionsController.init();
+        this.stage = stage;
 
-    moveWindowByMouseDragging(stage);
+        moveWindowByMouseDragging(stage);
+
     }
 
 
@@ -107,6 +110,16 @@ public class MainWindowFXController  {
     }
 
 
+    public void minimizeWindow(){
+       stage.setIconified(true);
+    }
+    public void maximizeWindow(){
+        if(stage.isMaximized()) stage.setMaximized(false);
+        else stage.setMaximized(true);
+    }
+    public void closeApp(){
+        System.exit(0);
+    }
 
 
 

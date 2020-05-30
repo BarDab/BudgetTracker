@@ -18,40 +18,38 @@
 
 
 
-        <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " spacing="30" minHeight="40">
+        <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " spacing="30" minHeight="32">
             <VBox alignment="CENTER">
                 <Label text="Balance" textFill="DAA520"></Label>
             </VBox>
             <HBox alignment="CENTER">
-                <Button  text="&lt;&lt;" onAction="#previousMonth" textFill="#DAA520"
-                        style="-fx-background-color: #3C3F41"/>
+                <Button fx:id="previousMonth"  text="&lt;&lt;" onAction="#previousMonth" />
                 <VBox alignment="CENTER">
                     <Label text="Date" fx:id="dateLabel"/>
                 </VBox>
-                <Button   text="&gt;&gt;" onAction="#nextMonth" textFill="#DAA520"
-                        style="-fx-background-color: #3C3F41"/>
+                <Button fx:id="nextMonth"  text="&gt;&gt;" onAction="#nextMonth" />
             </HBox>
         </HBox>
 
 
-    <HBox alignment="CENTER_RIGHT" minHeight="130" style="-fx-background-color: #2B2B2B; -fx-border-color:#323232; -fx-border-width: 1; ">
+    <HBox alignment="CENTER_RIGHT" minHeight="120" style="-fx-background-color: #2B2B2B; -fx-border-color:#323232; -fx-border-width: 1; ">
 
         <VBox>
-
-            <ListView  maxWidth="150"  fx:id="summaryNamesListView" mouseTransparent="true" focusTraversable="false" ></ListView>
+            <Label text=" "/>
+            <ListView  prefHeight="114" maxWidth="150"  fx:id="summaryNamesListView" mouseTransparent="true" focusTraversable="false" ></ListView>
         </VBox>
         <VBox>
             <Label text="Actual"/>
-            <ListView fx:id="balanceListView"  maxWidth="75" mouseTransparent="true"
+            <ListView prefHeight="114" fx:id="balanceListView"  maxWidth="75" mouseTransparent="true"
                       focusTraversable="false"></ListView>
         </VBox>
         <VBox>
             <Label text="Budget"/>
-            <ListView fx:id="budgetListView"  maxWidth="75" mouseTransparent="true" focusTraversable="false"></ListView>
+            <ListView prefHeight="114" fx:id="budgetListView"  maxWidth="75" mouseTransparent="true" focusTraversable="false"></ListView>
         </VBox>
         <VBox>
             <Label text="Achieved"/>
-            <ListView fx:id="comparisonListView"  maxWidth="50" mouseTransparent="true"
+            <ListView prefHeight="114" fx:id="comparisonListView"  maxWidth="50" mouseTransparent="true"
                       focusTraversable="false"></ListView>
         </VBox>
     </HBox>

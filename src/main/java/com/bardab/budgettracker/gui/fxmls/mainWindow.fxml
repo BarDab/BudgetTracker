@@ -109,17 +109,17 @@
                     </menus>
                 </MenuBar>
 
-                <Button style="-fx-background-color:#3C3F41">
+                <Button onAction="#minimizeWindow" style="-fx-background-color:#3C3F41">
                     <graphic>
                         <FontIcon iconLiteral="fa-window-minimize" iconColor="white" iconSize="10"></FontIcon>
                     </graphic>
                 </Button>
-                <Button style="-fx-background-color:#3C3F41">
+                <Button onAction="#maximizeWindow" style="-fx-background-color:#3C3F41">
                     <graphic>
                         <FontIcon iconLiteral="fa-window-maximize" iconColor="white" iconSize="10"></FontIcon>
                     </graphic>
                 </Button>
-                <Button style="-fx-background-color:#3C3F41">
+                <Button onAction="#closeApp" style="-fx-background-color:#3C3F41">
                     <graphic>
                         <FontIcon iconLiteral="fa-close" iconColor="white" iconSize="10"></FontIcon>
                     </graphic>

@@ -42,27 +42,22 @@
         </VBox>
         <HBox alignment="CENTER_LEFT">
             <Label fx:id="chosenListName" textFill="white"></Label>
-            <Button fx:id="switchList" onAction="#switchList" alignment="CENTER_LEFT" text="&gt;&gt;" textFill="#DAA520"
-                    style="-fx-background-color: #2B2B2B;"/>
+            <Button fx:id="switchList" onAction="#switchList" alignment="CENTER_LEFT" text="&gt;&gt;" />
 
 
         </HBox>
         <HBox spacing="5">
             <ListView fx:id="availableCategories"  maxHeight="120" maxWidth="140"></ListView>
             <VBox spacing="5">
-            <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT" textFill="#DAA520"
-                    style="-fx-background-color: #2B2B2B"></Button>
-            <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All" alignment="CENTER_RIGHT" textFill="#DAA520"
-                    style="-fx-background-color: #2B2B2B"></Button>
+            <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT" ></Button>
+            <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All" alignment="CENTER_RIGHT" ></Button>
             </VBox>
             <ListView fx:id="categoriesToBeAdded" maxHeight="120" maxWidth="140"></ListView>
             <VBox spacing="5">
                 <DatePicker fx:id="datePickerFrom" promptText="From" maxWidth="100"></DatePicker>
                 <DatePicker fx:id="datePickerTo" promptText="To" maxWidth="100"></DatePicker>
-                <Button  onAction="#updateLineChart"  text="Update Line Chart" textFill="#DAA520"
-                         style="-fx-background-color: #2B2B2B"/>
-                <Button onAction="#updatePieChart" text="Update Pie Chart" textFill="#DAA520"
-                        style="-fx-background-color: #2B2B2B"/></VBox>
+                <Button  onAction="#updateLineChart"  text="Update Line Chart" />
+                <Button onAction="#updatePieChart" text="Update Pie Chart" /></VBox>
         </HBox>
 
 
