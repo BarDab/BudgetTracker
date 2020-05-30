@@ -1,6 +1,7 @@
 package com.bardab.budgettracker.gui.controllers;
 
 import com.bardab.budgettracker.gui.ChartData;
+import com.bardab.budgettracker.gui.DoubleFormatter;
 import com.bardab.budgettracker.model.categories.Categories;
 import com.bardab.budgettracker.model.categories.VariableExpenses;
 import javafx.beans.value.ChangeListener;
@@ -121,8 +122,6 @@ public class ChartFXController {
     }
 
     public VBox tabHighlighting (VBox vBox,boolean isHighlighted){
-
-        
         if(isHighlighted){
             HBox hBox = new HBox();
             hBox.setMinHeight(1);
@@ -161,24 +160,22 @@ public class ChartFXController {
 
 
         Label pieSliceValue = new Label("");
+        double[] arr = {0.0};
+
         pane.getChildren().add(pieSliceValue);
 
         for (final PieChart.Data data : categoriesPieChart.getData()) {
-
+            arr[0]+=data.getPieValue();
             data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED,
                     new EventHandler<MouseEvent>() {
                         @Override public void handle(MouseEvent e) {
 
 
                             pieSliceValue.setTextFill(Color.WHITE);
-//                            pieSliceValue.setStyle("-fx-background-color: black;");
 
                             pieSliceValue.setTranslateX(e.getSceneX());
-
                             pieSliceValue.setTranslateY(e.getSceneY());
-                            pieSliceValue.setText(String.valueOf(data.getPieValue()) + "%");
-                            System.out.println(data.getPieValue());
-                            System.out.println(e.getSceneX() + " "+ e.getSceneY());
+                            pieSliceValue.setText(String.valueOf(DoubleFormatter.round(data.getPieValue()/arr[0]*100,1)) +"%");
                         }
                     });
         }
