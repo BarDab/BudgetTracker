@@ -9,6 +9,8 @@ import com.bardab.budgettracker.model.categories.PlannedExpenses;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -34,6 +36,7 @@ public class BudgetFXController {
     private TextField incomeTextField = new TextField();
     @FXML
     private TextField fixedSpendingTextField = new TextField();
+
     @FXML
     private TextField additionalSpendingTextField = new TextField();
     @FXML
@@ -69,7 +72,7 @@ public class BudgetFXController {
         setTextFieldsTextFormatter();
         this.monthComboBox.setItems(monthList);
         this.yearComboBox.setItems(yearList);
-
+        updateValueInCostsTextField();
 
     }
 
@@ -136,6 +139,18 @@ public class BudgetFXController {
         ArrayList<String> arrayList = new ArrayList<>();
         plannedExpenses.getMapOfCategories(plannedExpenses).forEach((e,f)-> arrayList.add(e+" "+f));
         return arrayList;
+
+    }
+
+
+    public void updateValueInCostsTextField(){
+        this.fixedSpendingComboBox.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+              String value = fixedSpendingComboBox.getSelectionModel().getSelectedItem().toString().split(" ")[1];
+               fixedSpendingTextField.setText(value);
+            }
+        });
 
     }
 

@@ -15,23 +15,25 @@
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="com.bardab.budgettracker.gui.controllers.TransactionsFXController"
         fx:id="transactions"
-        maxHeight="300" stylesheets="@budgetLook.css"
-        alignment="CENTER"
+        stylesheets="@budgetLook.css"
         spacing="2">
 
-    <HBox style="-fx-background-color: #3C3F41 " minHeight="32">
+
+    <HBox style="-fx-background-color: #3C3F41 " minHeight="20">
         <VBox alignment="CENTER">
-            <Label text="Transactions" textFill="DAA520"></Label>
+            <Label text="Transactions" textFill="DAA520">
+                <padding><Insets left="10"></Insets> </padding>
+            </Label>
         </VBox>
     </HBox>
 
-    <HBox style="-fx-background-color: #2B2B2B" minWidth="215" spacing="10">
-
+    <HBox style="-fx-background-color: #2B2B2B" minWidth="215" spacing="10" alignment="CENTER">
+        <padding><Insets left="10"></Insets> </padding>
 
         <DatePicker fx:id="transactionsDateFrom" maxHeight="20" promptText="From" maxWidth="100"></DatePicker>
         <DatePicker fx:id="transactionsDateTo" promptText="To" maxWidth="100"></DatePicker>
 
-    </HBox>
+
 
     <MenuBar fx:id="transactionsMenuBar" minHeight="30" minWidth="215" style="-fx-background-color: #2B2B2B" >
 
@@ -67,18 +69,19 @@
             </Menu>
         </menus>
     </MenuBar>
-
+    </HBox>
 
     <HBox minHeight="1" style="-fx-background-color: #3C3F41"></HBox>
     <!--    </VBox>-->
 
     <TableView
             fx:id="transactionTable" onMouseClicked="#deleteTransaction"
-            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="430">
+            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="450">
+        <padding><Insets left="10" bottom="5" ></Insets> </padding>
 
 
         <columns>
-            <TableColumn fx:id="dateColumn" text="Date" resizable="false">
+            <TableColumn fx:id="dateColumn" text="Date" resizable="false" minWidth="100">
                 <cellValueFactory>
                     <PropertyValueFactory property="transactionDate"/>
                 </cellValueFactory>
@@ -91,21 +94,19 @@
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn fx:id="categoryColumn" text="Category" minWidth="120" resizable="false">
+            <TableColumn fx:id="categoryColumn" text="Category" minWidth="125" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="category"/>
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="168" resizable="false">
+            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="150" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="description"/>
                 </cellValueFactory>
             </TableColumn>
         </columns>
 
-        <BorderPane.margin>
-            <Insets right="10.0"/>
-        </BorderPane.margin>
+
     </TableView>
 </VBox>

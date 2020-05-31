@@ -11,6 +11,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -49,6 +50,8 @@ public class ChartDataFormFXController {
 
 
     public void init(MainWindowFXController mainController) {
+        datePickerFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
+        datePickerTo.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()));
         chosenListName.setText(variableExpensesName);
         setPlaceHoldersForListViews();
         this.mainController = mainController;
@@ -183,7 +186,7 @@ public class ChartDataFormFXController {
         this.mainController.updatePieChart(datePickerFrom.getValue(), datePickerTo.getValue(), listOfCategoriesToBeAdded);
     }
 
-    public void updateLineChart() {
+    public void updateBarChart() {
         this.mainController.updateLineChart(datePickerFrom.getValue(), datePickerTo.getValue(), listOfCategoriesToBeAdded);
     }
 }

@@ -8,128 +8,131 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.shape.Line?>
-<Pane       xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bardab.budgettracker.gui.controllers.MainWindowFXController"
-            stylesheets="@budgetLook.css"
-            fx:id="mainPane"
+<Pane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.bardab.budgettracker.gui.controllers.MainWindowFXController"
+      stylesheets="@budgetLook.css"
+      fx:id="mainPane"
+      minWidth="1062" minHeight="600"
 >
 
-    <BorderPane fx:id="mainWindow"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="726.0"
-                prefWidth="968.0"
+    <BorderPane fx:id="mainWindow" minWidth="1062" minHeight="600"
     >
 
 
+        <center>
+            <HBox style="-fx-background-color: #2B2B2B;">
+
+                <VBox minWidth="10"
+                      style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; ">
+
+                </VBox>
+
+                <VBox>
+                    <HBox>
 
 
-
-    <left>
-        <HBox  style="-fx-background-color: #2B2B2B;">
-
-            <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; ">
-
-            </VBox>
-
-            <VBox>
-                <HBox>
+                        <VBox >
+                            <fx:include fx:id="transactions" source="transactions.fxml"></fx:include>
+                            <fx:include fx:id="newTransaction" source="newTransaction.fxml"></fx:include>
+                        </VBox>
 
 
-                    <VBox minWidth="430">
-                        <fx:include fx:id="transactions" source="transactions.fxml"></fx:include>
-                        <fx:include fx:id="newTransaction" source="newTransaction.fxml"></fx:include>
+                    </HBox>
+                    <VBox>
+                        <fx:include fx:id="balance" source="balance.fxml" />
+                        <fx:include fx:id="budget" source="budget.fxml"/>
                     </VBox>
 
+                </VBox>
+                <VBox minWidth="10"
+                      style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
+                <VBox HBox.hgrow="ALWAYS">
 
-                </HBox>
-<VBox>
-                <fx:include fx:id="balance" source="balance.fxml" minHeight="200" minWidth="400"/>
-                <fx:include fx:id="budget" source="budget.fxml"/>
-</VBox>
+                    <fx:include fx:id="chart" source="chartArea.fxml"></fx:include>
+                    <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>
+                </VBox>
 
-            </VBox>
-            <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
-            <VBox>
-
-                <fx:include fx:id="chart" source="chartArea.fxml"></fx:include>
-                <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>
-            </VBox>
-
-            <VBox minWidth="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
-        </HBox>
-
-
-
-
-    </left>
-
-
-    <top>
-
-
-    <VBox>
-            <HBox style="-fx-background-color:#3C3F41">
-                <MenuBar fx:id="menuBar" prefWidth="1600" minHeight="30" style="-fx-background-color:#3C3F41">
-                    <menus>
-                        <Menu>
-                            <graphic>
-                                <Label text="File" textFill="white"></Label>
-                            </graphic>
-                            <MenuItem text="File">
-
-                            </MenuItem>
-                            <MenuItem text="Import">
-
-                            </MenuItem>
-                            <MenuItem text="Exit">
-                            </MenuItem>
-                        </Menu>
-                        <Menu>
-                            <graphic>
-                                <Label text="View" textFill="white"></Label>
-                            </graphic>
-                            <MenuItem text="Daily"></MenuItem>
-                            <MenuItem text="Monthly"></MenuItem>
-                            <MenuItem text="Specify time period"></MenuItem>
-                        </Menu>
-                        <Menu>
-                            <graphic>
-                                <Label text="Options" textFill="white"></Label>
-                            </graphic>
-                            <MenuItem text="Delete"></MenuItem>
-                            <MenuItem text="Edit"></MenuItem>
-                            <MenuItem text="Manage types"></MenuItem>
-                        </Menu>
-                        <Menu>
-                            <graphic>
-                                <Label text="Help" textFill="white"></Label>
-                            </graphic>
-                            <MenuItem text="About"></MenuItem>
-                        </Menu>
-
-                    </menus>
-                </MenuBar>
-
-                <Button onAction="#minimizeWindow" style="-fx-background-color:#3C3F41">
-                    <graphic>
-                        <FontIcon iconLiteral="fa-window-minimize" iconColor="white" iconSize="10"></FontIcon>
-                    </graphic>
-                </Button>
-                <Button onAction="#maximizeWindow" style="-fx-background-color:#3C3F41">
-                    <graphic>
-                        <FontIcon iconLiteral="fa-window-maximize" iconColor="white" iconSize="10"></FontIcon>
-                    </graphic>
-                </Button>
-                <Button onAction="#closeApp" style="-fx-background-color:#3C3F41">
-                    <graphic>
-                        <FontIcon iconLiteral="fa-close" iconColor="white" iconSize="10"></FontIcon>
-                    </graphic>
-                </Button>
+                <VBox minWidth="10"
+                      style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
             </HBox>
-            <HBox minHeight="1" style="-fx-background-color:#323232"></HBox>
-        </VBox>
-    </top>
-    <bottom>
-        <HBox minHeight="10" style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
-    </bottom>
+
+
+        </center>
+
+
+        <top>
+
+
+            <VBox>
+                <HBox style="-fx-background-color:#3C3F41"  >
+                    <MenuBar fx:id="menuBar"  minHeight="30" style="-fx-background-color:#3C3F41" HBox.hgrow="ALWAYS">
+
+                        <menus>
+                            <Menu>
+                                <graphic>
+                                    <Label text="File" textFill="white"></Label>
+                                </graphic>
+                                <MenuItem text="File">
+
+                                </MenuItem>
+                                <MenuItem text="Import">
+
+                                </MenuItem>
+                                <MenuItem text="Exit">
+                                </MenuItem>
+                            </Menu>
+                            <Menu>
+                                <graphic>
+                                    <Label text="View" textFill="white"></Label>
+                                </graphic>
+                                <MenuItem text="Daily"></MenuItem>
+                                <MenuItem text="Monthly"></MenuItem>
+                                <MenuItem text="Specify time period"></MenuItem>
+                            </Menu>
+                            <Menu>
+                                <graphic>
+                                    <Label text="Options" textFill="white"></Label>
+                                </graphic>
+                                <MenuItem text="Delete"></MenuItem>
+                                <MenuItem text="Edit"></MenuItem>
+                                <MenuItem text="Manage types"></MenuItem>
+                            </Menu>
+                            <Menu>
+                                <graphic>
+                                    <Label text="Help" textFill="white"></Label>
+                                </graphic>
+                                <MenuItem text="About"></MenuItem>
+                            </Menu>
+
+                        </menus>
+                    </MenuBar>
+                <HBox >
+                    <Button onAction="#minimizeWindow" style="-fx-background-color:#3C3F41">
+                        <graphic>
+                            <FontIcon iconLiteral="fa-window-minimize" iconColor="white" iconSize="10"></FontIcon>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#maximizeWindow" style="-fx-background-color:#3C3F41">
+                        <graphic>
+                            <FontIcon iconLiteral="fa-window-maximize" iconColor="white" iconSize="10"></FontIcon>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#closeApp" style="-fx-background-color:#3C3F41">
+                        <graphic>
+                            <FontIcon iconLiteral="fa-close" iconColor="white" iconSize="10"></FontIcon>
+                        </graphic>
+                    </Button>
+                </HBox>
+                </HBox>
+                <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
+            </VBox>
+        </top>
+        <bottom>
+            <VBox minHeight="4">
+            <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
+            <HBox minHeight="6" style="-fx-background-color: #3C3F41"></HBox>
+            </VBox>
+        </bottom>
     </BorderPane>
 </Pane>

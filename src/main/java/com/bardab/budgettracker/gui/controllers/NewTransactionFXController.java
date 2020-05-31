@@ -59,14 +59,8 @@ public class NewTransactionFXController {
         categoriesComboBox.setItems(categoriesList);
     }
 
-    public void setInvestmentsCategoriesComboBox(){
-        categoriesList = FXCollections.observableArrayList(List.of("stock 1"));
-        categoriesComboBox.setPromptText("Stocks");
-        categoriesComboBox.setItems(categoriesList);
-    }
-
     public void setIncomeCategoriesComboBox(){
-        categoriesList = FXCollections.observableArrayList(List.of("income"));
+        categoriesList = FXCollections.observableArrayList(List.of("Income"));
         categoriesComboBox.setItems(categoriesList);
         categoriesComboBox.setPromptText("Income");
     }
@@ -75,13 +69,12 @@ public class NewTransactionFXController {
         switch(categoryNumber){
             case 0: setVariableCategoriesComboBox(); break;
             case 1: setFixedCategoriesComboBox(); break;
-            case 2: setInvestmentsCategoriesComboBox(); break;
-            case 3: setIncomeCategoriesComboBox(); break;
+            case 2: setIncomeCategoriesComboBox(); break;
         }
     }
 
     public void nextCategory(){
-        if (this.categoryNumber==3){
+        if (this.categoryNumber==2){
             this.categoryNumber=0;
         }
         else this.categoryNumber++;
@@ -95,9 +88,7 @@ public class NewTransactionFXController {
         setCategory(this.categoryNumber);
     }
 
-    public void updateTransactionsTableView(){
 
-    }
 
     public void addTransaction(){
         Transaction transaction = new Transaction();

@@ -9,6 +9,7 @@
 <?import javafx.geometry.Insets?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.shape.Box?>
+<?import com.sun.javafx.scene.control.DoubleField?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:id="budget"
@@ -16,14 +17,25 @@
       minWidth="430"
 
 >
-    <padding><Insets bottom="30"> </Insets></padding>
-
-
-    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "  minHeight="32">
+    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " minHeight="20">
         <VBox alignment="CENTER">
-            <Label text="Add budget" textFill="DAA520"></Label>
+            <HBox spacing="20">
+                <padding>
+                    <Insets left="10"></Insets>
+                </padding>
+                <Label text="Add budget" textFill="DAA520"></Label>
+                <HBox>
+                <ComboBox fx:id="monthComboBox" promptText="Month" visible="true"/>
+                <ComboBox fx:id="yearComboBox" promptText="Year" visible="true"/>
+                </HBox>
+            </HBox>
+
         </VBox>
     </HBox>
+<VBox spacing="5">
+    <padding>
+        <Insets left="10" top="5"></Insets>
+    </padding>
 
 
 
@@ -32,9 +44,8 @@
     <HBox>
 
         <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" maxWidth="100"/>
-        <Button  text="&gt;&gt;"/>
-        <ComboBox fx:id="monthComboBox" promptText="Month" visible="true" />
-        <ComboBox fx:id="yearComboBox" promptText="Year" visible="true" />
+        <TextField fx:id="fixedSpendingTextField" promptText="0.0" maxWidth="50"/>
+        <Button fx:id="fixedSpendingButton" text="Set New" onAction="#updateFixedCost" maxWidth="150"/>
 
 
         <!--            <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false"-->
@@ -43,21 +54,14 @@
 
 
 
-<HBox>
-
-    <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
-               style="-fx-font: 10;"></TextField>
-    <TextField fx:id="fixedSpendingTextField" promptText="0.0" maxWidth="50"/>
-
-    <Button fx:id="fixedSpendingButton" text="Update"   onAction="#updateFixedCost" maxWidth="150"/>
-    <Button fx:id="approveButton" text="Approve"  onAction="#approveBudget" />
-
-</HBox>
-
-    <HBox minHeight="1" style="-fx-background-color: #6B8E23" alignment="BOTTOM_LEFT"></HBox>
+    <HBox>
+        <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
+                   style="-fx-font: 10;"></TextField>
 
 
 
+        <Button fx:id="approveButton" text="Approve" onAction="#approveBudget"/>
+    </HBox>
 </VBox>
-
+</VBox>
 

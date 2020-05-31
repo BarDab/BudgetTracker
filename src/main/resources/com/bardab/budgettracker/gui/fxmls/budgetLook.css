@@ -140,6 +140,10 @@
     -fx-text-fill: white;
 }
 
+#descriptionColumn: hover{
+    -fx-text-fill:#DAA520;
+}
+
 .table-row-cell{
     -fx-background-color:  #3C3F41;
     -fx-background-insets: 0, 0 0 1 0;
@@ -184,6 +188,10 @@
           -fx-padding: 0;
           -fx-border-width: 1;
           -fx-border-color: #2B2B2B;
+      }
+      .list-cell: hover{
+      -fx-text-fill:#DAA520;
+
       }
 
 

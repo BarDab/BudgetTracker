@@ -35,7 +35,7 @@ public void start(Stage primaryStage) throws Exception{
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
 //        primaryStage.setMaximized(true);
-        Scene scene = new Scene(root, 968, 726);
+        Scene scene = new Scene(root, 1062, 660);
 
         primaryStage.setScene(scene);
         primaryStage.show();

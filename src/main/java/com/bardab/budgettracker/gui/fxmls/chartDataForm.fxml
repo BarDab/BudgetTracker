@@ -12,57 +12,46 @@
       fx:controller="com.bardab.budgettracker.gui.controllers.ChartDataFormFXController"
       fx:id="chartDataForm"
       style=" fx-background-color: #2B2B2B;"
-      spacing="10"
+      alignment="CENTER"
+
 
 >
     <padding>
-        <Insets  top="14"></Insets>
+        <Insets top="1"></Insets>
     </padding>
-<!--    <VBox spacing="4">-->
-
-<!--        <Label text="Choose data for charts" textFill="white"></Label>-->
 
 
-<!--        <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>-->
-<!--    </VBox>-->
-
-    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "  minHeight="40">
+    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; ">
         <VBox alignment="CENTER">
-            <Label text="Choose data for charts" textFill="DAA520"></Label>
+            <Label text="Choose data for charts" textFill="DAA520" minHeight="20">
+                <padding><Insets left="10"></Insets> </padding>
+            </Label>
         </VBox>
     </HBox>
-
-
     <VBox>
-        <padding>
-            <Insets top="10"></Insets>
-        </padding>
-        <VBox spacing="5">
 
-        </VBox>
-        <HBox alignment="CENTER_LEFT">
-            <Label fx:id="chosenListName" textFill="white"></Label>
-            <Button fx:id="switchList" onAction="#switchList" alignment="CENTER_LEFT" text="&gt;&gt;" />
-
-
-        </HBox>
-        <HBox spacing="5">
-            <ListView fx:id="availableCategories"  maxHeight="120" maxWidth="140"></ListView>
-            <VBox spacing="5">
-            <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT" ></Button>
-            <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All" alignment="CENTER_RIGHT" ></Button>
+        <HBox spacing="5" alignment="BOTTOM_CENTER">
+            <VBox>
+                <HBox alignment="CENTER_LEFT">
+                    <Button fx:id="switchList" onAction="#switchList" text="&gt;&gt; " />
+                    <Label fx:id="chosenListName" textFill="white" HBox.hgrow="ALWAYS"></Label>
+                </HBox>
+                <ListView fx:id="availableCategories" maxHeight="120" maxWidth="140"></ListView>
+            </VBox>
+            <VBox spacing="5" alignment="BOTTOM_CENTER">
+                <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT"></Button>
+                <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All"
+                        alignment="CENTER_RIGHT"></Button>
             </VBox>
             <ListView fx:id="categoriesToBeAdded" maxHeight="120" maxWidth="140"></ListView>
-            <VBox spacing="5">
+            <VBox spacing="5" alignment="BOTTOM_CENTER">
                 <DatePicker fx:id="datePickerFrom" promptText="From" maxWidth="100"></DatePicker>
                 <DatePicker fx:id="datePickerTo" promptText="To" maxWidth="100"></DatePicker>
-                <Button  onAction="#updateLineChart"  text="Update Line Chart" />
-                <Button onAction="#updatePieChart" text="Update Pie Chart" /></VBox>
+                <Button onAction="#updateBarChart" text="Update Bar Chart"/>
+                <Button onAction="#updatePieChart" text="Update Pie Chart"/>
+            </VBox>
         </HBox>
-
-
     </VBox>
 
-    <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
 
 </VBox>
