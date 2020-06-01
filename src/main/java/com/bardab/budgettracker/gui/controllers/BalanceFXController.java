@@ -13,10 +13,12 @@ import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,6 +32,16 @@ public class BalanceFXController {
     private VariableExpenses variableExpenses;
     private MonthlyBalance monthlyBalance;
     private Integer monthCode;
+
+    @FXML
+    private ObservableList<String> yearList = FXCollections.observableArrayList(MonthCode.yearList());
+    @FXML
+    private ObservableList<String> monthList = FXCollections.observableArrayList(MonthCode.monthNames());
+
+    @FXML
+    private ComboBox<String> yearComboBox;
+    @FXML
+    private ComboBox<String> monthComboBox;
 
 
     @FXML
@@ -54,20 +66,26 @@ public class BalanceFXController {
 
 
 
-    public void init (Integer monthCode){
-        this.monthCode = monthCode;
+    public void init (){
+
+        this.monthCode = MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now());
+
+        String month = MonthCode.monthNames().get(LocalDate.now().getMonth().getValue()-1);
+        String year = String.valueOf( LocalDate.now().getYear());
+        this.monthComboBox.setItems(monthList);
+        this.monthComboBox.getSelectionModel().select(month);
+        this.yearComboBox.setItems(yearList);
+        this.yearComboBox.getSelectionModel().select(year);
+
         fetchData(monthCode);
         populateLists();
         this.summaryNamesListView.setItems(summarizeNames);
         this.balanceListView.setItems(balanceSummarizeValues);
         this.budgetListView.setItems(budgetSummarizeValues);
         this.comparisonListView.setItems(summarizeComparison);
-
-
-
-        dateLabel.setText(MonthCode.monthYear(this.monthCode));
-
     }
+
+
 
     public void fetchData(Integer monthCode){
         monthlyBalanceDao = new MonthlyBalanceDao(HibernateUtil.getInstance().getSessionFactory());
@@ -102,14 +120,6 @@ public class BalanceFXController {
         summarizeComparison = FXCollections.observableArrayList(matchTheOrder(BudgetMonitor.comparedValues(monthlyBalance,budget)));
     }
 
-    public void nextMonth(){
-        init(MonthCode.getNextMonthCode(this.monthCode));
-
-    }
-    public void previousMonth(){
-        init(MonthCode.getPreviousMonthCode(this.monthCode));
-    }
-
 
     public ArrayList getSummarizedValuesInOrder(Object object){
         ArrayList<String> values = new ArrayList<>();
@@ -130,6 +140,11 @@ public class BalanceFXController {
 
     }
 
+
+    public Integer getMonthCode(){
+        String monthCode =  this.yearComboBox.getValue()+ MonthCode.getNumberOfMonth(this.monthComboBox.getValue());
+        return Integer.parseInt(monthCode);
+    }
 
     }
 

@@ -62,7 +62,7 @@
             <Menu fx:id="searchTransactionsMenu">
                 <graphic>
                     <VBox minHeight="27" alignment="CENTER">
-                        <Button onAction="#listFilteredTransactions" text="Search"
+                        <Button onAction="#updateTransactionsInTable" text="Search"
                                 alignment="CENTER"></Button>
                     </VBox>
                 </graphic>
@@ -76,7 +76,7 @@
 
     <TableView
             fx:id="transactionTable" onMouseClicked="#deleteTransaction"
-            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="450">
+            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="450" >
         <padding><Insets left="10" bottom="5" ></Insets> </padding>
 
 

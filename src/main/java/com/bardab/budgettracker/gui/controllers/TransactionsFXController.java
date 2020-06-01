@@ -3,7 +3,6 @@ package com.bardab.budgettracker.gui.controllers;
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.gui.TooltippedTableCell;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.additional.MonthCode;
 import com.bardab.budgettracker.model.categories.Categories;
 import com.bardab.budgettracker.model.categories.FixedExpenses;
 import com.bardab.budgettracker.model.categories.VariableExpenses;
@@ -68,34 +67,27 @@ public class TransactionsFXController {
 
     @FXML
     private CustomMenuItem customMenuItemFixed;
-
-
     @FXML
     private DatePicker transactionsDateFrom;
     @FXML
     private DatePicker transactionsDateTo;
 
-//    @FXML
-//    private Label transactionTableLabel;
-
     @FXML
     private ContextMenu tableContextMenu;
 
-    private Integer monthCode = MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now());
 
     public void init() {
         transactionsDateFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
         transactionsDateTo.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()));
 
-        createMenuCheckBoxes(variablesList, variableCategoriesMenu, 5,customMenuItemVariables);
-        createMenuCheckBoxes(fixedList, fixedCategoriesMenu, 5,customMenuItemFixed);
+        createMenuCheckBoxes(variablesList, variableCategoriesMenu, 5, customMenuItemVariables);
+        createMenuCheckBoxes(fixedList, fixedCategoriesMenu, 5, customMenuItemFixed);
 
-        listFilteredTransactions();
+        updateTransactionsInTable();
         setToolTip();
-//        transactionTableLabel.setText(MonthCode.monthYear(monthCode));
-
 
     }
+
 
     public void setToolTip() {
         descriptionColumn.setCellFactory(TooltippedTableCell.forTableColumn());
@@ -133,12 +125,9 @@ public class TransactionsFXController {
             checkBoxes.add(cb);
         }
         Button button = new Button("Unmark all");
-        button.setOnAction(e -> markAllCheckBoxes(checkBoxes,button));
+        button.setOnAction(e -> markAllCheckBoxes(checkBoxes, button));
         GridPane.setHalignment(button, HPos.RIGHT);
         gp.add(button, x, y + 1);
-
-
-
 
 
         customMenuItem.setContent(gp);
@@ -149,46 +138,27 @@ public class TransactionsFXController {
 
         menu.getItems().add(customMenuItem);
 
-        menu.getItems().forEach(e-> System.out.println(e.toString()));
+        menu.getItems().forEach(e -> System.out.println(e.toString()));
 
 
     }
 
 
-    public void markAllCheckBoxes(List<CheckBox> checkBoxes,Button button) {
-        if(button.getText().equals("Mark all")) {
+    public void markAllCheckBoxes(List<CheckBox> checkBoxes, Button button) {
+        if (button.getText().equals("Mark all")) {
             checkBoxes.forEach(e -> e.selectedProperty().setValue(true));
             button.setText("Unmark All");
+        } else {
+            checkBoxes.forEach(e -> e.selectedProperty().setValue(false));
+            button.setText("Mark all");
         }
-         else  {
-                checkBoxes.forEach(e -> e.selectedProperty().setValue(false));
-                button.setText("Mark all");
-         }
     }
 
-//
-//    public void nextMonthTransactions(){
-//        this.monthCode = MonthCode.getNextMonthCode(monthCode);
-//        listAllTransactions(this.monthCode);
-//        transactionTableLabel.setText(MonthCode.monthYear(monthCode));
-//
-//    }
-//    public void previousMonthTransactions(){
-//        this.monthCode = MonthCode.getPreviousMonthCode(monthCode);
-//        listAllTransactions(this.monthCode);
-//        transactionTableLabel.setText(MonthCode.monthYear(monthCode));
-//    }
 
-
-    public void listFilteredTransactions() {
+    public void updateTransactionsInTable() {
         Task<ObservableList<Transaction>> task = new GetTransactionsFiltered(transactionsDateFrom.getValue(), transactionsDateTo.getValue(), filteredList);
         transactionTable.itemsProperty().bind(task.valueProperty());
         transactionTable.onMouseClickedProperty();
-//        progressBar.progressProperty().bind(task.progressProperty());
-//        progressBar.visibleProperty().set(true);
-//        task.setOnSucceeded(e->progressBar.setVisible(false));
-//        task.setOnFailed(e->progressBar.setVisible(false));
-
         new Thread(task).start();
     }
 
@@ -201,7 +171,7 @@ public class TransactionsFXController {
             public void handle(ActionEvent actionEvent) {
                 Transaction transaction = (Transaction) transactionTable.getSelectionModel().getSelectedItem();
                 transactionDao.deleteTransaction(transaction.getId());
-//                init();
+                updateTransactionsInTable();
             }
         });
         tableContextMenu.getItems().addAll(deleteMenuItem);

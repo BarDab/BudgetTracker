@@ -19,25 +19,29 @@
 
         <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " spacing="30" minHeight="20">
             <VBox alignment="CENTER">
-                <Label text="Balance" textFill="DAA520">
-                    <padding><Insets left="10"></Insets> </padding>
-                </Label>
-            </VBox>
+            <HBox spacing="20">
+            <padding>
+                <Insets left="10"></Insets>
+            </padding>
+            <Label text="Balance" textFill="DAA520"></Label>
+            <HBox>
+                <ComboBox fx:id="monthComboBox" promptText="Month" visible="true"/>
+                <ComboBox fx:id="yearComboBox" promptText="Year" visible="true"/>
+            </HBox>
+        </HBox>
+</VBox>
 
         </HBox>
 
 
     <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #2B2B2B; -fx-border-color:#323232; -fx-border-width: 1; ">
         <padding><Insets right="10"> </Insets></padding>
-        <VBox>
-            <HBox alignment="CENTER_LEFT">
-                <Button fx:id="previousMonth"  text="&lt;&lt;" onAction="#previousMonth" />
-                <VBox alignment="CENTER">
-                    <Label text="Date" fx:id="dateLabel"/>
-                </VBox>
-                <Button fx:id="nextMonth"  text="&gt;&gt;" onAction="#nextMonth" />
-            </HBox>
-            <ListView  prefHeight="114" maxWidth="150"  fx:id="summaryNamesListView" mouseTransparent="true" focusTraversable="false" ></ListView>
+        <VBox >
+            <padding><Insets top="27"></Insets></padding>
+
+            <ListView  prefHeight="114" maxWidth="150"  fx:id="summaryNamesListView" mouseTransparent="true" focusTraversable="false" >
+
+            </ListView>
         </VBox>
         <VBox spacing="5">
             <Label text="Actual" ><padding><Insets top="5"></Insets></padding></Label>

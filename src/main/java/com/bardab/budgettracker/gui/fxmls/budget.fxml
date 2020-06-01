@@ -17,7 +17,7 @@
       minWidth="430"
 
 >
-    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " minHeight="20">
+    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " prefHeight="22" >
         <VBox alignment="CENTER">
             <HBox spacing="20">
                 <padding>
@@ -25,8 +25,8 @@
                 </padding>
                 <Label text="Add budget" textFill="DAA520"></Label>
                 <HBox>
-                <ComboBox fx:id="monthComboBox" promptText="Month" visible="true"/>
-                <ComboBox fx:id="yearComboBox" promptText="Year" visible="true"/>
+                <ComboBox fx:id="monthComboBox" promptText="Month" visible="true" />
+                <ComboBox fx:id="yearComboBox" promptText="Year" visible="true" />
                 </HBox>
             </HBox>
 

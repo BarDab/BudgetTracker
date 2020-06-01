@@ -19,6 +19,7 @@ public class NewTransactionFXController {
 
     private TransactionInsertionManager transactionInsertionManager;
 
+    private MainWindowFXController mainWindowFXController;
     public NewTransactionFXController() {
         transactionInsertionManager = new TransactionInsertionManager();
     }
@@ -36,11 +37,13 @@ public class NewTransactionFXController {
     @FXML
     private TextField descriptionField = new TextField();
 
-    public void init(){
+    public void init(MainWindowFXController mainWindowFXController){
+        this.mainWindowFXController = mainWindowFXController;
         setCategory(categoryNumber);
         descriptionField.clear();
         newTransactionDatePicker.setValue(LocalDate.now());
         valueField.setTextFormatter(new DoubleFormatter().doubleFormatter());
+
     }
 
 
@@ -98,7 +101,8 @@ public class NewTransactionFXController {
         transaction.setTransactionDateAndMonthCode(newTransactionDatePicker.getValue());
 
         transactionInsertionManager.insertTransactionAndUpdateActiveCategories(transaction);
-        init();
+        mainWindowFXController.updateTransactionsTable();
+        mainWindowFXController.updateMonthlyBalance();
 
     }
 }

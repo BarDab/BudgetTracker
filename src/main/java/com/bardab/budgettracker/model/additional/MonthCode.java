@@ -108,6 +108,7 @@ public final class MonthCode {
     }
 
 
+
     public static boolean validateMonthCode(String yearMonth){
         try{
             Pattern pattern = Pattern.compile("(\\d{4})((_\\d{1,2})|)");

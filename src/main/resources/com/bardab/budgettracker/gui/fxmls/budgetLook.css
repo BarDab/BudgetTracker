@@ -95,6 +95,12 @@
  -fx-background-color:  #606669;
  -fx-border-color:transparent transparent #6B8E23 transparent;
 }
+.button: focused{
+ -fx-text-fill: #DAA520;
+ -fx-background-color:  #606669;
+ -fx-border-color:transparent transparent #6B8E23 transparent;
+}
+
 
 #nextMonth: hover{
 -fx-border-color:transparent transparent #6B8E23 transparent;
@@ -144,6 +150,8 @@
     -fx-text-fill:#DAA520;
 }
 
+
+
 .table-row-cell{
     -fx-background-color:  #3C3F41;
     -fx-background-insets: 0, 0 0 1 0;
@@ -167,6 +175,10 @@
   -fx-background-color: transparent;
   -fx-background-insets: 0;
   -fx-padding: 0;
+}
+
+.list-view: focused{
+ -fx-border-color: #6B8E23;
 }
 
 .list-cell{
@@ -225,6 +237,15 @@
 .text-input {
  -fx-text-fill:  #2B2B2B;
 }
+
+.combo-box .list-cell{
+ -fx-border-color: transparent;
+}
+
+.combo-box: focused{
+ -fx-border-color: transparent transparent #6B8E23 transparent;
+}
+
 
 
  .combo-box .arrow-button{

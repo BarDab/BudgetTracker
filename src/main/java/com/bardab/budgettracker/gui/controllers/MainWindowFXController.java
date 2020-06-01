@@ -1,6 +1,5 @@
 package com.bardab.budgettracker.gui.controllers;
 
-import com.bardab.budgettracker.model.additional.MonthCode;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
@@ -70,8 +69,8 @@ public class MainWindowFXController  {
 
 
         budgetController.init();
-        balanceController.init(MonthCode.createIntMonthCodeFromLocalDate(LocalDate.now()));
-        newTransactionController.init();
+        balanceController.init();
+        newTransactionController.init(this);
         transactionsController.init();
         this.stage = stage;
 
@@ -107,6 +106,15 @@ public class MainWindowFXController  {
     }
     public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
         this.chartController.updateLineChart(dateFrom,dateTo,listOfCategories);
+    }
+
+    public void updateTransactionsTable(){
+        this.transactionsController.updateTransactionsInTable();
+
+    }
+
+    public void updateMonthlyBalance(){
+        this.balanceController.init();
     }
 
 
