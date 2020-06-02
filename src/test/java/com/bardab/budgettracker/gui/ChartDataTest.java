@@ -8,13 +8,12 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ChartDataTest {
 
-
+    private ChartData chartData;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private List<String> categories;
@@ -22,6 +21,7 @@ class ChartDataTest {
     @BeforeEach
     void setUp(){
         variableExpenses = new VariableExpenses();
+        chartData = new ChartData();
 
         dateFrom = LocalDate.of(2020,01,01);
         dateTo = LocalDate.now();
@@ -31,10 +31,10 @@ class ChartDataTest {
     @Test
     void expenseCategoriesWithDailyTotalValues(){
 
-        HashMap<String, HashMap<LocalDate, Double>> mapHashMap = ChartData.expenseCategoriesWithDailyTotalValues(dateFrom,dateTo,categories);
+        HashMap<String, LinkedHashMap<LocalDate, Double>> mapHashMap = ChartData.expenseCategoriesWithDailyTotalValues(dateFrom,dateTo,categories);
         List<XYChart.Series> listOfSeries = new ArrayList<>();
         for(String category:mapHashMap.keySet()){
-            HashMap<LocalDate, Double> dateDoubleHashMap = mapHashMap.get(category);
+            LinkedHashMap<LocalDate, Double> dateDoubleHashMap = mapHashMap.get(category);
             XYChart.Series series = new XYChart.Series();
             series.setName(category);
             for(LocalDate localDate:dateDoubleHashMap.keySet()){
@@ -46,6 +46,13 @@ class ChartDataTest {
 
 
     }
+
+    @Test
+    void  getListOfDatesInSpecificTime() {
+      chartData.getListOfDatesInSpecificTime(LocalDate.now(),LocalDate.of(2020,06,30)).forEach(e-> System.out.println(e));
+
+    }
+
 
 
 

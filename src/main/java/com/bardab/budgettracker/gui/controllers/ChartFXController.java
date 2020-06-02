@@ -35,13 +35,14 @@ public class ChartFXController {
 
 
 
-
+    @FXML
+    private ObservableList<String> datesInSpecifiedPeriod;
     @FXML
     private CategoryAxis xAxis = new CategoryAxis();
     @FXML
     private NumberAxis yAxis = new NumberAxis();
     @FXML
-    private StackedBarChart<String, Double> stackedBarChart;
+    private StackedBarChart<String, Number> stackedBarChart;
 
     @FXML
     private ListView<String> categoriesListView = new ListView();
@@ -57,6 +58,8 @@ public class ChartFXController {
 
     public void init(MainWindowFXController mainController) {
         this.mainController = mainController;
+
+        xAxis.setAutoRanging(true);
         variableExpenses = new VariableExpenses();
         variableExpenses.initializeFields(variableExpenses);
         categoriesList = FXCollections.observableArrayList((VariableExpenses.getPresentableCategoriesNames(variableExpenses)));
@@ -92,11 +95,21 @@ public class ChartFXController {
             camelCaseCategories.add(Categories.transformToCamelCase(category));
         }
         listOfCategories = FXCollections.observableArrayList(camelCaseCategories);
+        xAxis.setCategories(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
+        xAxis.getCategories().removeAll(xAxis.getCategories());
+        xAxis.getCategories().addAll(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
 
-        List<XYChart.Series<String, Double>> list = ChartData.getListOfSeriesForLineChart(dateFrom, dateTo, listOfCategories);
 
-        stackedBarChart.getData().setAll(list);
+        List<XYChart.Series<String, Number>> list = ChartData.getListOfSeriesForLineChart(dateFrom, dateTo, listOfCategories);
+
+
+
+        stackedBarChart.getData().removeAll(stackedBarChart.getData());
+        stackedBarChart.getData().addAll(list);
     }
+
+
+
 
 
 

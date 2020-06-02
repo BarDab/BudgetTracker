@@ -10,9 +10,7 @@ import javafx.scene.chart.XYChart;
 import org.hibernate.SessionFactory;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ChartData {
 
@@ -23,6 +21,7 @@ public class ChartData {
 
     public static HashMap<String, Double> expenseCategoriesWithValuesForPieChart(LocalDate dateFrom, LocalDate dateTo, List<String> categories) {
         List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, categories);
+        transactions.forEach(e -> System.out.println(e.getTransactionDate()));
         HashMap<String, Double> categoriesWithValues = new HashMap<>();
         for (String category : categories) {
             Double incrementedValue = 0.0;
@@ -36,12 +35,12 @@ public class ChartData {
         return categoriesWithValues;
     }
 
-    public static HashMap<String, HashMap<LocalDate, Double>> expenseCategoriesWithDailyTotalValues(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
+    public static HashMap<String, LinkedHashMap<LocalDate, Double>> expenseCategoriesWithDailyTotalValues(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
         List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, listOfCategories);
-        HashMap<String, HashMap<LocalDate, Double>> categoriesWithDailyValues = new HashMap<>();
-        HashMap<LocalDate, Double> map;
+        HashMap<String, LinkedHashMap<LocalDate, Double>> categoriesWithDailyValues = new HashMap<>();
+        LinkedHashMap<LocalDate, Double> map;
         for (String category : listOfCategories) {
-            map = new HashMap<>();
+            map = new LinkedHashMap<>();
             for (Transaction transaction : transactions) {
                 if (transaction.getCategory().equals(category)) {
                     if (map.get(transaction.getTransactionDate()) == null) {
@@ -58,20 +57,34 @@ public class ChartData {
     }
 
 
-    public static List<XYChart.Series<String, Double>> getListOfSeriesForLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> categories) {
-        HashMap<String, HashMap<LocalDate, Double>> mapHashMap = expenseCategoriesWithDailyTotalValues(dateFrom, dateTo, categories);
-        List<XYChart.Series<String, Double>> listOfSeries = new ArrayList<>();
+    public static ArrayList<String> getListOfDatesInSpecificTime(LocalDate fromDate, LocalDate toDate) {
+        ArrayList<String> datesInString = new ArrayList<>();
+        Object[] dates = fromDate.datesUntil(toDate).toArray();
+        for (Object object : dates) {
+            datesInString.add(object.toString());
+        }
+        datesInString.add(toDate.toString());
+
+        return datesInString;
+
+    }
+
+    public static List<XYChart.Series<String, Number>> getListOfSeriesForLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> categories) {
+        HashMap<String, LinkedHashMap<LocalDate, Double>> mapHashMap = expenseCategoriesWithDailyTotalValues(dateFrom, dateTo, categories);
+        List<XYChart.Series<String, Number>> listOfSeries = new ArrayList<>();
         for (String category : mapHashMap.keySet()) {
             HashMap<LocalDate, Double> dateDoubleHashMap = mapHashMap.get(category);
-            dateDoubleHashMap.forEach((e, f) -> System.out.println(category + e.toString() + f.toString()));
+
+
             XYChart.Series series = new XYChart.Series();
             series.setName(category);
             int i = 0;
             for (LocalDate localDate : dateDoubleHashMap.keySet()) {
-                XYChart.Data data = new XYChart.Data(localDate.toString(), dateDoubleHashMap.get(localDate));
+                XYChart.Data data = new XYChart.Data(localDate.toString(),  dateDoubleHashMap.get(localDate));
                 series.getData().add(data);
 
             }
+//            series.getData().sort(Comparator.comparingInt());
             listOfSeries.add(series);
         }
         return listOfSeries;

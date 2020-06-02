@@ -94,6 +94,9 @@ public class TransactionsFXController {
     }
 
 
+
+
+
     public void createMenuCheckBoxes(List<String> list, Menu menu, int numberOfRows, CustomMenuItem customMenuItem) {
         GridPane gp = new GridPane();
         gp.setOpacity(30);

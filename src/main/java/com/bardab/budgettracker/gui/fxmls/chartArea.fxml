@@ -53,12 +53,12 @@
                 <!--                <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>-->
 
                 <HBox>
-                    <StackedBarChart fx:id="stackedBarChart" xAxis="" yAxis="" animated="true" minWidth="550" >
+                    <StackedBarChart fx:id="stackedBarChart" animated="true"  minWidth="550" >
                         <xAxis>
-                            <CategoryAxis fx:id="xAxis"></CategoryAxis>
+                            <CategoryAxis fx:id="xAxis" animated="true"></CategoryAxis>
                         </xAxis>
                         <yAxis>
-                            <NumberAxis fx:id="yAxis"></NumberAxis>
+                            <NumberAxis fx:id="yAxis" animated="true"></NumberAxis>
                         </yAxis>
 
                     </StackedBarChart>
