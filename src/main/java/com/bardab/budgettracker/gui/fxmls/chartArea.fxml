@@ -21,22 +21,10 @@
 
     <tabs>
         <Tab fx:id="pieChartTab" text="Pie Chart">
-
-
-            <VBox>
-                <HBox alignment="BOTTOM_CENTER">
-
-
-                    <Label fx:id="datesLabelPieChart"></Label>
-                </HBox>
-                <HBox>
-
-
-                    <PieChart fx:id="categoriesPieChart" visible="true"
-                              legendSide="LEFT" labelLineLength="5" animated="true" minWidth="550">
-
-                    </PieChart>
-                </HBox>
+            <VBox ><padding> <Insets top="5"></Insets></padding>
+                <PieChart fx:id="categoriesPieChart" visible="true"
+                              legendSide="LEFT" labelLineLength="5" animated="true" minWidth="550" >
+                </PieChart>
             </VBox>
         </Tab>
         <Tab fx:id="lineChartTab" text="Line Chart">

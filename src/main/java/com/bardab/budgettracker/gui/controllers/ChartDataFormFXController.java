@@ -189,4 +189,11 @@ public class ChartDataFormFXController {
     public void updateBarChart() {
         this.mainController.updateLineChart(datePickerFrom.getValue(), datePickerTo.getValue(), listOfCategoriesToBeAdded);
     }
+
+    public void updatePieChartWithDataFromTransactionsTable(){
+
+    }
+    public void updateBartChartWithDataFromTransactionsTable(){
+
+    }
 }

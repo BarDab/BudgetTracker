@@ -2,6 +2,7 @@ package com.bardab.budgettracker.gui.controllers;
 
 import com.bardab.budgettracker.gui.ChartData;
 import com.bardab.budgettracker.gui.DoubleFormatter;
+import com.bardab.budgettracker.model.Transaction;
 import com.bardab.budgettracker.model.categories.Categories;
 import com.bardab.budgettracker.model.categories.VariableExpenses;
 import javafx.collections.FXCollections;
@@ -47,8 +48,6 @@ public class ChartFXController {
     @FXML
     private ListView<String> categoriesListView = new ListView();
 
-    @FXML
-    private Label datesLabelPieChart;
 
 
 
@@ -70,11 +69,16 @@ public class ChartFXController {
     }
 
 
-    public void updateDatesLabelPieChart(LocalDate datesFrom, LocalDate datesTo){
-        this.datesLabelPieChart.setText("From: "+ datesFrom.toString()+" To: "+ datesTo.toString());
-
+    public void updatePieChartTitle(LocalDate datesFrom, LocalDate datesTo){
+       categoriesPieChart.setTitle(datesFrom.toString()+" to "+ datesTo.toString());
     }
 
+
+    public void updatePieChartWithDataFromTable(LocalDate dateFrom, LocalDate dateTo,List<Transaction> transactions, Pane pane){
+        this.categoriesPieChart.setData(ChartData.getSeriesForPieChart(transactions));
+        this.categoriesPieChart.setLegendSide(Side.BOTTOM);
+        addLabelOnHover(pane);
+    }
 
     public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories, Pane pane){
         List<String> camelCaseCategories = new ArrayList();
@@ -88,7 +92,17 @@ public class ChartFXController {
         addLabelOnHover(pane);
     }
 
-    public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
+    public void updateBarChartWithDataFromTable( LocalDate dateFrom,LocalDate dateTo,List<Transaction> transactions){
+        xAxis.setCategories(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
+        xAxis.getCategories().removeAll(xAxis.getCategories());
+        xAxis.getCategories().addAll(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
+        List<XYChart.Series<String, Number>> list = ChartData.getListOfSeriesForXYChart(transactions);
+        stackedBarChart.getData().removeAll(stackedBarChart.getData());
+        stackedBarChart.getData().addAll(list);
+    }
+
+
+    public void updateBarChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
 
         List<String> camelCaseCategories = new ArrayList();
         for (String category : listOfCategories) {
@@ -100,7 +114,7 @@ public class ChartFXController {
         xAxis.getCategories().addAll(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
 
 
-        List<XYChart.Series<String, Number>> list = ChartData.getListOfSeriesForLineChart(dateFrom, dateTo, listOfCategories);
+        List<XYChart.Series<String, Number>> list = ChartData.getListOfSeriesForXYChart(dateFrom, dateTo, listOfCategories);
 
 
 

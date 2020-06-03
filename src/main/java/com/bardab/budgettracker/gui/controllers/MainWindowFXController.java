@@ -1,5 +1,7 @@
 package com.bardab.budgettracker.gui.controllers;
 
+import com.bardab.budgettracker.gui.ChartData;
+import com.bardab.budgettracker.model.Transaction;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
@@ -99,13 +101,28 @@ public class MainWindowFXController  {
 
     }
 
+    public void updatePieChartWithDataFromTable(){
+
+        List<Transaction> transactions = this.transactionsController.getTransactionsList();
+        LocalDate dateFrom = ChartData.getLatestDate(transactions);
+        LocalDate dateTo = ChartData.getEarliestDate(transactions);
+        this.chartController.updatePieChartWithDataFromTable(dateFrom,dateTo,transactions,mainPane);
+        this.chartController.updatePieChartTitle(dateFrom,dateTo);
+    }
+    public void updateBarChartWithDataFromTable(){
+        List<Transaction> transactions = this.transactionsController.getTransactionsList();
+        LocalDate dateFrom = ChartData.getLatestDate(transactions);
+        LocalDate dateTo = ChartData.getEarliestDate(transactions);
+        this.chartController.updateBarChartWithDataFromTable(dateFrom,dateTo,transactions);
+    }
+
 
     public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
         this.chartController.updatePieChart(dateFrom,dateTo,listOfCategories,mainPane);
-        this.chartController.updateDatesLabelPieChart(dateFrom,dateTo);
+        this.chartController.updatePieChartTitle(dateFrom,dateTo);
     }
     public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
-        this.chartController.updateLineChart(dateFrom,dateTo,listOfCategories);
+        this.chartController.updateBarChart(dateFrom,dateTo,listOfCategories);
     }
 
     public void updateTransactionsTable(){

@@ -75,6 +75,8 @@ public class TransactionsFXController {
     @FXML
     private ContextMenu tableContextMenu;
 
+    private List<Transaction> transactionsList;
+
 
     public void init() {
         transactionsDateFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
@@ -93,6 +95,10 @@ public class TransactionsFXController {
         descriptionColumn.setCellFactory(TooltippedTableCell.forTableColumn());
     }
 
+
+    public List<Transaction> getTransactionsList(){
+        return this.transactionsList;
+    }
 
 
 
@@ -200,10 +206,11 @@ public class TransactionsFXController {
         public ObservableList<Transaction> call() {
             List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, categories);
             transactions.forEach(e -> e.setPresentableCategory(Categories.getPresentableCategoryName(e.getCategory())));
-
+            transactionsList = transactions;
             return FXCollections.observableArrayList(transactions);
         }
     }
+
 
 
 }

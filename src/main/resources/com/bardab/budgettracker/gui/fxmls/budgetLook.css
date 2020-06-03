@@ -325,6 +325,25 @@
 -fx-font-size:10;
 }
 
+.chart-plot-background {
+    -fx-background-color: #e2ecfe;
+}
+.chart-plot-background {
+    -fx-background-color: #e2ecfe;
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: #3278fa;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #3278fa;
+}
+.chart-alternative-row-fill {
+    -fx-fill: #99bcfd;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+
 .context-menu{
 -fx-background-color: rgba(0%,0%,0%,0.5);
 -fx-focus-color: rgba(0%,0%,0%,0.5);
