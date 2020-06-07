@@ -1,28 +1,115 @@
 
+.root {
+
+    -fx-background-color:#2B2B2B;
+    grayCustom: #3C3F41;
+    darkGrayCustom: #2B2B2B;
+    lightGrayCustom: #606669;
+
+    blueCustom: #99bcfd;
+    darkBlueCustom: #005797;
+    lightBlueCustom: #e2ecfe;
+
+    yellowCustom: #DAA520;
+    greenCustom: #6B8E23;
+
+    }
 
 
+#bottomBorderArea{
+-fx-background-color: grayCustom;
+-fx-border-color:greenCustom transparent transparent transparent;
+-fx-border-width: 1;
+}
+#leftBorderArea{
+-fx-background-color: grayCustom;
+-fx-border-color:transparent lightGrayCustom transparent lightGrayCustom;
+-fx-border-width: 1;
+}
+#rightBorderArea{
+-fx-background-color: grayCustom;
+-fx-border-color:transparent lightGrayCustom transparent lightGrayCustom;
+-fx-border-width: 1;
+}
+#centerBorderArea{
+-fx-background-color: grayCustom;
+-fx-border-color:transparent lightGrayCustom transparent lightGrayCustom;
+-fx-border-width: 1;
+}
+
+
+#nextMonth: hover{
+-fx-border-color:transparent transparent greenCustom transparent;
+}
+#nextMonth {
+-fx-border-color:transparent transparent darkGrayCustom transparent;
+}
+
+#previousMonth: hover{
+-fx-border-color:transparent transparent greenCustom transparent;
+}
+#previousMonth {
+-fx-border-color:transparent transparent darkGrayCustom transparent;
+}
+
+#transactionsSection{
+-fx-background-color: grayCustom;
+}
+
+#chartDataSection {
+-fx-background-color: grayCustom;
+}
+
+#menuSection{
+-fx-background-color: grayCustom;
+}
+
+#balanceSection{
+-fx-background-color: grayCustom;
+}
+
+#budgetSection{
+-fx-background-color: grayCustom;
+}
+
+#topLine{
+-fx-background-color: greenCustom;
+}
+
+
+
+
+.text-field {
+-fx-background-color: darkGrayCustom;
+}
+
+.custom-menu-item{
+-fx-background-color:grayCustom;
+}
 
 .tab-pane .tab-header-area .tab-header-background {
 
-  -fx-background-color:#3C3F41;
+  -fx-background-color:grayCustom;
 }
 .tab-pane .tab{
 -fx-background-color:transparent;
 -fx-faint-focus-color: transparent;
--fx-focus-color: #DAA520;
+-fx-focus-color: yellowCustom;
 
 }
 .tab-pane .tab .tab-label{
--fx-text-fill:#DAA520;
+-fx-text-fill:yellowCustom;
 }
 
 .tab-pane .tab: selected  {
 -fx-border-color: transparent;
--fx-background-color: #2B2B2B;
+-fx-background-color: darkGrayCustom;
 -fx-fill: blue;
 }
 
-
+.menu-bar {
+     -fx-background-color:transparent;
+}
 
     #variableCategoriesMenu {
      -fx-background-color:transparent;
@@ -39,31 +126,31 @@
 
 .scroll-bar {
 
- -fx-background-color: #2B2B2B;
+ -fx-background-color: darkGrayCustom;
 }
 
 .scroll-bar .track{
--fx-background-color: #2B2B2B ;
+-fx-background-color: darkGrayCustom ;
  -fx-background-insets: 0;
 
 }
 .scroll-bar .thumb{
--fx-background-color: #4e5254;
- -fx-background-insets: 0;
+-fx-background-color: lightGrayCustom;
+-fx-background-insets: 0;
 
 
 }
 
 .scroll-bar .decrement-button {
 
-    -fx-background-color: #2B2B2B;
+    -fx-background-color: darkGrayCustom;
     -fx-background-insets: 0;
      -fx-padding:  0 3 0 3;
 
 }
 .scroll-bar .decrement-button .decrement-arrow{
 
-    -fx-background-color: #2B2B2B;
+    -fx-background-color: darkGrayCustom;
     -fx-background-insets: 0;
       -fx-padding: 0 3 0 3;
 
@@ -72,49 +159,36 @@
 
 
 .scroll-bar .increment-button  {
- -fx-background-color: #4e5254;
+ -fx-background-color: lightGrayCustom;
  -fx-background-insets: 0;
       -fx-padding: 0 3 0 3;
 
 }
 
 .scroll-bar .increment-button .increment-arrow {
- -fx-background-color: #4e5254;
+ -fx-background-color: lightGrayCustom;
   -fx-background-insets: 0;
       -fx-padding: 0 3 0 3;
 }
 
 .button{
 -fx-background-color:  transparent;
- -fx-text-fill: #DAA520;
- -fx-border-color:transparent transparent #3C3F41 transparent;
+ -fx-text-fill: yellowCustom;
+ -fx-border-color:transparent transparent grayCustom transparent;
 }
 
 .button: hover{
- -fx-text-fill: #DAA520;
- -fx-background-color:  #606669;
- -fx-border-color:transparent transparent #6B8E23 transparent;
+ -fx-text-fill: yellowCustom;
+ -fx-background-color:  lightGrayCustom;
+ -fx-border-color:transparent transparent greenCustom transparent;
 }
 .button: focused{
- -fx-text-fill: #DAA520;
- -fx-background-color:  #606669;
- -fx-border-color:transparent transparent #6B8E23 transparent;
+ -fx-text-fill: yellowCustom;
+ -fx-background-color:  lightGrayCustom;
+ -fx-border-color:transparent transparent greenCustom transparent;
 }
 
 
-#nextMonth: hover{
--fx-border-color:transparent transparent #6B8E23 transparent;
-}
-#nextMonth {
--fx-border-color:transparent transparent #2B2B2B transparent;
-}
-
-#previousMonth: hover{
--fx-border-color:transparent transparent #6B8E23 transparent;
-}
-#previousMonth {
--fx-border-color:transparent transparent #2B2B2B transparent;
-}
 
 
 .table-view{
@@ -128,7 +202,7 @@
 
 
 .table-view .column-header-background{
-    -fx-background-color:  #2B2B2B;
+    -fx-background-color:  darkGrayCustom;
 }
 
 
@@ -147,25 +221,25 @@
 }
 
 #descriptionColumn: hover{
-    -fx-text-fill:#DAA520;
+    -fx-text-fill:yellowCustom;
 }
 
 
 
 .table-row-cell{
-    -fx-background-color:  #3C3F41;
+    -fx-background-color:  grayCustom;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
 }
 
 .table-row-cell:odd{
-    -fx-background-color: #2B2B2B;
+    -fx-background-color: darkGrayCustom;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
 }
 
 .table-row-cell:selected {
-    -fx-background-color: #005797;
+    -fx-background-color: darkBlueCustom;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }
@@ -178,7 +252,7 @@
 }
 
 .list-view: focused{
- -fx-border-color: #6B8E23;
+ -fx-border-color: greenCustom;
 }
 
 .list-cell{
@@ -186,39 +260,34 @@
      }
 
 .list-cell{
-          -fx-background-color:  #3C3F41;
+          -fx-background-color:  grayCustom;
           -fx-background-insets: 0;
           -fx-padding: 0;
           -fx-border-width: 1;
-          -fx-border-color:#3C3F41;
+          -fx-border-color:grayCustom;
 
       }
 
 .list-cell:odd{
-          -fx-background-color: #2B2B2B;
+          -fx-background-color: darkGrayCustom;
           -fx-background-insets: 0;
           -fx-padding: 0;
           -fx-border-width: 1;
-          -fx-border-color: #2B2B2B;
+          -fx-border-color: darkGrayCustom;
       }
       .list-cell: hover{
-      -fx-text-fill:#DAA520;
+      -fx-text-fill:yellowCustom;
 
       }
 
 
 .text-field{
-
   -fx-border-radius: 5 5 5 5;
   -fx-background-radius: 5 5 5 5;
-
-  /* top-left, top-right, bottom-right, and bottom-left corners, in that
-  order. */
-
 }
 
 #switchList:hover{
--fx-background-color: #4e5254;
+-fx-background-color: lightGrayCustom;
 
 }
 
@@ -227,15 +296,11 @@
 
 
 .label{
-       -fx-text-fill:white;}
-.hbox {
-    -fx-background-color:  #2B2B2B;
-    -fx-padding: 15;
-    -fx-spacing: 10;
-}
+       -fx-text-fill:yellowCustom;}
+
 
 .text-input {
- -fx-text-fill:  #2B2B2B;
+ -fx-text-fill:  darkGrayCustom;
 }
 
 .combo-box .list-cell{
@@ -243,19 +308,19 @@
 }
 
 .combo-box: focused{
- -fx-border-color: transparent transparent #6B8E23 transparent;
+ -fx-border-color: transparent transparent greenCustom transparent;
 }
 
 
 
  .combo-box .arrow-button{
-  -fx-background-color: #3C3F41;
+  -fx-background-color: grayCustom;
     -fx-border-radius: 0 5 5 0;
     -fx-background-radius: 0 5 5 0;
 }
 
  .combo-box .list-cell{
-  -fx-background-color: #3C3F41;
+  -fx-background-color: grayCustom;
     -fx-border-radius: 5 0 0 5;
     -fx-background-radius: 5 0 0 5;
 }
@@ -266,15 +331,15 @@
  }
 
   .combo-box-popup .list-view .list-cell:odd {
-      -fx-background-color: #2B2B2B;
+      -fx-background-color: darkGrayCustom;
      -fx-border-radius: 0 0 0 0;
         -fx-background-radius: 0 0 0 0;
 
   }
 
     .combo-box-popup .list-view .list-cell:hover {
-      -fx-background-color: #2B2B2B;
-      -fx-text-fill: #DAA520;
+      -fx-background-color: darkGrayCustom;
+      -fx-text-fill: yellowCustom;
    }
 
 
@@ -287,7 +352,7 @@
 .text-field{
   -fx-background-color: transparent;
   -fx-text-fill: white;
-  -fx-border-color: #3C3F41;
+  -fx-border-color: grayCustom;
 
 }
 
@@ -299,7 +364,7 @@
                        -fx-text-fill: white;}
 
  .combo-box-base .arrow-button{
-  -fx-background-color: #3C3F41;
+  -fx-background-color: grayCustom;
 }
 
 .chart-pie-label{
@@ -316,7 +381,7 @@
 }
 
 .chart-legend-item{
-    -fx-text-fill: #191970;
+    -fx-text-fill: white;
 }
 
 .chart-legend-item{
@@ -325,20 +390,18 @@
 -fx-font-size:10;
 }
 
+
 .chart-plot-background {
-    -fx-background-color: #e2ecfe;
-}
-.chart-plot-background {
-    -fx-background-color: #e2ecfe;
+    -fx-background-color: lightBlueCustom;
 }
 .chart-vertical-grid-lines {
-    -fx-stroke: #3278fa;
+    -fx-stroke: darkBlueCustom;
 }
 .chart-horizontal-grid-lines {
-    -fx-stroke: #3278fa;
+    -fx-stroke: darkBlueCustom;
 }
 .chart-alternative-row-fill {
-    -fx-fill: #99bcfd;
+    -fx-fill: blueCustom;
     -fx-stroke: transparent;
     -fx-stroke-width: 0;
 }
@@ -351,6 +414,7 @@
               }
 
 
+
 .custom-menu-item{
 -fx-background-color: rgba(0%,0%,0%,0.5);
               -fx-focus-color: rgba(0%,0%,0%,0.5);
@@ -359,10 +423,6 @@
 
 }
 
-.grid-pane{
-
-
-}
 
 
 
@@ -370,19 +430,8 @@
 
 
 
-pie-legend-symbol <ith data item’s style class>
 
 
-{
-fa-reorder
-fa-plus
-fa-list
-fa-money
-fa-pencil-square-o
 
-#2B2B2B;
-#3C3F41;
-#323232;
 
-#4e5254
-}
+

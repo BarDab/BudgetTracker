@@ -1,15 +1,12 @@
 package com.bardab.budgettracker.dao;
 import com.bardab.budgettracker.model.MonthlyBalance;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.additional.MonthCode;
 import com.bardab.budgettracker.model.categories.FixedExpenses;
 import com.bardab.budgettracker.model.categories.VariableExpenses;
-import com.bardab.budgettracker.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +154,6 @@ public class TransactionDao extends AbstractDAO<Transaction> {
         return  "FROM Transaction where transactionDate between "+firstDate+" and "+secondDate+" and "+categories;
     }
 
-    //List<String> categories, Date dateFrom,Date dateTo
     public List<Transaction> getAllTransactions(LocalDate dateFrom,LocalDate dateTo,List<String> listOfCategories) {
         List<Transaction> instancesOfAnnotatedClass = new ArrayList<>();
         Session session = null;

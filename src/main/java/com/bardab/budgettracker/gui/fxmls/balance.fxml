@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.shape.Line?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bardab.budgettracker.gui.controllers.BalanceFXController"
-      fx:id="balance"
-      style="-fx-background-color: #2B2B2B;">
+      fx:id="balance">
 
-
-
-        <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " spacing="30" minHeight="20">
+    <HBox fx:id="balanceSection" spacing="30" minHeight="20">
             <VBox alignment="CENTER">
             <HBox spacing="20">
             <padding>
@@ -34,7 +25,7 @@
         </HBox>
 
 
-    <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #2B2B2B; -fx-border-color:#323232; -fx-border-width: 1; ">
+    <HBox alignment="CENTER_RIGHT" >
         <padding><Insets right="10"> </Insets></padding>
         <VBox >
             <padding><Insets top="27"></Insets></padding>

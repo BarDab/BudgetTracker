@@ -1,5 +1,4 @@
 package com.bardab.budgettracker;
-
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.gui.controllers.MainWindowFXController;
 import com.bardab.budgettracker.model.Transaction;
@@ -11,13 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.time.LocalDate;
 import java.util.List;
-
-//import java.util.HashMap;
-//
-//
 public class Main
 
 extends Application  {
@@ -34,7 +28,6 @@ public void start(Stage primaryStage) throws Exception{
         controller.init(primaryStage);
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
-//        primaryStage.setMaximized(true);
         Scene scene = new Scene(root, 1062, 660);
 
         primaryStage.setScene(scene);

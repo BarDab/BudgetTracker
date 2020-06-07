@@ -2,6 +2,7 @@ package com.bardab.budgettracker.gui;
 
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.model.Transaction;
+import com.bardab.budgettracker.model.categories.Categories;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -107,11 +108,9 @@ public class ChartData {
         LocalDate dateTo = getEarliestDate(transactions);
 
         for (int i = 0; i < transactions.size(); i++) {
-            Transaction transaction = transactions.get(i);
-
-
-            if (!categories.contains(transaction.getCategory())) {
-                categories.add(transaction.getCategory());
+            Transaction transaction =  transactions.get(i);
+            if (!categories.contains(Categories.transformToCamelCase( transaction.getCategory()))) {
+                categories.add(Categories.transformToCamelCase(transaction.getCategory()));
             }
         }
 
@@ -124,11 +123,14 @@ public class ChartData {
         LocalDate dateTo = getEarliestDate(transactions);
 
         for (int i = 0; i < transactions.size(); i++) {
-            Transaction transaction = transactions.get(i);
-            if (!categories.contains(transaction.getCategory())) {
-                categories.add(transaction.getCategory());
+            Transaction transaction =  transactions.get(i);
+            if (!categories.contains(Categories.transformToCamelCase( transaction.getCategory()))) {
+                categories.add(Categories.transformToCamelCase(transaction.getCategory()));
             }
         }
+
+
+
 
         return getListOfSeriesForXYChart(dateFrom, dateTo, categories);
     }
@@ -141,7 +143,7 @@ public class ChartData {
         for (int i = 0; i < transactions.size(); i++) {
             Transaction transaction = transactions.get(i);
 
-            if (transaction.getTransactionDate().compareTo(date) < 0) {
+            if (transaction.getTransactionDate().compareTo(date) > 0) {
                 date = transaction.getTransactionDate();
             }
 
@@ -157,7 +159,7 @@ public class ChartData {
         for (int i = 0; i < transactions.size(); i++) {
             Transaction transaction = transactions.get(i);
 
-            if (transaction.getTransactionDate().compareTo(date) > 0) {
+            if (transaction.getTransactionDate().compareTo(date) < 0) {
                 date = transaction.getTransactionDate();
             }
 

@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.shape.Box?>
+
 <HBox
         xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="com.bardab.budgettracker.gui.controllers.NewTransactionFXController"
         fx:id="newTransaction"
+        maxWidth="450"
+        alignment="CENTER_LEFT">
 
-        alignment="CENTER_LEFT"
-        style="-fx-background-color: #2B2B2">
-    <padding><Insets left="10"></Insets></padding>
-<HBox prefWidth="100">
-    <DatePicker fx:id="newTransactionDatePicker" promptText="Date"  style="-fx-font: 10;"></DatePicker>
-    <VBox minWidth="1" style="-fx-background-color: white"></VBox>
-</HBox>
-    <HBox prefWidth="60" >
-    <TextField fx:id="valueField" promptText="Value" style="-fx-font: 10; -fx-background-color: #2B2B2B; "></TextField>
-        <VBox minWidth="1" style="-fx-background-color: white" prefHeight="30"></VBox>
-    </HBox>
-    <HBox prefWidth="125">
-    <Button text="&gt;&gt;" onAction="#nextCategory"  minWidth="40"/>
-    <ComboBox fx:id="categoriesComboBox" promptText="Type" maxWidth="84" visible="true"  style="-fx-background-color: #2B2B2B"></ComboBox>
-        <VBox minWidth="1" style="-fx-background-color: white"></VBox>
-    </HBox>
-<HBox spacing="10"><padding><Insets left="10"> </Insets> </padding>
-    <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
-               style="-fx-font: 10;"></TextField>
+    <padding>
+        <Insets left="10" top="2" bottom="2"></Insets>
+    </padding>
 
-    <Button   text="Add" onAction="#addTransaction" HBox.hgrow="ALWAYS"></Button>
-</HBox>
+    <DatePicker fx:id="newTransactionDatePicker" promptText="Date" maxWidth="125"></DatePicker>
+    <Separator orientation="VERTICAL"></Separator>
+
+    <TextField fx:id="valueField" promptText="Value" maxWidth="80" ></TextField>
+
+    <Separator orientation="VERTICAL"></Separator>
+    <Button text="&gt;&gt;" onAction="#nextCategory" minWidth="40"/>
+    <ComboBox fx:id="categoriesComboBox" promptText="Type" minWidth="84" maxWidth="84" visible="true"></ComboBox>
+    <Separator orientation="VERTICAL"></Separator>
+
+    <HBox spacing="10">
+        <padding>
+            <Insets left="10"></Insets>
+        </padding>
+        <TextField fx:id="descriptionField" promptText="Description" minWidth="80" maxWidth="80"></TextField>
+        <Button text="Add" onAction="#addTransaction" HBox.hgrow="ALWAYS" minWidth="50"></Button>
+    </HBox>
 </HBox>

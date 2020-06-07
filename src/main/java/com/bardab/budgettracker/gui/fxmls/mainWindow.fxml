@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<?import javafx.geometry.Insets?>
-
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.shape.Line?>
 <Pane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bardab.budgettracker.gui.controllers.MainWindowFXController"
       stylesheets="@budgetLook.css"
       fx:id="mainPane"
-      minWidth="1062" minHeight="600"
+      minWidth="1062" minHeight="660"
 >
 
-    <BorderPane fx:id="mainWindow" minWidth="1062" minHeight="600"
+    <BorderPane fx:id="mainWindow" minWidth="1062" minHeight="660"
     >
 
-
+        <left>
+            <VBox fx:id="leftBorderArea" minWidth="10">
+            </VBox>
+        </left>
         <center>
-            <HBox style="-fx-background-color: #2B2B2B;">
+            <HBox>
 
-                <VBox minWidth="10"
-                      style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; ">
-
-                </VBox>
 
                 <VBox>
                     <HBox>
 
 
-                        <VBox >
+                        <VBox>
                             <fx:include fx:id="transactions" source="transactions.fxml"></fx:include>
                             <fx:include fx:id="newTransaction" source="newTransaction.fxml"></fx:include>
                         </VBox>
@@ -40,21 +33,19 @@
 
                     </HBox>
                     <VBox>
-                        <fx:include fx:id="balance" source="balance.fxml" />
+                        <fx:include fx:id="balance" source="balance.fxml"/>
                         <fx:include fx:id="budget" source="budget.fxml"/>
                     </VBox>
 
                 </VBox>
-                <VBox minWidth="10"
-                      style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
+                <VBox fx:id="centerBorderArea" minWidth="10"/>
                 <VBox HBox.hgrow="ALWAYS">
 
                     <fx:include fx:id="chart" source="chartArea.fxml"></fx:include>
                     <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>
                 </VBox>
 
-                <VBox minWidth="10"
-                      style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; "/>
+
             </HBox>
 
 
@@ -65,8 +56,8 @@
 
 
             <VBox>
-                <HBox style="-fx-background-color:#3C3F41"  >
-                    <MenuBar fx:id="menuBar"  minHeight="30" style="-fx-background-color:#3C3F41" HBox.hgrow="ALWAYS">
+                <HBox fx:id="menuSection">
+                    <MenuBar fx:id="menuBar" minHeight="30" HBox.hgrow="ALWAYS">
 
                         <menus>
                             <Menu>
@@ -107,32 +98,33 @@
 
                         </menus>
                     </MenuBar>
-                <HBox >
-                    <Button onAction="#minimizeWindow" style="-fx-background-color:#3C3F41">
-                        <graphic>
-                            <FontIcon iconLiteral="fa-window-minimize" iconColor="white" iconSize="10"></FontIcon>
-                        </graphic>
-                    </Button>
-                    <Button onAction="#maximizeWindow" style="-fx-background-color:#3C3F41">
-                        <graphic>
-                            <FontIcon iconLiteral="fa-window-maximize" iconColor="white" iconSize="10"></FontIcon>
-                        </graphic>
-                    </Button>
-                    <Button onAction="#closeApp" style="-fx-background-color:#3C3F41">
-                        <graphic>
-                            <FontIcon iconLiteral="fa-close" iconColor="white" iconSize="10"></FontIcon>
-                        </graphic>
-                    </Button>
+                    <HBox>
+                        <Button onAction="#minimizeWindow">
+                            <graphic>
+                                <FontIcon iconLiteral="fa-window-minimize" iconColor="white" iconSize="10"></FontIcon>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#maximizeWindow">
+                            <graphic>
+                                <FontIcon iconLiteral="fa-window-maximize" iconColor="white" iconSize="10"></FontIcon>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#closeApp">
+                            <graphic>
+                                <FontIcon iconLiteral="fa-close" iconColor="white" iconSize="10"></FontIcon>
+                            </graphic>
+                        </Button>
+                    </HBox>
                 </HBox>
-                </HBox>
-                <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
+            <HBox fx:id="topLine" minHeight="1"></HBox>
             </VBox>
         </top>
+
+        <right>
+            <VBox fx:id="rightBorderArea" minWidth="10"/>
+        </right>
         <bottom>
-            <VBox minHeight="4">
-            <HBox minHeight="1" style="-fx-background-color: #6B8E23"></HBox>
-            <HBox minHeight="6" style="-fx-background-color: #3C3F41"></HBox>
-            </VBox>
+            <HBox fx:id="bottomBorderArea" minHeight="10"> <Label text="Budget Tracker"></Label></HBox>
         </bottom>
     </BorderPane>
 </Pane>

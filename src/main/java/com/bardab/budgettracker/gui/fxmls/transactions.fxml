@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.geometry.Insets?>
 
-<?import javafx.scene.shape.Line?>
 <VBox
         xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
@@ -19,65 +13,67 @@
         spacing="2">
 
 
-    <HBox style="-fx-background-color: #3C3F41 " minHeight="20">
+
+    <HBox fx:id="transactionsSection" minHeight="20">
         <VBox alignment="CENTER">
-            <Label text="Transactions" textFill="DAA520">
-                <padding><Insets left="10"></Insets> </padding>
+            <Label text="Transactions" >
+                <padding>
+                    <Insets left="10"></Insets>
+                </padding>
             </Label>
         </VBox>
     </HBox>
+    <VBox>
 
-    <HBox style="-fx-background-color: #2B2B2B" minWidth="215" spacing="10" alignment="CENTER">
-        <padding><Insets left="10"></Insets> </padding>
+        <HBox  minWidth="215" spacing="15" alignment="CENTER_LEFT">
+            <padding>
+                <Insets left="15"></Insets>
+            </padding>
+            <HBox>
+            <DatePicker fx:id="transactionsDateFrom" maxHeight="20" promptText="From" maxWidth="100"></DatePicker>
+            <DatePicker fx:id="transactionsDateTo" promptText="To" maxWidth="100"></DatePicker>
+            </HBox>
+            <HBox spacing="5">
+                <Button onAction="#updatePieChartWithCurrentTransactions" text="Update Pie Chart"></Button>
+                <Button onAction="#updateBarChartWithCurrentTransactions" text="Update Bar Chart"></Button>
+            </HBox>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" >
+            <MenuBar fx:id="transactionsMenuBar" minHeight="30" >
 
-        <DatePicker fx:id="transactionsDateFrom" maxHeight="20" promptText="From" maxWidth="100"></DatePicker>
-        <DatePicker fx:id="transactionsDateTo" promptText="To" maxWidth="100"></DatePicker>
+                <menus>
+                    <Menu fx:id="variableCategoriesMenu">
+                        <graphic>
+                            <VBox minHeight="27" >
+                                <Button text="Variables"></Button>
 
+                            </VBox>
+                        </graphic>
+                        <CustomMenuItem fx:id="customMenuItemVariables" >
+                        </CustomMenuItem>
+                    </Menu>
+                    <Menu fx:id="fixedCategoriesMenu">
+                        <graphic>
+                            <VBox minHeight="27" >
+                                <Button text="Fixed"></Button>
+                            </VBox>
+                        </graphic>
+                        <CustomMenuItem fx:id="customMenuItemFixed"></CustomMenuItem>
+                    </Menu>
+                </menus>
+            </MenuBar>
+            <Button onAction="#updateTransactionsInTable" text="Search"></Button>
+        </HBox>
 
+    </VBox>
 
-    <MenuBar fx:id="transactionsMenuBar" minHeight="30" minWidth="215" style="-fx-background-color: #2B2B2B" >
-
-        <menus>
-            <Menu fx:id="variableCategoriesMenu">
-                <graphic>
-                    <VBox minHeight="27" alignment="CENTER">
-                        <Button text="Variables"
-                                alignment="CENTER"></Button>
-
-                    </VBox>
-                </graphic>
-                <CustomMenuItem fx:id="customMenuItemVariables" style="-fx-background-color: #3C3F41">
-
-                </CustomMenuItem>
-            </Menu>
-            <Menu fx:id="fixedCategoriesMenu">
-                <graphic>
-                    <VBox minHeight="27" alignment="CENTER">
-                        <Button text="Fixed"
-                                alignment="CENTER"></Button>
-                    </VBox>
-                </graphic>
-                <CustomMenuItem fx:id="customMenuItemFixed"></CustomMenuItem>
-            </Menu>
-            <Menu fx:id="searchTransactionsMenu">
-                <graphic>
-                    <VBox minHeight="27" alignment="CENTER">
-                        <Button onAction="#updateTransactionsInTable" text="Search"
-                                alignment="CENTER"></Button>
-                    </VBox>
-                </graphic>
-            </Menu>
-        </menus>
-    </MenuBar>
-    </HBox>
-
-    <HBox minHeight="1" style="-fx-background-color: #3C3F41"></HBox>
-    <!--    </VBox>-->
 
     <TableView
             fx:id="transactionTable" onMouseClicked="#deleteTransaction"
-            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="450" >
-        <padding><Insets left="10" bottom="5" ></Insets> </padding>
+            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="450">
+        <padding>
+            <Insets left="10" bottom="5"></Insets>
+        </padding>
 
 
         <columns>

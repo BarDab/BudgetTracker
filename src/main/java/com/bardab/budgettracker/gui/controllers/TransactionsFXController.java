@@ -26,16 +26,13 @@ import java.util.List;
 public class TransactionsFXController {
 
     private TransactionDao transactionDao;
+    private MainWindowFXController mainWindowFXController;
 
     List<String> variablesList = Categories.getCategoriesNames(new VariableExpenses());
     List<String> fixedList = Categories.getCategoriesNames(new FixedExpenses());
 
 
-    public TransactionsFXController() {
-        transactionDao = new TransactionDao(HibernateUtil.getInstance().getSessionFactory());
 
-
-    }
 
     @FXML
     private List<String> filteredList = new ArrayList<>();
@@ -75,10 +72,13 @@ public class TransactionsFXController {
     @FXML
     private ContextMenu tableContextMenu;
 
-    private List<Transaction> transactionsList;
+    private List<Transaction> transactionsList = new ArrayList<>();
 
 
-    public void init() {
+    public void init(MainWindowFXController mainWindowFXController) {
+        transactionDao = new TransactionDao(HibernateUtil.getInstance().getSessionFactory());
+
+        this.mainWindowFXController = mainWindowFXController;
         transactionsDateFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
         transactionsDateTo.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()));
 
@@ -86,7 +86,10 @@ public class TransactionsFXController {
         createMenuCheckBoxes(fixedList, fixedCategoriesMenu, 5, customMenuItemFixed);
 
         updateTransactionsInTable();
+
         setToolTip();
+
+        transactionsList.addAll(transactionDao.getAllTransactions(transactionsDateFrom.getValue(), transactionsDateTo.getValue(), filteredList));
 
     }
 
@@ -99,6 +102,14 @@ public class TransactionsFXController {
     public List<Transaction> getTransactionsList(){
         return this.transactionsList;
     }
+
+    public void updatePieChartWithCurrentTransactions(){
+        mainWindowFXController.updatePieChartWithDataFromTable();
+    }
+    public void updateBarChartWithCurrentTransactions(){
+        mainWindowFXController.updateBarChartWithDataFromTable();
+    }
+
 
 
 
@@ -147,7 +158,6 @@ public class TransactionsFXController {
 
         menu.getItems().add(customMenuItem);
 
-        menu.getItems().forEach(e -> System.out.println(e.toString()));
 
 
     }
@@ -206,7 +216,9 @@ public class TransactionsFXController {
         public ObservableList<Transaction> call() {
             List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, categories);
             transactions.forEach(e -> e.setPresentableCategory(Categories.getPresentableCategoryName(e.getCategory())));
-            transactionsList = transactions;
+            transactionsList.removeAll(transactionsList);
+            transactionsList.addAll(transactions);
+
             return FXCollections.observableArrayList(transactions);
         }
     }

@@ -15,10 +15,11 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class MainWindowFXController  {
+public class MainWindowFXController {
 
 
     private Stage stage;
+
     public MainWindowFXController() {
 
 
@@ -65,23 +66,26 @@ public class MainWindowFXController  {
     @FXML
     private TabPane addingPane;
 
-    public void init(Stage stage)  {
-    chartController.init(this);
-    chartDataFormController.init(this);
+    public void init(Stage stage) {
+        chartController.init(this);
+        chartDataFormController.init(this);
 
 
         budgetController.init();
         balanceController.init();
         newTransactionController.init(this);
-        transactionsController.init();
+        transactionsController.init(this);
+
         this.stage = stage;
 
         moveWindowByMouseDragging(stage);
+        updatePieChartWithDataFromTable();
+        updateBarChartWithDataFromTable();
 
     }
 
 
-    public void moveWindowByMouseDragging(Stage primaryStage){
+    public void moveWindowByMouseDragging(Stage primaryStage) {
 
         menuBar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -101,59 +105,55 @@ public class MainWindowFXController  {
 
     }
 
-    public void updatePieChartWithDataFromTable(){
+    public void updatePieChartWithDataFromTable() {
 
         List<Transaction> transactions = this.transactionsController.getTransactionsList();
         LocalDate dateFrom = ChartData.getLatestDate(transactions);
         LocalDate dateTo = ChartData.getEarliestDate(transactions);
-        this.chartController.updatePieChartWithDataFromTable(dateFrom,dateTo,transactions,mainPane);
-        this.chartController.updatePieChartTitle(dateFrom,dateTo);
+        this.chartController.updatePieChartWithDataFromTable(dateFrom, dateTo, transactions, mainPane);
+        this.chartController.updatePieChartTitle(dateFrom, dateTo);
     }
-    public void updateBarChartWithDataFromTable(){
+
+    public void updateBarChartWithDataFromTable() {
         List<Transaction> transactions = this.transactionsController.getTransactionsList();
         LocalDate dateFrom = ChartData.getLatestDate(transactions);
         LocalDate dateTo = ChartData.getEarliestDate(transactions);
-        this.chartController.updateBarChartWithDataFromTable(dateFrom,dateTo,transactions);
+
+        this.chartController.updateBarChartWithDataFromTable(dateFrom, dateTo, transactions);
     }
 
 
-    public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
-        this.chartController.updatePieChart(dateFrom,dateTo,listOfCategories,mainPane);
-        this.chartController.updatePieChartTitle(dateFrom,dateTo);
-    }
-    public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories){
-        this.chartController.updateBarChart(dateFrom,dateTo,listOfCategories);
+    public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
+        this.chartController.updatePieChart(dateFrom, dateTo, listOfCategories, mainPane);
+        this.chartController.updatePieChartTitle(dateFrom, dateTo);
     }
 
-    public void updateTransactionsTable(){
+    public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
+        this.chartController.updateBarChart(dateFrom, dateTo, listOfCategories);
+    }
+
+    public void updateTransactionsTable() {
         this.transactionsController.updateTransactionsInTable();
 
     }
 
-    public void updateMonthlyBalance(){
+    public void updateMonthlyBalance() {
         this.balanceController.init();
     }
 
 
-    public void minimizeWindow(){
-       stage.setIconified(true);
+    public void minimizeWindow() {
+        stage.setIconified(true);
     }
-    public void maximizeWindow(){
-        if(stage.isMaximized()) stage.setMaximized(false);
+
+    public void maximizeWindow() {
+        if (stage.isMaximized()) stage.setMaximized(false);
         else stage.setMaximized(true);
     }
-    public void closeApp(){
+
+    public void closeApp() {
         System.exit(0);
     }
-
-
-
-
-
-
-
-
-
 
 
 }

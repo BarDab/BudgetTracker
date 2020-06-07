@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -11,7 +7,6 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bardab.budgettracker.gui.controllers.ChartDataFormFXController"
       fx:id="chartDataForm"
-      style=" fx-background-color: #2B2B2B;"
       alignment="CENTER"
 
 
@@ -21,9 +16,9 @@
     </padding>
 
 
-    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; ">
+    <HBox fx:id="chartDataSection">
         <VBox alignment="CENTER">
-            <Label text="Choose data for charts" textFill="DAA520" minHeight="20">
+            <Label text="Choose data for charts"  minHeight="20">
                 <padding><Insets left="10"></Insets> </padding>
             </Label>
         </VBox>
@@ -38,7 +33,7 @@
                 </HBox>
                 <ListView fx:id="availableCategories" maxHeight="120" maxWidth="140"></ListView>
             </VBox>
-            <VBox spacing="5" alignment="BOTTOM_CENTER">
+            <VBox spacing="5" alignment="CENTER">
                 <Button onAction="#moveAllCategoriesFromAvailable" text="All &gt;&gt;" alignment="CENTER_LEFT"></Button>
                 <Button onAction="#moveAllCategoriesFromToBeAdded" text="&lt;&lt; All"
                         alignment="CENTER_RIGHT"></Button>

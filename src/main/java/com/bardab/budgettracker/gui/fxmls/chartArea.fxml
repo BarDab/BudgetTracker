@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Box?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.StackedBarChart?>
 <TabPane xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
@@ -37,9 +31,6 @@
                         <Insets top="10"></Insets>
                     </padding>
                 </VBox>
-
-                <!--                <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>-->
-
                 <HBox>
                     <StackedBarChart fx:id="stackedBarChart" animated="true"  minWidth="550" >
                         <xAxis>

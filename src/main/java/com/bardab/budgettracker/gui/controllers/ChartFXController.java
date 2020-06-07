@@ -115,9 +115,6 @@ public class ChartFXController {
 
 
         List<XYChart.Series<String, Number>> list = ChartData.getListOfSeriesForXYChart(dateFrom, dateTo, listOfCategories);
-
-
-
         stackedBarChart.getData().removeAll(stackedBarChart.getData());
         stackedBarChart.getData().addAll(list);
     }

@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
-<?import javafx.scene.shape.Box?>
-<?import com.sun.javafx.scene.control.DoubleField?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:id="budget"
@@ -17,7 +9,7 @@
       minWidth="430"
 
 >
-    <HBox style="-fx-background-color: #3C3F41; -fx-border-color:#323232; -fx-border-width: 1; " prefHeight="22" >
+    <HBox fx:id="budgetSection" prefHeight="22">
         <VBox alignment="CENTER">
             <HBox spacing="20">
                 <padding>
@@ -25,43 +17,33 @@
                 </padding>
                 <Label text="Add budget" textFill="DAA520"></Label>
                 <HBox>
-                <ComboBox fx:id="monthComboBox" promptText="Month" visible="true" />
-                <ComboBox fx:id="yearComboBox" promptText="Year" visible="true" />
+                    <ComboBox fx:id="monthComboBox" promptText="Month" visible="true"/>
+                    <ComboBox fx:id="yearComboBox" promptText="Year" visible="true"/>
                 </HBox>
             </HBox>
 
         </VBox>
     </HBox>
-<VBox spacing="5">
-    <padding>
-        <Insets left="10" top="5"></Insets>
-    </padding>
+    <VBox spacing="5">
+        <padding>
+            <Insets left="10" top="5"></Insets>
+        </padding>
 
 
+        <HBox>
+
+            <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" maxWidth="100"/>
+            <TextField fx:id="fixedSpendingTextField" promptText="0.0" maxWidth="50"/>
+            <Button fx:id="fixedSpendingButton" text="Set New" onAction="#updateFixedCost" maxWidth="150"/>
+            <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
+                       style="-fx-font: 10;"></TextField>
+            <Button fx:id="approveButton" text="Approve" onAction="#approveBudget"/>
+
+            <!--            <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false"-->
+            <!--                   style="-fx-text-fill: #ff0000"/>-->
 
 
-
-    <HBox>
-
-        <ComboBox fx:id="fixedSpendingComboBox" promptText="Fixed/Income" visible="true" maxWidth="100"/>
-        <TextField fx:id="fixedSpendingTextField" promptText="0.0" maxWidth="50"/>
-        <Button fx:id="fixedSpendingButton" text="Set New" onAction="#updateFixedCost" maxWidth="150"/>
-
-
-        <!--            <Label fx:id="dateWarningLabel" text="Date is not specified" prefWidth="200" visible="false"-->
-        <!--                   style="-fx-text-fill: #ff0000"/>-->
-    </HBox>
-
-
-
-    <HBox>
-        <TextField fx:id="descriptionField" promptText="Description" maxWidth="80"
-                   style="-fx-font: 10;"></TextField>
-
-
-
-        <Button fx:id="approveButton" text="Approve" onAction="#approveBudget"/>
-    </HBox>
-</VBox>
+        </HBox>
+    </VBox>
 </VBox>
 
