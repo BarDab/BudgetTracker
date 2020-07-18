@@ -1,14 +1,15 @@
 package com.bardab.budgettracker.dao.categories;
 
 import com.bardab.budgettracker.dao.AbstractDAO;
-import com.bardab.budgettracker.model.categories.PlannedExpenses;
+import com.bardab.budgettracker.model.BudgetExpenses;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.Query;
+import java.time.YearMonth;
 
 
-public class PlannedExpensesDao extends AbstractDAO<PlannedExpenses> {
+public class PlannedExpensesDao extends AbstractDAO<BudgetExpenses> {
     private SessionFactory sessionFactory;
 
     public PlannedExpensesDao(SessionFactory sessionFactory) {
@@ -16,13 +17,13 @@ public class PlannedExpensesDao extends AbstractDAO<PlannedExpenses> {
     }
 
     @Override
-    public PlannedExpenses findByMonthCode(int monthCode) {
-        PlannedExpenses plannedExpenses =null;
+    public BudgetExpenses findByYearMonth(YearMonth yearMonth) {
+        BudgetExpenses budgetExpenses =null;
         Session session=null;
         try{
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            plannedExpenses = session.bySimpleNaturalId(PlannedExpenses.class).load(monthCode);
+            budgetExpenses = session.bySimpleNaturalId(BudgetExpenses.class).load(yearMonth);
             session.getTransaction().commit();
         }
         catch (Exception e){
@@ -37,7 +38,7 @@ public class PlannedExpensesDao extends AbstractDAO<PlannedExpenses> {
                 session.close();
             }
         }
-        return plannedExpenses;
+        return budgetExpenses;
     }
 
     @Override
@@ -46,13 +47,13 @@ public class PlannedExpensesDao extends AbstractDAO<PlannedExpenses> {
     }
 
     @Override
-    public PlannedExpenses findByID(long id) {
-        PlannedExpenses plannedExpenses =null;
+    public BudgetExpenses findByID(long id) {
+        BudgetExpenses budgetExpenses =null;
         Session session=null;
         try{
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            plannedExpenses = session.get(PlannedExpenses.class,id);
+            budgetExpenses = session.get(BudgetExpenses.class,id);
             session.getTransaction().commit();
         }
         catch (Exception e){
@@ -67,18 +68,18 @@ public class PlannedExpensesDao extends AbstractDAO<PlannedExpenses> {
                 session.close();
             }
         }
-        return plannedExpenses;
+        return budgetExpenses;
     }
 
-    public PlannedExpenses getLastFixedCostsRecord(){
-        PlannedExpenses plannedExpenses =null;
+    public BudgetExpenses getLastFixedCostsRecord(){
+        BudgetExpenses budgetExpenses =null;
         Session session=null;
         try{
             session = getSessionFactory().openSession();
             session.beginTransaction();
             Query query = session.createQuery("from PlannedExpenses order by budget_ID desc");
             query.setMaxResults(1);
-            plannedExpenses = (PlannedExpenses) query.getSingleResult();
+            budgetExpenses = (BudgetExpenses) query.getSingleResult();
             session.getTransaction().commit();
         }
         catch (Exception e){
@@ -95,7 +96,7 @@ public class PlannedExpensesDao extends AbstractDAO<PlannedExpenses> {
         }
 
 
-        return plannedExpenses;
+        return budgetExpenses;
     }
 }
 

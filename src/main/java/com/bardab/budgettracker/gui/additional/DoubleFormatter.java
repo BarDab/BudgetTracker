@@ -1,9 +1,12 @@
-package com.bardab.budgettracker.gui;
+package com.bardab.budgettracker.gui.additional;
+
 import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -33,7 +36,7 @@ public class DoubleFormatter  {
         }
     };
 
-    private static StringConverter<Double> converter = new StringConverter<Double>() {
+    public static StringConverter<Double> converter = new StringConverter<Double>() {
 
         @Override
         public Double fromString(String s) {
@@ -51,6 +54,15 @@ public class DoubleFormatter  {
         }
     };
 
+
+    public static List<String> doubleListToStringList(List<Double> doubleList){
+        List<String> stringList = new ArrayList<>();
+
+        for(Double value:doubleList){
+            stringList.add(value.toString());
+        }
+        return stringList;
+    }
 
 
 }

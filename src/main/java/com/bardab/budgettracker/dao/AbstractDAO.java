@@ -3,6 +3,8 @@ package com.bardab.budgettracker.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
+
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public abstract class AbstractDAO<T> {
 
     public abstract T findByID(long id);
 
-    public abstract T findByMonthCode(int monthCode);
+    public abstract T findByYearMonth(YearMonth yearMonth);
 
 
     public void addEntity(T instanceOfAnnotatedClass) {
@@ -61,21 +63,26 @@ public abstract class AbstractDAO<T> {
         return instancesOfAnnotatedClass;
     }
 
-    public void updateTransaction(long id, T instanceOfAnnotatedClass) {
+    public boolean updateTransaction(T instanceOfAnnotatedClass) {
 
         Session session = null;
         try {
+            System.out.println("update method");
             session = getSessionFactory().openSession();
             session.beginTransaction();
+
             session.merge(instanceOfAnnotatedClass);
             session.getTransaction().commit();
+
+            return true;
 
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 logger.info("\n ..........Transaction is being rolled back...........\n");
                 session.getTransaction().rollback();
             }
-            System.out.println(e.getMessage());
+            System.out.println("UPDATE TRANSACTION FALSE");
+            return false;
         } finally {
             if (session != null) {
                 session.close();

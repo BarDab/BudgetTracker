@@ -1,11 +1,9 @@
 package com.bardab.budgettracker.gui;
 
-import javafx.scene.control.TextFormatter;
+import com.bardab.budgettracker.gui.additional.DoubleFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DoubleFormatterTest {
 

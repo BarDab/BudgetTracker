@@ -1,13 +1,14 @@
 package com.bardab.budgettracker.dao;
-import com.bardab.budgettracker.model.MonthlyBalance;
+import com.bardab.budgettracker.model.Actual;
+import com.bardab.budgettracker.model.SpendingManager;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.FixedExpenses;
-import com.bardab.budgettracker.model.categories.VariableExpenses;
+import com.bardab.budgettracker.model.additional.Category;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,13 @@ public class TransactionDao extends AbstractDAO<Transaction> {
     }
 
     @Override
-    public Transaction findByMonthCode(int monthCode) {
+    public Transaction findByYearMonth(YearMonth yearMonth) {
         Transaction transaction=null;
         Session session = null;
         try{
             session=sessionFactory.openSession();
             session.beginTransaction();
-            transaction = (Transaction) session.bySimpleNaturalId(Transaction.class).load(monthCode);
+            transaction = (Transaction) session.bySimpleNaturalId(Transaction.class).load(yearMonth);
 
             System.out.println("Inside findById method"+transaction.getDescription());
         }    catch (Exception e){
@@ -80,22 +81,24 @@ public class TransactionDao extends AbstractDAO<Transaction> {
     }
     public void addTransactionAndUpdateAllFields(Transaction transaction) {
         Session session = null;
-        MonthlyBalance monthlyBalance;
+        Actual actual;
+        SpendingManager spendingManager;
 
-//        BudgetForecast budgetForecast=null;
         try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            monthlyBalance = session.bySimpleNaturalId(MonthlyBalance.class).load(transaction.getMonthCode());
-            if(monthlyBalance == null){
-                monthlyBalance = new MonthlyBalance();
-                monthlyBalance.setFixedExpenses(new FixedExpenses());
-                monthlyBalance.setVariableExpenses(new VariableExpenses());
-                monthlyBalance.manageTransactionInsertion(transaction);
-                session.save(monthlyBalance);
+            actual = session.bySimpleNaturalId(Actual.class).load(transaction.getYearMonth());
+            if(actual ==null){
+                actual = TransactionInsertionManager.initializeMonthlyBalance(transaction);
             }
-            else monthlyBalance.manageTransactionInsertion(transaction);
+            spendingManager = session.bySimpleNaturalId(SpendingManager.class).load(transaction.getYearMonth());
+            if(spendingManager ==null){
+                spendingManager = new SpendingManager();
+            }
 
+            TransactionInsertionManager.manageTransactionInsertion(transaction, actual,spendingManager);
+
+            session.save(actual);
             session.save(transaction);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -138,11 +141,11 @@ public class TransactionDao extends AbstractDAO<Transaction> {
 
 
 
-    public String queryCreator(LocalDate dateFrom,LocalDate dateTo,List<String> listOfCategories){
+    public String queryCreator(LocalDate dateFrom,LocalDate dateTo,List<Category> listOfCategories){
         String firstDate ="'"+dateFrom.toString()+"'";
         String secondDate ="'"+ dateTo.toString()+"'";
         String categories="( category=";
-        for(String category:listOfCategories){
+        for(Category category:listOfCategories){
             if(listOfCategories.indexOf(category)==0){
                 categories+="'"+category+"'";
             }
@@ -154,7 +157,7 @@ public class TransactionDao extends AbstractDAO<Transaction> {
         return  "FROM Transaction where transactionDate between "+firstDate+" and "+secondDate+" and "+categories;
     }
 
-    public List<Transaction> getAllTransactions(LocalDate dateFrom,LocalDate dateTo,List<String> listOfCategories) {
+    public List<Transaction> getAllTransactions(LocalDate dateFrom,LocalDate dateTo,List<Category> listOfCategories) {
         List<Transaction> instancesOfAnnotatedClass = new ArrayList<>();
         Session session = null;
         try {

@@ -1,10 +1,10 @@
 package com.bardab.budgettracker.gui.controllers;
 
-import com.bardab.budgettracker.dao.TransactionInsertionManager;
-import com.bardab.budgettracker.gui.DoubleFormatter;
+import com.bardab.budgettracker.dao.TransactionDao;
+import com.bardab.budgettracker.gui.additional.DoubleFormatter;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.FixedExpenses;
-import com.bardab.budgettracker.model.categories.VariableExpenses;
+import com.bardab.budgettracker.model.additional.CategoryFormatter;
+import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,18 +13,16 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class NewTransactionFXController {
 
-    private TransactionInsertionManager transactionInsertionManager;
+    private TransactionDao transactionDao;
 
     private MainWindowFXController mainWindowFXController;
     public NewTransactionFXController() {
-        transactionInsertionManager = new TransactionInsertionManager();
+        transactionDao = new TransactionDao(HibernateUtil.getInstance().getSessionFactory());
     }
 
-    private int categoryNumber = 0;
     @FXML
     private ObservableList<String> categoriesList;
     @FXML
@@ -39,7 +37,7 @@ public class NewTransactionFXController {
 
     public void init(MainWindowFXController mainWindowFXController){
         this.mainWindowFXController = mainWindowFXController;
-        setCategory(categoryNumber);
+        setCategoriesComboBox();
         descriptionField.clear();
         newTransactionDatePicker.setValue(LocalDate.now());
         valueField.setTextFormatter(new DoubleFormatter().doubleFormatter());
@@ -48,59 +46,21 @@ public class NewTransactionFXController {
 
 
 
-    public void setVariableCategoriesComboBox(){
-        VariableExpenses variableExpenses = new VariableExpenses();
-        categoriesList = FXCollections.observableArrayList(variableExpenses.getPresentableCategoriesNames(variableExpenses));
-        categoriesComboBox.setPromptText("Variable");
+    public void setCategoriesComboBox(){
+        categoriesList = FXCollections.observableArrayList(CategoryFormatter.getAllCategoriesNamesInPresentable());
+        categoriesComboBox.setPromptText("Categories");
         categoriesComboBox.setItems(categoriesList);
     }
-
-    public void setFixedCategoriesComboBox(){
-        FixedExpenses fixedExpenses = new FixedExpenses();
-        categoriesList = FXCollections.observableArrayList(fixedExpenses.getPresentableCategoriesNames(fixedExpenses));
-        categoriesComboBox.setPromptText("Fixed");
-        categoriesComboBox.setItems(categoriesList);
-    }
-
-    public void setIncomeCategoriesComboBox(){
-        categoriesList = FXCollections.observableArrayList(List.of("Income"));
-        categoriesComboBox.setItems(categoriesList);
-        categoriesComboBox.setPromptText("Income");
-    }
-
-    public void setCategory(int categoryNumber){
-        switch(categoryNumber){
-            case 0: setVariableCategoriesComboBox(); break;
-            case 1: setFixedCategoriesComboBox(); break;
-            case 2: setIncomeCategoriesComboBox(); break;
-        }
-    }
-
-    public void nextCategory(){
-        if (this.categoryNumber==2){
-            this.categoryNumber=0;
-        }
-        else this.categoryNumber++;
-        setCategory(this.categoryNumber);
-    }
-    public void previousCategory(){
-        if (this.categoryNumber==0){
-            this.categoryNumber=3;
-        }
-        else this.categoryNumber--;
-        setCategory(this.categoryNumber);
-    }
-
 
 
     public void addTransaction(){
         Transaction transaction = new Transaction();
-        transaction.setCategoryAndTransformToCamelCase((String) categoriesComboBox.getValue());
+        transaction.setCategory( CategoryFormatter.getCategory((String) categoriesComboBox.getValue()));
         transaction.setDescription(descriptionField.getText());
         transaction.setValue((Double.parseDouble(valueField.getText())));
-        transaction.setTransactionDateAndMonthCode(newTransactionDatePicker.getValue());
+        transaction.setTransactionDate(newTransactionDatePicker.getValue());
 
-        transactionInsertionManager.insertTransactionAndUpdateActiveCategories(transaction);
+        transactionDao.addTransactionAndUpdateAllFields(transaction);
         mainWindowFXController.updateTransactionsTable();
         mainWindowFXController.updateMonthlyBalance();
 

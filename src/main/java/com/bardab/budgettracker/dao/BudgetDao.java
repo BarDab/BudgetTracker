@@ -4,6 +4,8 @@ import com.bardab.budgettracker.model.Budget;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.time.YearMonth;
+
 public class BudgetDao extends AbstractDAO <Budget> {
 
     private SessionFactory sessionFactory;
@@ -13,13 +15,13 @@ public class BudgetDao extends AbstractDAO <Budget> {
     }
 
 
-    public Budget findByMonthCode(int monthCode) {
+    public Budget findByYearMonth(YearMonth yearMonth) {
         Budget budget =null;
         Session session=null;
         try{
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            budget = session.bySimpleNaturalId(Budget.class).load(monthCode);
+            budget = session.bySimpleNaturalId(Budget.class).load(yearMonth);
             session.getTransaction().commit();
         }
         catch (Exception e){

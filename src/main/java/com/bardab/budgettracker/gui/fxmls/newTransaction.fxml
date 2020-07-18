@@ -21,7 +21,7 @@
     <TextField fx:id="valueField" promptText="Value" maxWidth="80" ></TextField>
 
     <Separator orientation="VERTICAL"></Separator>
-    <Button text="&gt;&gt;" onAction="#nextCategory" minWidth="40"/>
+
     <ComboBox fx:id="categoriesComboBox" promptText="Type" minWidth="84" maxWidth="84" visible="true"></ComboBox>
     <Separator orientation="VERTICAL"></Separator>
 

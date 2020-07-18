@@ -1,8 +1,9 @@
-package com.bardab.budgettracker.gui;
+package com.bardab.budgettracker.gui.additional;
 
 import com.bardab.budgettracker.dao.TransactionDao;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.Categories;
+import com.bardab.budgettracker.model.additional.Category;
+import com.bardab.budgettracker.model.additional.CategoryFormatter;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,11 +24,11 @@ public class ChartData {
     private static TransactionDao transactionDao = new TransactionDao(sessionFactory);
 
 
-    public static HashMap<String, Double> expenseCategoriesWithValuesForPieChart(LocalDate dateFrom, LocalDate dateTo, List<String> categories) {
+    public static HashMap<Category, Double> expenseCategoriesWithValuesForPieChart(LocalDate dateFrom, LocalDate dateTo, List<Category> categories) {
         List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, categories);
         transactions.forEach(e -> System.out.println(e.getTransactionDate()));
-        HashMap<String, Double> categoriesWithValues = new HashMap<>();
-        for (String category : categories) {
+        HashMap<Category, Double> categoriesWithValues = new HashMap<>();
+        for (Category category : categories) {
             Double incrementedValue = 0.0;
             for (Transaction transaction : transactions) {
                 if (transaction.getCategory().equals(category)) {
@@ -39,11 +40,11 @@ public class ChartData {
         return categoriesWithValues;
     }
 
-    public static HashMap<String, LinkedHashMap<LocalDate, Double>> expenseCategoriesWithDailyTotalValues(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
+    public static HashMap<Category, LinkedHashMap<LocalDate, Double>> expenseCategoriesWithDailyTotalValues(LocalDate dateFrom, LocalDate dateTo, List<Category> listOfCategories) {
         List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, listOfCategories);
-        HashMap<String, LinkedHashMap<LocalDate, Double>> categoriesWithDailyValues = new HashMap<>();
+        HashMap<Category, LinkedHashMap<LocalDate, Double>> categoriesWithDailyValues = new HashMap<>();
         LinkedHashMap<LocalDate, Double> map;
-        for (String category : listOfCategories) {
+        for (Category category : listOfCategories) {
             map = new LinkedHashMap<>();
             for (Transaction transaction : transactions) {
                 if (transaction.getCategory().equals(category)) {
@@ -73,15 +74,15 @@ public class ChartData {
 
     }
 
-    public static List<XYChart.Series<String, Number>> getListOfSeriesForXYChart(LocalDate dateFrom, LocalDate dateTo, List<String> categories) {
-        HashMap<String, LinkedHashMap<LocalDate, Double>> mapHashMap = expenseCategoriesWithDailyTotalValues(dateFrom, dateTo, categories);
+    public static List<XYChart.Series<String, Number>> getListOfSeriesForXYChart(LocalDate dateFrom, LocalDate dateTo, List<Category> categories) {
+        HashMap<Category, LinkedHashMap<LocalDate, Double>> mapHashMap = expenseCategoriesWithDailyTotalValues(dateFrom, dateTo, categories);
         List<XYChart.Series<String, Number>> listOfSeries = new ArrayList<>();
-        for (String category : mapHashMap.keySet()) {
+        for (Category category : mapHashMap.keySet()) {
             HashMap<LocalDate, Double> dateDoubleHashMap = mapHashMap.get(category);
 
 
             XYChart.Series series = new XYChart.Series();
-            series.setName(category);
+            series.setName(category.name());
             int i = 0;
             for (LocalDate localDate : dateDoubleHashMap.keySet()) {
                 XYChart.Data data = new XYChart.Data(localDate.toString(), dateDoubleHashMap.get(localDate));
@@ -94,23 +95,23 @@ public class ChartData {
         return listOfSeries;
     }
 
-    public static ObservableList<PieChart.Data> getSeriesForPieChart(LocalDate dateFrom, LocalDate dateTo, List<String> categories) {
+    public static ObservableList<PieChart.Data> getSeriesForPieChart(LocalDate dateFrom, LocalDate dateTo, List<Category> categories) {
         ArrayList<PieChart.Data> pieChartData = new ArrayList<>();
         expenseCategoriesWithValuesForPieChart(dateFrom, dateTo, categories).forEach(
-                (e, f) -> pieChartData.add(new PieChart.Data(e, f))
+                (e, f) -> pieChartData.add(new PieChart.Data(CategoryFormatter.getCategoryNameInPresentable(e), f))
         );
         return FXCollections.observableArrayList(pieChartData);
     }
 
     public static ObservableList<PieChart.Data> getSeriesForPieChart(List<Transaction> transactions) {
-        List<String> categories = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
         LocalDate dateFrom = getLatestDate(transactions);
         LocalDate dateTo = getEarliestDate(transactions);
 
         for (int i = 0; i < transactions.size(); i++) {
             Transaction transaction =  transactions.get(i);
-            if (!categories.contains(Categories.transformToCamelCase( transaction.getCategory()))) {
-                categories.add(Categories.transformToCamelCase(transaction.getCategory()));
+            if (!categories.contains(transaction.getCategory())) {
+                categories.add(transaction.getCategory());
             }
         }
 
@@ -118,25 +119,23 @@ public class ChartData {
     }
 
     public static List<XYChart.Series<String, Number>> getListOfSeriesForXYChart(List<Transaction> transactions) {
-        List<String> categories = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
         LocalDate dateFrom = getLatestDate(transactions);
         LocalDate dateTo = getEarliestDate(transactions);
 
         for (int i = 0; i < transactions.size(); i++) {
             Transaction transaction =  transactions.get(i);
-            if (!categories.contains(Categories.transformToCamelCase( transaction.getCategory()))) {
-                categories.add(Categories.transformToCamelCase(transaction.getCategory()));
+            if (!categories.contains(transaction.getCategory())) {
+                categories.add(transaction.getCategory());
             }
         }
-
-
-
 
         return getListOfSeriesForXYChart(dateFrom, dateTo, categories);
     }
 
 
     public static LocalDate getEarliestDate(List<Transaction> transactions){
+        try{
         LocalDate date = transactions.get(0).getTransactionDate();
 
 
@@ -150,23 +149,31 @@ public class ChartData {
 
         }
         return date;
+        }
+        catch (IndexOutOfBoundsException e){
+            return  LocalDate.now();
+        }
 
     }
     public static LocalDate getLatestDate(List<Transaction> transactions){
-        LocalDate date = transactions.get(0).getTransactionDate();
+        try {
+            LocalDate date = transactions.get(0).getTransactionDate();
 
 
-        for (int i = 0; i < transactions.size(); i++) {
-            Transaction transaction = transactions.get(i);
+            for (int i = 0; i < transactions.size(); i++) {
+                Transaction transaction = transactions.get(i);
 
-            if (transaction.getTransactionDate().compareTo(date) < 0) {
-                date = transaction.getTransactionDate();
+                if (transaction.getTransactionDate().compareTo(date) < 0) {
+                    date = transaction.getTransactionDate();
+                }
+
+
             }
-
-
+            return date;
         }
-        return date;
-
+        catch (IndexOutOfBoundsException e){
+           return  LocalDate.now();
+        }
     }
 
 

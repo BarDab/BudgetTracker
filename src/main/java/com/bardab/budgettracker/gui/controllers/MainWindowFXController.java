@@ -1,9 +1,12 @@
 package com.bardab.budgettracker.gui.controllers;
 
-import com.bardab.budgettracker.gui.ChartData;
+import com.bardab.budgettracker.gui.additional.ChartData;
 import com.bardab.budgettracker.model.Transaction;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
@@ -12,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,10 +33,9 @@ public class MainWindowFXController {
     private double xOffset;
     private double yOffset;
 
+
     @FXML
     private BudgetFXController budgetController;
-    @FXML
-    private BalanceFXController balanceController;
     @FXML
     private NewTransactionFXController newTransactionController;
     @FXML
@@ -40,7 +43,11 @@ public class MainWindowFXController {
     @FXML
     private ChartFXController chartController;
     @FXML
-    private ChartDataFormFXController chartDataFormController;
+    private SpendingManagerFXController spendingManagerController;
+
+    @FXML
+    private NewBudgetFXController newBudgetController;
+
 
     @FXML
     private MenuBar menuBar;
@@ -68,19 +75,46 @@ public class MainWindowFXController {
 
     public void init(Stage stage) {
         chartController.init(this);
-        chartDataFormController.init(this);
-
-
-        budgetController.init();
-        balanceController.init();
+        budgetController.init(this);
         newTransactionController.init(this);
         transactionsController.init(this);
-
+        spendingManagerController.init();
         this.stage = stage;
 
         moveWindowByMouseDragging(stage);
         updatePieChartWithDataFromTable();
         updateBarChartWithDataFromTable();
+
+    }
+
+    public void newBudget(){
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainPane.getScene().getWindow());
+        dialog.setTitle("New Budget");
+//
+//        FXMLLoader fxmlLoader = new FXMLLoader();
+//        fxmlLoader.setLocation(getClass().getResource("C:/Users/Admin/JavaProjects/BudgetTracker/target/classes/com/bardab/budgettracker/gui/fxmls/newBudget.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxmls/newBudget.fxml"));
+        String cwd = System.getProperty("user.dir");
+        System.out.println( this.getClass());
+        System.out.println(cwd);
+        System.out.println( getClass().getResource("fxmls/newBudget.fxml"));
+
+        System.out.println(fxmlLoader.getLocation());
+
+
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        }
+        catch (IOException e){
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
     }
 
@@ -123,14 +157,7 @@ public class MainWindowFXController {
     }
 
 
-    public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
-        this.chartController.updatePieChart(dateFrom, dateTo, listOfCategories, mainPane);
-        this.chartController.updatePieChartTitle(dateFrom, dateTo);
-    }
 
-    public void updateLineChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
-        this.chartController.updateBarChart(dateFrom, dateTo, listOfCategories);
-    }
 
     public void updateTransactionsTable() {
         this.transactionsController.updateTransactionsInTable();
@@ -138,7 +165,7 @@ public class MainWindowFXController {
     }
 
     public void updateMonthlyBalance() {
-        this.balanceController.init();
+        this.budgetController.update();
     }
 
 

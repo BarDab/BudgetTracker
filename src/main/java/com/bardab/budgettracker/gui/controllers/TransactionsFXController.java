@@ -1,11 +1,10 @@
 package com.bardab.budgettracker.gui.controllers;
 
 import com.bardab.budgettracker.dao.TransactionDao;
-import com.bardab.budgettracker.gui.TooltippedTableCell;
+import com.bardab.budgettracker.gui.additional.TooltippedTableCell;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.Categories;
-import com.bardab.budgettracker.model.categories.FixedExpenses;
-import com.bardab.budgettracker.model.categories.VariableExpenses;
+import com.bardab.budgettracker.model.additional.Category;
+import com.bardab.budgettracker.model.additional.CategoryFormatter;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,14 +27,9 @@ public class TransactionsFXController {
     private TransactionDao transactionDao;
     private MainWindowFXController mainWindowFXController;
 
-    List<String> variablesList = Categories.getCategoriesNames(new VariableExpenses());
-    List<String> fixedList = Categories.getCategoriesNames(new FixedExpenses());
-
-
-
 
     @FXML
-    private List<String> filteredList = new ArrayList<>();
+    private List<Category> filteredList = new ArrayList<>();
 
     @FXML
     private MenuBar transactionsMenuBar;
@@ -60,7 +54,7 @@ public class TransactionsFXController {
     private TableColumn descriptionColumn;
 
     @FXML
-    private CustomMenuItem customMenuItemVariables;
+    private CustomMenuItem customMenuItemCategories;
 
     @FXML
     private CustomMenuItem customMenuItemFixed;
@@ -82,14 +76,13 @@ public class TransactionsFXController {
         transactionsDateFrom.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1));
         transactionsDateTo.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()));
 
-        createMenuCheckBoxes(variablesList, variableCategoriesMenu, 5, customMenuItemVariables);
-        createMenuCheckBoxes(fixedList, fixedCategoriesMenu, 5, customMenuItemFixed);
+        createMenuCheckBoxes(variableCategoriesMenu, 5, customMenuItemCategories);
 
         updateTransactionsInTable();
 
         setToolTip();
 
-        transactionsList.addAll(transactionDao.getAllTransactions(transactionsDateFrom.getValue(), transactionsDateTo.getValue(), filteredList));
+        transactionsList.addAll(transactionDao.getAllTransactions(transactionsDateFrom.getValue(), transactionsDateTo.getValue(),filteredList));
 
     }
 
@@ -114,15 +107,15 @@ public class TransactionsFXController {
 
 
 
-    public void createMenuCheckBoxes(List<String> list, Menu menu, int numberOfRows, CustomMenuItem customMenuItem) {
+    public void createMenuCheckBoxes(Menu menu, int numberOfRows, CustomMenuItem customMenuItem) {
         GridPane gp = new GridPane();
         gp.setOpacity(30);
 
         List<CheckBox> checkBoxes = new ArrayList<>();
         int x = 0;
         int y = 0;
-        for (String category : list) {
-            CheckBox cb = new CheckBox(Categories.getPresentableCategoryName(category));
+        for (Category category : Category.values()) {
+            CheckBox cb = new CheckBox(CategoryFormatter.getCategoryNameInPresentable(category));
             cb.setStyle("-fx-text-fill: white; -fx-font-size: 10;");
             cb.selectedProperty().setValue(true);
             filteredList.add(category);
@@ -203,10 +196,10 @@ public class TransactionsFXController {
 
         private LocalDate dateFrom;
         private LocalDate dateTo;
-        private List<String> categories;
+        private List<Category> categories;
 
 
-        public GetTransactionsFiltered(LocalDate dateFrom, LocalDate dateTo, List<String> categories) {
+        public GetTransactionsFiltered(LocalDate dateFrom, LocalDate dateTo, List<Category> categories) {
             this.dateFrom = dateFrom;
             this.dateTo = dateTo;
             this.categories = categories;
@@ -215,7 +208,6 @@ public class TransactionsFXController {
         @Override
         public ObservableList<Transaction> call() {
             List<Transaction> transactions = transactionDao.getAllTransactions(dateFrom, dateTo, categories);
-            transactions.forEach(e -> e.setPresentableCategory(Categories.getPresentableCategoryName(e.getCategory())));
             transactionsList.removeAll(transactionsList);
             transactionsList.addAll(transactions);
 

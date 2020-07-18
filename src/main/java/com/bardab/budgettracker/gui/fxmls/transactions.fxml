@@ -32,52 +32,38 @@
             <HBox>
             <DatePicker fx:id="transactionsDateFrom" maxHeight="20" promptText="From" maxWidth="100"></DatePicker>
             <DatePicker fx:id="transactionsDateTo" promptText="To" maxWidth="100"></DatePicker>
+                <MenuBar fx:id="transactionsMenuBar" minHeight="30" >
+                    <menus>
+                        <Menu fx:id="variableCategoriesMenu">
+                            <graphic>
+                                <VBox minHeight="27" >
+                                    <Button text="Categories"></Button>
+
+                                </VBox>
+                            </graphic>
+                            <CustomMenuItem fx:id="customMenuItemCategories">
+                            </CustomMenuItem>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <Button onAction="#updateTransactionsInTable" text="Search"></Button>
+
             </HBox>
-            <HBox spacing="5">
-                <Button onAction="#updatePieChartWithCurrentTransactions" text="Update Pie Chart"></Button>
-                <Button onAction="#updateBarChartWithCurrentTransactions" text="Update Bar Chart"></Button>
-            </HBox>
+
         </HBox>
-        <HBox alignment="CENTER_LEFT" >
-            <MenuBar fx:id="transactionsMenuBar" minHeight="30" >
-
-                <menus>
-                    <Menu fx:id="variableCategoriesMenu">
-                        <graphic>
-                            <VBox minHeight="27" >
-                                <Button text="Variables"></Button>
-
-                            </VBox>
-                        </graphic>
-                        <CustomMenuItem fx:id="customMenuItemVariables" >
-                        </CustomMenuItem>
-                    </Menu>
-                    <Menu fx:id="fixedCategoriesMenu">
-                        <graphic>
-                            <VBox minHeight="27" >
-                                <Button text="Fixed"></Button>
-                            </VBox>
-                        </graphic>
-                        <CustomMenuItem fx:id="customMenuItemFixed"></CustomMenuItem>
-                    </Menu>
-                </menus>
-            </MenuBar>
-            <Button onAction="#updateTransactionsInTable" text="Search"></Button>
-        </HBox>
-
     </VBox>
 
 
     <TableView
             fx:id="transactionTable" onMouseClicked="#deleteTransaction"
-            onKeyPressed="#deleteTransaction" maxHeight="270" maxWidth="450">
+            onKeyPressed="#deleteTransaction" maxHeight="220" maxWidth="350">
         <padding>
             <Insets left="10" bottom="5"></Insets>
         </padding>
 
 
         <columns>
-            <TableColumn fx:id="dateColumn" text="Date" resizable="false" minWidth="100">
+            <TableColumn fx:id="dateColumn" text="Date" resizable="false" minWidth="80">
                 <cellValueFactory>
                     <PropertyValueFactory property="transactionDate"/>
                 </cellValueFactory>
@@ -90,13 +76,13 @@
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn fx:id="categoryColumn" text="Category" minWidth="125" resizable="false">
+            <TableColumn fx:id="categoryColumn" text="Category" maxWidth="80" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="category"/>
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="150" resizable="false">
+            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="120" resizable="false">
                 <cellValueFactory>
                     <PropertyValueFactory property="description"/>
                 </cellValueFactory>

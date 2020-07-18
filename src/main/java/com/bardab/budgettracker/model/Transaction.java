@@ -1,14 +1,10 @@
 package com.bardab.budgettracker.model;
 
-import com.bardab.budgettracker.model.additional.MonthCode;
-import com.bardab.budgettracker.model.categories.Categories;
-import com.bardab.budgettracker.model.categories.FixedExpenses;
-import com.bardab.budgettracker.model.categories.VariableExpenses;
+import com.bardab.budgettracker.model.additional.Category;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.YearMonth;
 
 
 @Entity
@@ -28,59 +24,40 @@ public class Transaction  {
     @Column(name = "transactionDate", nullable = false)
     private LocalDate transactionDate;
 
-    @Column(nullable = false)
-    private Integer monthCode;
+    @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    private String category;
+    private Category category;
     @Column(name = "value")
     private Double value;
     @Column(name = "description")
     private String description;
 
 
-    public void setCategoryAndTransformToCamelCase(String category) {
-        category = Categories.transformToCamelCase(category);
-        if(Categories.validateType(category, getAllCategories())){
-            this.category = category;
-        }
-    }
-    public void setPresentableCategory(String category){
+    public void setCategory(Category category) {
         this.category = category;
     }
-    public List<String> getAllCategories(){
-        FixedExpenses fixedExpenses = new FixedExpenses();
-        VariableExpenses variableExpenses = new VariableExpenses();
-        List<String> allCategories = new ArrayList<>();
 
-        allCategories.addAll(fixedExpenses.getCategoriesNames(fixedExpenses));
-        allCategories.addAll(variableExpenses.getCategoriesNames(variableExpenses));
 
-        return allCategories;
-    }
-
-    public void setTransactionDateAndMonthCode(LocalDate transactionDate) {
+    public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
-        this.monthCode = MonthCode.createIntMonthCodeFromLocalDate(transactionDate);
+
     }
 
     public LocalDate getTransactionDate() {
         return transactionDate;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public Integer getMonthCode() {
-        return monthCode;
+
+    public YearMonth getYearMonth() {
+        return  YearMonth.from(transactionDate);
     }
 
     public Double getValue() {

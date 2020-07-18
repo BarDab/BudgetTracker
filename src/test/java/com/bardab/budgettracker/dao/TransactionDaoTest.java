@@ -1,6 +1,7 @@
 package com.bardab.budgettracker.dao;
 
 import com.bardab.budgettracker.model.Transaction;
+import com.bardab.budgettracker.model.additional.CategoryFormatter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.AfterEach;
@@ -40,8 +41,8 @@ class TransactionDaoTest {
         transaction = new Transaction();
         transaction.setValue(value);
         transaction.setDescription(description);
-        transaction.setTransactionDateAndMonthCode(localDate);
-        transaction.setCategoryAndTransformToCamelCase(type);
+        transaction.setTransactionDate(localDate);
+        transaction.setCategory(CategoryFormatter.getCategory(type));
     }
     @AfterEach
     public void AfterAll(){
@@ -70,12 +71,12 @@ class TransactionDaoTest {
     void updateTransaction(){
         Transaction updatedTransaction = new Transaction();
         updatedTransaction.setDescription("updated transaction's description");
-        updatedTransaction.setCategoryAndTransformToCamelCase("updated transaction's type");
+        updatedTransaction.setCategory(CategoryFormatter.getCategory("updated transaction's description"));
         updatedTransaction.setValue(9.99);
-        updatedTransaction.setTransactionDateAndMonthCode(LocalDate.of(1999,12,31));
+        updatedTransaction.setTransactionDate(LocalDate.of(1999,12,31));
 
         transactionDao.addEntity(transaction);
-        transactionDao.updateTransaction(id,updatedTransaction);
+        transactionDao.updateTransaction(updatedTransaction);
         Transaction fromDB = transactionDao.findByID(id);
         assertEquals("updated transaction's description",fromDB.getDescription());
         assertEquals("updated transaction's type",fromDB.getCategory());
@@ -91,8 +92,8 @@ class TransactionDaoTest {
         Transaction transaction = new Transaction();
         transaction.setValue(i+0.1);
         transaction.setDescription("Description number "+i);
-        transaction.setTransactionDateAndMonthCode(localDate);
-        transaction.setCategoryAndTransformToCamelCase("Type number "+i);
+        transaction.setTransactionDate(localDate);
+        transaction.setCategory(CategoryFormatter.getCategory(  "Type number "+i));
         transactionDao.addEntity(transaction);
         transactions.add(transaction);
         }
@@ -105,8 +106,8 @@ class TransactionDaoTest {
             Transaction transaction = new Transaction();
             transaction.setValue(i+0.1);
             transaction.setDescription("Description number "+i);
-            transaction.setTransactionDateAndMonthCode(localDate);
-            transaction.setCategoryAndTransformToCamelCase("Type number "+i);
+            transaction.setTransactionDate(localDate);
+            transaction.setCategory(CategoryFormatter.getCategory(  "Type number "+i));
             transactionDao.addEntity(transaction);
         }
         transactionDao.deleteAllTransactions("Transaction");

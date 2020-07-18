@@ -1,92 +1,58 @@
 package com.bardab.budgettracker.model;
 
-import com.bardab.budgettracker.model.additional.MonthCode;
+import com.bardab.budgettracker.model.additional.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class TransactionTest {
-
     Transaction transaction;
 
     @BeforeEach
-    void transactionInstance(){
+    void init(){
         transaction = new Transaction();
     }
 
-    @Test
-    void setMonthCode(){
-        LocalDate localDate = LocalDate.of(2030,6,10);
-        String month = MonthCode.createMonthCodeFromLocalDate(localDate);
-        transaction.setTransactionDateAndMonthCode(localDate);
-        assertEquals(month,transaction.getMonthCode());
-    }
-
 
     @Test
-    void equals(){
-        Transaction comparedTransaction = new Transaction();
-        assertTrue(this.transaction.equals(transaction));
-        assertTrue(comparedTransaction.equals(transaction));
-        comparedTransaction.setValue(10.0);
-        assertFalse(comparedTransaction.equals(transaction));
-        assertFalse(transaction.equals(null));
+    void setCategory() {
+        transaction.setCategory(Category.INCOME);
+        assertEquals(Category.INCOME,transaction.getCategory());
     }
 
     @Test
-    void getAndSetId() {
-        transaction.setId(0000);
-        assertEquals(00000,transaction.getId());
-    }
-
-    @Test
-    void  setCategoryAndTransformToCamelCase() {
-        transaction.setCategoryAndTransformToCamelCase("Food");
-        assertEquals("food",transaction.getCategory());
-
-        transaction.setCategoryAndTransformToCamelCase("Health Care");
-        assertEquals("healthCare",transaction.getCategory());
-    }
-
-    @Test
-    void getAndSetTransactionDate() {
-        transaction.setTransactionDateAndMonthCode(LocalDate.now());
+    void setTransactionDate() {
+        transaction.setTransactionDate(LocalDate.now());
         assertEquals(LocalDate.now(),transaction.getTransactionDate());
     }
 
     @Test
-    void getAndSetValue() {
-        transaction.setValue(0.11);
-        assertEquals(0.11,transaction.getValue());
+    @DisplayName("Only positive values")
+    void setValue() {
+        transaction.setValue(5.0);
+        transaction.setValue(-10.0);
+        assertNotEquals(-10.0,transaction.getValue());
+        assertEquals(5.0,transaction.getValue());
     }
 
     @Test
-    @DisplayName("Check if negative values cannot be added")
-    void checkIfValueNotNegative(){
-        transaction.setValue(-0.33);
-        assertNotEquals(-0.33,transaction.getValue());
+    void getYearMonth(){
+        transaction.setTransactionDate(LocalDate.now());
+        assertEquals(YearMonth.now(),transaction.getYearMonth());
     }
 
-    @Test
-    void getAndSetDescription() {
-        transaction.setDescription("description");
-        assertEquals("description",transaction.getDescription());
-    }
+
 
     @Test
-    public void testToString() {
-        transaction = new Transaction();
-        transaction.setValue(0.00);
-        transaction.setDescription("");
-        transaction.setTransactionDateAndMonthCode(LocalDate.now());
-        transaction.setCategoryAndTransformToCamelCase("");
-        transaction.setId(0);
-
-        assertEquals(String.format("Transaction{id=%s, type='%s', transactionDate=%s, value=%s, description='%s'}",transaction.getId(),transaction.getCategory(),
-                transaction.getTransactionDate(),transaction.getValue(),transaction.getDescription()), transaction.toString());
+    void setDescription() {
+        transaction.setDescription("TEST");
+        assertEquals("TEST",transaction.getDescription());
+        assertNotEquals("tEst",transaction.getDescription());
     }
 }

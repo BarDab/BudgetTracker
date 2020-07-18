@@ -1,11 +1,12 @@
 package com.bardab.budgettracker.dao;
 
-import com.bardab.budgettracker.model.MonthlyBalance;
-import com.bardab.budgettracker.model.Transaction;
+import com.bardab.budgettracker.model.Actual;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class MonthlyBalanceDao extends AbstractDAO<MonthlyBalance> {
+import java.time.YearMonth;
+
+public class MonthlyBalanceDao extends AbstractDAO<Actual> {
 
     private SessionFactory sessionFactory;
 
@@ -18,13 +19,13 @@ public class MonthlyBalanceDao extends AbstractDAO<MonthlyBalance> {
         return this.sessionFactory;
     }
 
-    public MonthlyBalance findByID(long id) {
-        MonthlyBalance monthlyBalance = null;
+    public Actual findByID(long id) {
+        Actual actual = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
             session.beginTransaction();
-            monthlyBalance = (MonthlyBalance) session.get(MonthlyBalance.class, id);
+            actual = (Actual) session.get(Actual.class, id);
 //            session.getTransaction().commit();
 
         } catch (Exception e) {
@@ -38,17 +39,18 @@ public class MonthlyBalanceDao extends AbstractDAO<MonthlyBalance> {
                 session.close();
             }
         }
-        return monthlyBalance;
+        return actual;
     }
 
-    public MonthlyBalance findByMonthCode(int monthCode) {
-        MonthlyBalance monthlyBalance = null;
+    public Actual findByYearMonth(YearMonth yearMonth) {
+        Actual actual = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
             session.beginTransaction();
-            monthlyBalance = session.bySimpleNaturalId(MonthlyBalance.class).load(monthCode);
+            actual = session.bySimpleNaturalId(Actual.class).load(yearMonth);
             session.getTransaction().commit();
+
 
         } catch (Exception e) {
             if (session.getTransaction() != null) {
@@ -61,35 +63,10 @@ public class MonthlyBalanceDao extends AbstractDAO<MonthlyBalance> {
                 session.close();
             }
         }
-        return monthlyBalance;
+        return actual;
     }
 
-    public boolean updateTransaction(Transaction transaction) {
-        boolean isUpdated = false;
-        Session session = null;
-        try {
-            session = getSessionFactory().openSession();
-            session.beginTransaction();
 
-
-            MonthlyBalance monthlyBalance = session.bySimpleNaturalId(MonthlyBalance.class).load(transaction.getMonthCode());
-            monthlyBalance.manageTransactionInsertion(transaction);
-            session.getTransaction().commit();
-            isUpdated = true;
-        } catch (Exception e) {
-            if (session.getTransaction() != null) {
-                logger.info("\n ..........Transaction is being rolled back...........\n");
-                session.getTransaction().rollback();
-            }
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-            return isUpdated;
-        }
-    }
 
 
 }

@@ -23,8 +23,6 @@
 
                 <VBox>
                     <HBox>
-
-
                         <VBox>
                             <fx:include fx:id="transactions" source="transactions.fxml"></fx:include>
                             <fx:include fx:id="newTransaction" source="newTransaction.fxml"></fx:include>
@@ -33,16 +31,14 @@
 
                     </HBox>
                     <VBox>
-                        <fx:include fx:id="balance" source="balance.fxml"/>
                         <fx:include fx:id="budget" source="budget.fxml"/>
                     </VBox>
 
                 </VBox>
                 <VBox fx:id="centerBorderArea" minWidth="10"/>
                 <VBox HBox.hgrow="ALWAYS">
-
                     <fx:include fx:id="chart" source="chartArea.fxml"></fx:include>
-                    <fx:include source="chartDataForm.fxml" fx:id="chartDataForm"/>
+                    <fx:include fx:id="spendingManager" source="spendingManager.fxml"></fx:include>
                 </VBox>
 
 

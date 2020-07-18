@@ -1,10 +1,10 @@
 package com.bardab.budgettracker.gui.controllers;
 
-import com.bardab.budgettracker.gui.ChartData;
-import com.bardab.budgettracker.gui.DoubleFormatter;
+import com.bardab.budgettracker.gui.additional.ChartData;
+import com.bardab.budgettracker.gui.additional.DoubleFormatter;
 import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.Categories;
-import com.bardab.budgettracker.model.categories.VariableExpenses;
+import com.bardab.budgettracker.model.ActualExpenses;
+import com.bardab.budgettracker.model.additional.CategoryFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -19,7 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChartFXController {
@@ -52,20 +51,29 @@ public class ChartFXController {
 
 
     private ObservableList categoriesList;
-    private VariableExpenses variableExpenses;
+    private ActualExpenses actualExpenses;
 
 
     public void init(MainWindowFXController mainController) {
         this.mainController = mainController;
 
         xAxis.setAutoRanging(true);
-        variableExpenses = new VariableExpenses();
-        variableExpenses.initializeFields(variableExpenses);
-        categoriesList = FXCollections.observableArrayList((VariableExpenses.getPresentableCategoriesNames(variableExpenses)));
+        actualExpenses = new ActualExpenses();
+        actualExpenses.initializeCategoryValues();
+        categoriesList = FXCollections.observableArrayList((CategoryFormatter.getAllCategoriesNamesInPresentable()));
         categoriesListView.setItems(categoriesList);
 
 
 
+    }
+
+
+    public void updateBarChartWithDataFromTable(){
+        this.mainController.updateBarChartWithDataFromTable();
+    }
+
+    public void updatePieChartWithDataFromTable(){
+        this.mainController.updatePieChartWithDataFromTable();
     }
 
 
@@ -80,17 +88,17 @@ public class ChartFXController {
         addLabelOnHover(pane);
     }
 
-    public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories, Pane pane){
-        List<String> camelCaseCategories = new ArrayList();
-        for (String category : listOfCategories) {
-            camelCaseCategories.add(Categories.transformToCamelCase(category));
-        }
-        listOfCategories = FXCollections.observableArrayList(camelCaseCategories);
-
-        this.categoriesPieChart.setData(ChartData.getSeriesForPieChart(dateFrom,dateTo,listOfCategories));
-        this.categoriesPieChart.setLegendSide(Side.BOTTOM);
-        addLabelOnHover(pane);
-    }
+//    public void updatePieChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories, Pane pane){
+//        List<String> camelCaseCategories = new ArrayList();
+//        for (String category : listOfCategories) {
+//            camelCaseCategories.add(Categories.transformToCamelCase(category));
+//        }
+//        listOfCategories = FXCollections.observableArrayList(camelCaseCategories);
+//
+//        this.categoriesPieChart.setData(ChartData.getSeriesForPieChart(dateFrom,dateTo,listOfCategories));
+//        this.categoriesPieChart.setLegendSide(Side.BOTTOM);
+//        addLabelOnHover(pane);
+//    }
 
     public void updateBarChartWithDataFromTable( LocalDate dateFrom,LocalDate dateTo,List<Transaction> transactions){
         xAxis.setCategories(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
@@ -102,22 +110,22 @@ public class ChartFXController {
     }
 
 
-    public void updateBarChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
-
-        List<String> camelCaseCategories = new ArrayList();
-        for (String category : listOfCategories) {
-            camelCaseCategories.add(Categories.transformToCamelCase(category));
-        }
-        listOfCategories = FXCollections.observableArrayList(camelCaseCategories);
-        xAxis.setCategories(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
-        xAxis.getCategories().removeAll(xAxis.getCategories());
-        xAxis.getCategories().addAll(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
-
-
-        List<XYChart.Series<String, Number>> list = ChartData.getListOfSeriesForXYChart(dateFrom, dateTo, listOfCategories);
-        stackedBarChart.getData().removeAll(stackedBarChart.getData());
-        stackedBarChart.getData().addAll(list);
-    }
+//    public void updateBarChart(LocalDate dateFrom, LocalDate dateTo, List<String> listOfCategories) {
+//
+//        List<String> camelCaseCategories = new ArrayList();
+//        for (String category : listOfCategories) {
+//            camelCaseCategories.add(Categories.transformToCamelCase(category));
+//        }
+//        listOfCategories = FXCollections.observableArrayList(camelCaseCategories);
+//        xAxis.setCategories(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
+//        xAxis.getCategories().removeAll(xAxis.getCategories());
+//        xAxis.getCategories().addAll(FXCollections.observableArrayList(ChartData.getListOfDatesInSpecificTime(dateFrom,dateTo)));
+//
+//
+//        List<XYChart.Series<String, Number>> list = ChartData.getListOfSeriesForXYChart(dateFrom, dateTo, listOfCategories);
+//        stackedBarChart.getData().removeAll(stackedBarChart.getData());
+//        stackedBarChart.getData().addAll(list);
+//    }
 
 
 
@@ -192,7 +200,7 @@ public class ChartFXController {
 
                             pieSliceValue.setTranslateX(e.getSceneX());
                             pieSliceValue.setTranslateY(e.getSceneY());
-                            pieSliceValue.setText(String.valueOf(DoubleFormatter.round(data.getPieValue()/arr[0]*100,1)) +"%");
+                            pieSliceValue.setText(String.valueOf(DoubleFormatter.round(data.getPieValue(),1)) +"zł");
 
                         }
                     });

@@ -1,10 +1,5 @@
 package com.bardab.budgettracker.util;
-import com.bardab.budgettracker.model.Budget;
-import com.bardab.budgettracker.model.MonthlyBalance;
-import com.bardab.budgettracker.model.Transaction;
-import com.bardab.budgettracker.model.categories.FixedExpenses;
-import com.bardab.budgettracker.model.categories.PlannedExpenses;
-import com.bardab.budgettracker.model.categories.VariableExpenses;
+import com.bardab.budgettracker.model.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -46,10 +41,15 @@ public class HibernateUtil {
             configuration.setProperties(properties);
             configuration.addAnnotatedClass(Transaction.class);
             configuration.addAnnotatedClass(Budget.class);
-            configuration.addAnnotatedClass(PlannedExpenses.class);
-            configuration.addAnnotatedClass(FixedExpenses.class);
-            configuration.addAnnotatedClass(VariableExpenses.class);
-            configuration.addAnnotatedClass(MonthlyBalance.class);
+            configuration.addAnnotatedClass(BudgetExpenses.class);
+            configuration.addAnnotatedClass(BudgetIncome.class);
+            configuration.addAnnotatedClass(BudgetSavings.class);
+            configuration.addAnnotatedClass(ActualIncome.class);
+            configuration.addAnnotatedClass(ActualSavings.class);
+            configuration.addAnnotatedClass(ActualExpenses.class);
+            configuration.addAnnotatedClass(ExpenseOverrun.class);
+            configuration.addAnnotatedClass(Actual.class);
+            configuration.addAnnotatedClass(SpendingManager.class);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);

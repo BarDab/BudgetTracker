@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.bardab.budgettracker.gui.controllers.SpendingManagerFXController"
+      fx:id="spendingManagerView"
+>
+    <HBox spacing="20">
+        <padding>
+            <Insets left="10"></Insets>
+        </padding>
+        <Label text="Spending Manager" textFill="DAA520"></Label>
+        <HBox>
+           <Label fx:id="dateLabel"></Label>
+        </HBox>
+    </HBox>
+    <HBox>
+        <ListView fx:id="spendingManagerNamesListView" maxWidth="100">
+        </ListView>
+        <ListView fx:id="spendingManagerValuesListView" maxWidth="100">
+        </ListView>
+        <VBox>
+            <TextField fx:id="cashAtHandTextField"></TextField>
+            <TextField fx:id="savingsTextField"></TextField>
+            <TextField fx:id="daysToNextPaymentTextField"></TextField>
+            <Button fx:id="saveValuesButton"></Button>
+        </VBox>
+    </HBox>
+
+
+</VBox>

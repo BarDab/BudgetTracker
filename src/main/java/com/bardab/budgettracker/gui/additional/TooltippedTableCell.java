@@ -1,4 +1,4 @@
-package com.bardab.budgettracker.gui;
+package com.bardab.budgettracker.gui.additional;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
