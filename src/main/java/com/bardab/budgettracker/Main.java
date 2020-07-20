@@ -19,12 +19,14 @@ public void start(Stage primaryStage) throws Exception{
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/fxmls/mainWindow.fxml"));
         Parent root = fxmlLoader.load();
-        System.out.println(fxmlLoader.getLocation());
+
+
         MainWindowFXController controller = fxmlLoader.getController();
         controller.init(primaryStage);
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root, 1062, 660);
+
 
         primaryStage.setScene(scene);
         primaryStage.show();

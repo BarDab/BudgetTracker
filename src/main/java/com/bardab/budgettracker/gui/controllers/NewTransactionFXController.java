@@ -41,6 +41,7 @@ public class NewTransactionFXController {
         descriptionField.clear();
         newTransactionDatePicker.setValue(LocalDate.now());
         valueField.setTextFormatter(new DoubleFormatter().doubleFormatter());
+        valueField.setText("10.0");
 
     }
 

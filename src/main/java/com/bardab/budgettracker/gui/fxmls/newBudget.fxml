@@ -6,12 +6,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
-<GridPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="com.bardab.budgettracker.gui.controllers.NewBudgetFXController"
-          prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.DialogPane?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bardab.budgettracker.gui.controllers.NewBudgetFXController"
+            fx:id="newBudgetPane">
 
-
+<content>
     <VBox>
         <TableView
                 fx:id="newBudgetIncomeSavingsTableView" maxHeight="62" maxWidth="106" editable="true">
@@ -45,5 +46,6 @@
         </TableView>
 
     </VBox>
+</content>
 
-</GridPane>
+</DialogPane>

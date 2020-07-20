@@ -14,14 +14,15 @@ import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class BudgetFXController {
@@ -107,7 +108,7 @@ public class BudgetFXController {
     }
 
 
-    public void  init(MainWindowFXController mainController) {
+    public void init(MainWindowFXController mainController) {
         this.mainController = mainController;
 
         initializeYearComboBox();
@@ -125,11 +126,36 @@ public class BudgetFXController {
 
     }
 
+
     public void newBudget(){
-        this.mainController.newBudget();
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(this.mainController.getMainPane().getScene().getWindow());
+        dialog.setTitle("New Budget");
+
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/com/bardab/budgettracker/gui/fxmls/newBudget.fxml"));
+
+
+
+        try {
+            System.out.println("inside try new budget");
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        }
+        catch (IOException e){
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
     }
-
-
 
 
     public void setYearMonth() {
@@ -170,6 +196,8 @@ public class BudgetFXController {
         populateActualExpensesObservableList(actual);
 
         populateExpensesOverrunObservableList(expenseOverrun);
+
+
 
     }
     public void populateIncomeSavingsNamesObservableList() {

@@ -60,7 +60,7 @@
             </ListView>
         </VBox>
         <VBox>
-            <Button minWidth="50" fx:id="newBudgetButton" onAction="#newBudget" text="Copy"></Button>
+            <Button minWidth="50" fx:id="newBudgetButton" onAction="#newBudget" text="Add new budget"></Button>
 <!--            <Button minWidth="50" fx:id="saveUpdateBudgetButton" onAction="#saveOrUpdateNewBudgetInDB" text="Save"></Button>-->
         </VBox>
 
