@@ -139,9 +139,22 @@ public class BudgetFXController {
 
 
 
+
+
         try {
             System.out.println("inside try new budget");
             dialog.getDialogPane().setContent(fxmlLoader.load());
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+            NewBudgetFXController newBudgetFXController =  fxmlLoader.getController();
+            newBudgetFXController.createGridPaneWithLabelsAndTextFields();
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            if(result.isPresent() && result.get() == ButtonType.OK){
+            newBudgetFXController.addOrUpdate();
+            }
+
         }
         catch (IOException e){
             System.out.println("Couldn't load the dialog");
@@ -149,11 +162,10 @@ public class BudgetFXController {
             return;
         }
 
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
 
-        Optional<ButtonType> result = dialog.showAndWait();
+
+
 
     }
 

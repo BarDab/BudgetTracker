@@ -1,6 +1,7 @@
 package com.bardab.budgettracker.gui.controllers;
 
 import com.bardab.budgettracker.gui.additional.ChartData;
+import com.bardab.budgettracker.model.Budget;
 import com.bardab.budgettracker.model.Transaction;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,6 +42,8 @@ public class MainWindowFXController {
     private ChartFXController chartController;
     @FXML
     private SpendingManagerFXController spendingManagerController;
+    @FXML
+    private NewBudgetFXController newBudgetController;
 
     @FXML
     private MenuBar menuBar;
@@ -72,7 +75,9 @@ public class MainWindowFXController {
         budgetController.init(this);
         newTransactionController.init(this);
         transactionsController.init(this);
+        newBudgetController.init(this.mainPane,new Budget());
         spendingManagerController.init();
+
 
         this.stage = stage;
 
@@ -123,6 +128,7 @@ public class MainWindowFXController {
 
         this.chartController.updateBarChartWithDataFromTable(dateFrom, dateTo, transactions);
     }
+
 
 
 

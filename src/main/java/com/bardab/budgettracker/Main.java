@@ -8,9 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class Main
-
-extends Application  {
+public class Main extends Application {
 
 @Override
 public void start(Stage primaryStage) throws Exception{
@@ -31,15 +29,7 @@ public void start(Stage primaryStage) throws Exception{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-
-
-        }
-
-
-
-
-
-
+}
 //        public void populateDBWithRandomTransactions(){
 //                VariableExpenses variableExpenses = new VariableExpenses();
 //                TransactionDao transactionDao = new TransactionDao(HibernateUtil.getInstance().getSessionFactory());
@@ -60,4 +50,4 @@ public void start(Stage primaryStage) throws Exception{
 //
 //
 //        }
-        }
+}

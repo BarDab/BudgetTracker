@@ -1,51 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.GridPane?>
+
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.GridPane?>
 <DialogPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.bardab.budgettracker.gui.controllers.NewBudgetFXController"
             fx:id="newBudgetPane">
 
 <content>
-    <VBox>
-        <TableView
-                fx:id="newBudgetIncomeSavingsTableView" maxHeight="62" maxWidth="106" editable="true">
-            <padding>
-                <Insets left="10" ></Insets>
-            </padding>
-            <columns>
-                <TableColumn fx:id="newBudgetIncomeSavingsTableColumn" text="New Budget" minWidth="100"
-                             resizable="false"
-                             editable="true">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="newBudgetValue"/>
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
+    <GridPane fx:id="gridPane">
 
-        <TableView
-                fx:id="newBudgetExpensesTableView" prefHeight="260" maxWidth="105" editable="true">
-            <padding>
-                <Insets left="10" bottom="5"></Insets>
-            </padding>
-            <columns>
-                <TableColumn fx:id="newBudgetExpensesTableColumn"  minWidth="100" resizable="false"
-                             editable="true" >
-                    <cellValueFactory>
-                        <PropertyValueFactory property="newBudgetValue"/>
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
 
-    </VBox>
+    </GridPane>
 </content>
 
 </DialogPane>

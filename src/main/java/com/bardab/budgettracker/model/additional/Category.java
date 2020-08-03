@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum Category {
 
-    TOTALEXPENSES,
+
     BILLS,
     CLOTHING,
     DEBT,
@@ -18,6 +18,25 @@ public enum Category {
     OTHER,
     SAVINGS,
     TRANSPORT;
+
+
+    public static List<Category> allCategoriesInPresentableOrder(){
+        return List.of(
+                INCOME,
+                SAVINGS,
+                BILLS,
+                FOOD,
+                HEALTHCARE,
+                CLOTHING,
+                TRANSPORT,
+                DEBT,
+                HOBBY,
+                DINING,
+                ENTERTAINMENT,
+                OTHER
+        );
+    }
+
 
     public static List<Category> expenses(){
         return List.of(

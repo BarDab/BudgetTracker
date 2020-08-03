@@ -4,29 +4,29 @@ import com.bardab.budgettracker.dao.BudgetDao;
 import com.bardab.budgettracker.dao.TransactionInsertionManager;
 import com.bardab.budgettracker.gui.additional.DoubleFormatter;
 import com.bardab.budgettracker.gui.additional.MonthCode;
-import com.bardab.budgettracker.gui.additional.NewBudgetTableData;
 import com.bardab.budgettracker.model.Budget;
 import com.bardab.budgettracker.model.additional.Category;
 import com.bardab.budgettracker.model.additional.CategoryFormatter;
 import com.bardab.budgettracker.util.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 public class NewBudgetFXController {
 
     private BudgetDao budgetDao = new BudgetDao(HibernateUtil.getInstance().getSessionFactory());
+
 
     @FXML
     private DialogPane newBudgetPane;
@@ -37,56 +37,74 @@ public class NewBudgetFXController {
 
     private Pane mainWindow;
 
-    @FXML
-    private TableView newBudgetIncomeSavingsTableView;
 
     @FXML
-    private TableColumn newBudgetIncomeSavingsTableColumn;
-
+    private ObservableList<String> yearList = FXCollections.observableArrayList(MonthCode.yearList());
     @FXML
-    private TableView newBudgetExpensesTableView;
-    @FXML
-    private TableColumn newBudgetExpensesTableColumn;
-
-    @FXML
-    private ComboBox<String> yearComboBox;
-    @FXML
-    private ComboBox<String> monthComboBox;
+    private ObservableList<String> monthList = FXCollections.observableArrayList(MonthCode.monthNames());
 
 
-    private Budget newBudget;
+    private ComboBox<String> yearComboBox = new ComboBox<>();
+
+    private ComboBox<String> monthComboBox = new ComboBox<>();
+
+    LinkedHashMap<Label, TextField> categoriesWithValues = new LinkedHashMap<>();
+
+
     private Budget budget;
 
     private YearMonth yearMonth;
 
 
-    private ObservableList<NewBudgetTableData> newBudgetIncomeSavingsObservableList = FXCollections.observableArrayList();
-    private ObservableList<NewBudgetTableData> newBudgetExpensesObservableList = FXCollections.observableArrayList();
-
 
     public void init(Pane pane,Budget budget) {
         this.mainWindow = pane;
         this.budget = budget;
-        if(budget==null){
-            this.budget = TransactionInsertionManager.initializeBudget(YearMonth.now());
-        }
-        createGridPaneWithLabelsAndTextFields(this.gridPane,this.budget);
+//        if(budget==null){
+//            this.budget = TransactionInsertionManager.initializeBudget(YearMonth.now());
+//        }
+//        createGridPaneWithLabelsAndTextFields(this.gridPane);
 
     }
 
 
-    public void createGridPaneWithLabelsAndTextFields(GridPane gridPane, Budget budget) {
-        HashMap<Label, TextField> hashMap = populateMapOfCategoryLabelsWithValuesTextFields(budget);
+    public Integer getNumberOfFieldsFromBudget(){
+        return Category.values().length;
+    }
 
-        for (Label label : hashMap.keySet()) {
-            int column = 0;
-            int row = 0;
+
+    public void createGridPaneWithLabelsAndTextFields() {
+        LinkedHashMap<Label, TextField> hashMap = new LinkedHashMap<>();
+        int column = 0;
+        int row = 0;
+
+        initializeYearComboBox();
+        gridPane.add(yearComboBox,column,row);
+        initializeMonthComboBox();
+        gridPane.add(monthComboBox,column+1,row);
+
+        row++;
+
+
+        for (Category category : Category.allCategoriesInPresentableOrder()) {
+            String categoryInPresentableForm = CategoryFormatter.getCategoryNameInPresentable(category);
+
+            Label label = new Label(categoryInPresentableForm);
+            TextField textField = new TextField();
+            textField.setTextFormatter(new DoubleFormatter().doubleFormatter());
+            textField.setText("0.0");
+
+
             gridPane.add(label, column, row);
-            gridPane.add(hashMap.get(label), column + 1, row);
+            gridPane.add(textField,column+1,row);
 
+
+            hashMap.put(label,textField);
             row++;
         }
+        this.categoriesWithValues = hashMap;
     }
+
 
     public HashMap<Label, TextField> populateMapOfCategoryLabelsWithValuesTextFields(Budget budget) {
         LinkedHashMap<Label, TextField> namesWithValues = new LinkedHashMap<>();
@@ -117,6 +135,7 @@ public class NewBudgetFXController {
     public HashMap<Category, Double> getDataFromTextFields(HashMap<Label, TextField> hashMap) {
         HashMap<Category,Double> categoryDoubleHashMap = new HashMap<>();
         for(Label label:hashMap.keySet()){
+            System.out.println(label.getText()+": "+hashMap.get(label));
             categoryDoubleHashMap.put(CategoryFormatter.getCategory(label.getText()),Double.parseDouble(hashMap.get(label).getText()));
         }
         return categoryDoubleHashMap;
@@ -136,136 +155,51 @@ public class NewBudgetFXController {
         return budget;
     }
 
+
+    public Budget convertInputFromFieldsToBudget(){
+        return createNewBudget(getDataFromTextFields(categoriesWithValues),getYearMonth());
+    }
+
     public void addNewBudget() {
-
+        budgetDao.addEntity(convertInputFromFieldsToBudget());
     }
 
-    public void updateExistingBudget() {
-    }
-
-
-    public void setEditableNewBudgetIncomeSavingsTableColumn() {
-        newBudgetIncomeSavingsTableColumn.setSortable(false);
-        newBudgetIncomeSavingsTableColumn.setCellFactory(TextFieldTableCell.forTableColumn(DoubleFormatter.converter));
-        newBudgetIncomeSavingsTableColumn.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<NewBudgetTableData, Double>>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent<NewBudgetTableData, Double> t) {
-                        t.getRowValue().setNewBudgetValue(t.getNewValue());
-                    }
-                }
-        );
-    }
-
-
-    public void setEditableNewBudgetExpensesTableColumn() {
-        newBudgetExpensesTableColumn.setSortable(false);
-        newBudgetExpensesTableColumn.setCellFactory(TextFieldTableCell.forTableColumn(DoubleFormatter.converter));
-        newBudgetExpensesTableColumn.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<NewBudgetTableData, Double>>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent<NewBudgetTableData, Double> t) {
-
-                        t.getRowValue().setNewBudgetValue(t.getNewValue());
-                        setExpenseTableColumnHeaderAsTotalExpenses();
-                    }
-                }
-        );
-    }
-
-    public void initializeNewBudgetIncomeSavingsObservableList() {
-        List<NewBudgetTableData> list = new ArrayList<>();
-        list.add(new NewBudgetTableData(0.0, Category.INCOME));
-        list.add(new NewBudgetTableData(0.0, Category.SAVINGS));
-        this.newBudgetIncomeSavingsObservableList = FXCollections.observableList(list);
-    }
-
-    public void initializeNewBudgetExpensesObservableList() {
-        List<NewBudgetTableData> list = new ArrayList<>();
-        for (Category category : Category.expenses()) {
-            list.add(new NewBudgetTableData(0.0, category));
+    public boolean updateExistingBudget() {
+        if (budgetDao.updateTransaction(convertInputFromFieldsToBudget()) == true) {
+        return true;
         }
-        this.newBudgetExpensesObservableList = FXCollections.observableList(list);
+        else return false;
     }
 
-    public void copyAllValuesFromBudgetToNewBudget() {
-        copyIncomeSavingsFromBudgetToNewBudget();
-        copyExpensesFromBudgetToNewBudget();
-        setExpenseTableColumnHeaderAsTotalExpenses();
-    }
-
-    public void copyExpensesFromBudgetToNewBudget() {
-        List<NewBudgetTableData> expensesList = new ArrayList<>();
-        for (Category expense : Category.expenses()) {
-            expensesList.add(new NewBudgetTableData(budget.getBudgetExpenses().getCategoryValue(expense), expense));
-            System.out.println(budget.getBudgetExpenses().getCategoryValue(expense) + "" + expense);
-        }
-        this.newBudgetExpensesTableView.getItems().removeAll(newBudgetExpensesObservableList);
-        this.newBudgetExpensesObservableList = FXCollections.observableList(expensesList);
-        this.newBudgetExpensesTableView.getItems().addAll(newBudgetExpensesObservableList);
-
-    }
-
-    public void copyIncomeSavingsFromBudgetToNewBudget() {
-        ObservableList<NewBudgetTableData> incomeSavingsList = FXCollections.observableArrayList();
-        incomeSavingsList.add(new NewBudgetTableData(budget.getBudgetIncome().getIncomeValue(), Category.INCOME));
-        incomeSavingsList.add(new NewBudgetTableData(budget.getBudgetSavings().getSavingsValue(), Category.SAVINGS));
-        this.newBudgetIncomeSavingsTableView.getItems().removeAll(newBudgetIncomeSavingsObservableList);
-        this.newBudgetIncomeSavingsObservableList = incomeSavingsList;
-        this.newBudgetIncomeSavingsTableView.getItems().addAll(newBudgetIncomeSavingsObservableList);
-    }
-
-
-    public void saveOrUpdateNewBudgetInDB() {
-        if (this.budget == null) {
-            this.budget = TransactionInsertionManager.initializeBudget(this.yearMonth);
-        }
-        for (NewBudgetTableData newBudgetTableData : newBudgetIncomeSavingsObservableList) {
-            if (newBudgetTableData.getCategory().equals(Category.INCOME)) {
-                this.budget.getBudgetIncome().setIncomeValue(newBudgetTableData.getNewBudgetValue());
-            }
-            if (newBudgetTableData.getCategory().equals(Category.SAVINGS)) {
-                this.budget.getBudgetSavings().setSavingsValue(newBudgetTableData.getNewBudgetValue());
-            }
-        }
-        for (NewBudgetTableData newBudgetTableData : newBudgetExpensesObservableList) {
-            System.out.println(newBudgetTableData.getCategory());
-            System.out.println(newBudgetTableData.getNewBudgetValue());
-
-            this.budget.getBudgetExpenses().updateCategoryValue(newBudgetTableData.getCategory(), newBudgetTableData.getNewBudgetValue());
+    public void addOrUpdate(){
+        if(!updateExistingBudget()){
+            addNewBudget();
         }
 
-        if (budgetDao.updateTransaction(this.budget) != true) {
-            budgetDao.addEntity(this.budget);
-        }
-        ;
-
     }
 
-    public void setYearMonth() {
+
+
+    public YearMonth getYearMonth() {
         Integer year = Integer.parseInt(this.yearComboBox.getSelectionModel().getSelectedItem());
         Integer month = MonthCode.monthNames().indexOf(this.monthComboBox.getSelectionModel().getSelectedItem()) + 1;
-        this.yearMonth = YearMonth.of(year, month);
+
+        return YearMonth.of(year, month);
+
     }
 
-    public void initializeNewBudgetTableViews() {
-        initializeNewBudgetIncomeSavingsObservableList();
-        initializeNewBudgetExpensesObservableList();
-        setEditableNewBudgetIncomeSavingsTableColumn();
-        setEditableNewBudgetExpensesTableColumn();
+    public void initializeYearComboBox() {
+        String year = String.valueOf(LocalDate.now().getYear());
+        this.yearComboBox.setItems(yearList);
+        this.yearComboBox.getSelectionModel().select(year);
 
-
-        this.newBudgetIncomeSavingsTableView.getItems().addAll(newBudgetIncomeSavingsObservableList);
-        this.newBudgetExpensesTableView.getItems().addAll(newBudgetExpensesObservableList);
+    }
+    public void initializeMonthComboBox() {
+        String month = MonthCode.getMonthInPresentable(LocalDate.now().getMonth());
+        this.monthComboBox.setItems(monthList);
+        this.monthComboBox.getSelectionModel().select(month);
     }
 
-    public void setExpenseTableColumnHeaderAsTotalExpenses() {
-        Double total = 0.0;
-        for (NewBudgetTableData newBudgetTableData : this.newBudgetExpensesObservableList) {
-            total += newBudgetTableData.getNewBudgetValue();
-        }
-        this.newBudgetExpensesTableColumn.setText(total.toString());
-    }
 
 
 }

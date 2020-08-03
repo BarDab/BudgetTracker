@@ -9,7 +9,7 @@
       fx:id="mainPane"
       minWidth="1062" minHeight="660"
 >
-
+    <fx:include fx:id="newBudget" source="newBudget.fxml"/>
     <BorderPane fx:id="mainWindow" minWidth="1062" minHeight="660"
     >
 

@@ -6,18 +6,18 @@ import java.util.List;
 public class CategoryFormatter{
 
     public static Category getCategory(String categoryName){
-        switch(categoryName){
-            case "Food": return Category.FOOD;
-            case "Health Care": return Category.HEALTHCARE;
-            case "Hobby" : return Category.HOBBY;
-            case "Clothing": return Category.CLOTHING;
-            case "Debt": return Category.DEBT;
-            case "Bills": return Category.BILLS;
-            case "Transport": return Category.TRANSPORT;
-            case "Dining": return Category.DINING;
-            case "Entertainment": return Category.ENTERTAINMENT;
-            case "Savings": return Category.SAVINGS;
-            case "Income": return Category.INCOME;
+        switch(categoryName.toLowerCase()){
+            case "food": return Category.FOOD;
+            case "health care": return Category.HEALTHCARE;
+            case "hobby" : return Category.HOBBY;
+            case "clothing": return Category.CLOTHING;
+            case "debt": return Category.DEBT;
+            case "bills": return Category.BILLS;
+            case "transport": return Category.TRANSPORT;
+            case "dining": return Category.DINING;
+            case "entertainment": return Category.ENTERTAINMENT;
+            case "savings": return Category.SAVINGS;
+            case "income": return Category.INCOME;
         }
         return Category.OTHER;
     }
@@ -34,7 +34,6 @@ public class CategoryFormatter{
             case ENTERTAINMENT: return "Entertainment";
             case SAVINGS: return "Savings";
             case INCOME: return "Income";
-            case TOTALEXPENSES: return "Total Expenses";
         }
         return "Other";
     }
